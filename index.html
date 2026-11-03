@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chanakya Akondi — AI Creative Designer · Visual Storyteller</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Space Grotesk, Syne, Inter, JetBrains Mono, Caveat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              black: '#080A0E',
+              dark: '#0B0E14',
+              surface: '#0F131A',
+              surfaceAlt: '#151A24',
+              border: '#1F2633',
+              borderLight: '#2D3748',
+              orange: '#FF6A00',
+              orangeHover: '#FF8533',
+              purple: '#8B5CF6',
+              cyan: '#00D8F6',
+              gold: '#F59E0B'
+            }
+          },
+          fontFamily: {
+            display: ['Syne', 'Space Grotesk', 'sans-serif'],
+            heading: ['Space Grotesk', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+            script: ['Caveat', 'cursive']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #080A0E;
+      color: #E2E8F0;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #080A0E;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1F2633;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #FF6A00;
+    }
+
+    /* Solid Dark Card styling (No Glassmorphism) */
+    .solid-card {
+      background: #0F131A;
+      border: 1px solid #1F2633;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .solid-card:hover {
+      border-color: #38455A;
+      background: #141A24;
+      transform: translateY(-3px);
+      box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.8), 0 0 20px -8px rgba(255, 106, 0, 0.3);
+    }
+
+    /* Glow text */
+    .text-glow-orange {
+      text-shadow: 0 0 28px rgba(255, 106, 0, 0.65);
+    }
+    .text-glow-purple {
+      text-shadow: 0 0 28px rgba(139, 92, 246, 0.65);
+    }
+    .text-glow-cyan {
+      text-shadow: 0 0 28px rgba(0, 216, 246, 0.65);
+    }
+
+    /* Diagonal lines pattern */
+    .bg-stripes {
+      background-image: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.02) 0, rgba(255, 255, 255, 0.02) 1px, transparent 0, transparent 16px);
+    }
+  </style>
+</head>
+<body class="selection:bg-brand-orange selection:text-white">
+
+  <!-- ======================================================== -->
+  <!-- 01. NAVIGATION BAR (Solid Dark, No Glassmorphism)        -->
+  <!-- ======================================================== -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-[#080A0E] border-b border-[#1F2633] px-6 sm:px-12 py-4">
+    <div class="max-w-[1720px] mx-auto flex items-center justify-between">
+      <!-- Logo -->
+      <a href="index.html" class="flex items-center gap-2 group">
+        <span class="font-display font-extrabold text-lg sm:text-xl tracking-wider text-white group-hover:text-brand-orange transition-colors">
+          CHANAKYA AKONDI
+        </span>
+        <span class="w-2 h-2 rounded-full bg-brand-orange"></span>
+      </a>
+
+      <!-- Desktop Links -->
+      <nav class="hidden md:flex items-center gap-8 text-xs font-mono tracking-widest text-slate-400">
+        <a href="index.html" class="text-white font-bold border-b-2 border-brand-orange pb-0.5">HOME</a>
+        <a href="work.html" class="hover:text-brand-orange transition flex items-center gap-1.5">
+          <span>WORK</span>
+          <span class="bg-brand-orange text-black font-bold text-[9px] px-1.5 py-0.2 rounded-full">65+</span>
+        </a>
+        <a href="#experience" class="hover:text-brand-orange transition">EXPERIENCE</a>
+        <a href="#toolbox" class="hover:text-brand-cyan transition">TOOLBOX</a>
+        <a href="#ai-lab" class="hover:text-brand-purple transition">AI LAB</a>
+        <a href="#about" class="hover:text-brand-orange transition">ABOUT</a>
+        <a href="#contact" class="hover:text-brand-orange transition">CONTACT</a>
+      </nav>
+
+      <!-- CTA Button -->
+      <div class="flex items-center gap-4">
+        <a href="work.html" class="hidden sm:inline-flex items-center gap-2 bg-[#151A24] border border-[#1F2633] hover:border-brand-orange text-slate-300 hover:text-white font-mono text-xs px-4 py-2.5 rounded-full transition">
+          <span>VIEW ARCHIVE</span>
+          <span>↗</span>
+        </a>
+        <a href="#contact" class="inline-flex items-center gap-2 bg-brand-orange hover:bg-brand-orangeHover text-white font-mono text-xs font-bold px-5 py-2.5 rounded-full shadow-lg transition-transform hover:scale-105">
+          <span>LET'S CREATE</span>
+          <span>→</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================================================== -->
+  <!-- 02. FULL-WIDTH HERO SECTION (Edge-to-Edge, No Box)       -->
+  <!-- ======================================================== -->
+  <section id="hero" class="relative w-full min-h-[92vh] lg:min-h-screen pt-24 flex items-center overflow-hidden bg-[#080A0E]">
+    
+    <!-- Edge-to-Edge Studio Photographic Backdrop -->
+    <div class="absolute inset-0 w-full h-full z-0">
+      <img src="1/1%20Cinematic%20Creator%20Studio%20at%20Dusk.png" alt="Chanakya Studio" class="w-full h-full object-cover object-right md:object-center filter brightness-[0.85] contrast-[1.1]">
+      <!-- High-Contrast Solid Gradient Overlay (Black to Transparent, No Glassmorphism) -->
+      <div class="absolute inset-0 bg-gradient-to-r from-[#080A0E] via-[#080A0E]/95 via-45% to-transparent hidden lg:block"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#080A0E] via-[#080A0E]/85 to-[#080A0E]/40 lg:hidden"></div>
+    </div>
+
+    <!-- Full-Width Content Container -->
+    <div class="w-full max-w-[1720px] mx-auto px-6 sm:px-12 py-16 relative z-10">
+      <div class="max-w-2xl lg:max-w-3xl space-y-7">
+        
+        <!-- Overline Tag -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0F131A] border border-[#1F2633] font-mono text-xs text-brand-orange">
+          <span class="w-2 h-2 rounded-full bg-brand-orange"></span>
+          HELLO, I'M CHANAKYA AKONDI
+        </div>
+
+        <!-- Big Display Headline -->
+        <h1 class="text-5xl sm:text-7xl lg:text-8xl font-display font-extrabold text-white tracking-tight leading-[0.98]">
+          I CREATE<br>
+          VISUALS THAT<br>
+          <span class="bg-gradient-to-r from-brand-orange via-pink-500 to-brand-purple bg-clip-text text-transparent text-glow-orange font-script text-6xl sm:text-8xl lg:text-9xl">FEEL ALIVE.</span>
+        </h1>
+
+        <!-- Subtitles -->
+        <div class="space-y-3">
+          <p class="font-heading font-semibold text-xl sm:text-2xl text-slate-100">
+            AI Creative Designer · Visual Storyteller
+          </p>
+          <p class="text-slate-300 text-sm sm:text-base max-w-xl font-normal leading-relaxed">
+            Designing visuals, experiences and stories across pixels, frames and worlds. Bridging artificial intelligence, 3D worlds, film and graphic design into living digital experiences.
+          </p>
+        </div>
+
+        <!-- Primary Action Cluster -->
+        <div class="flex flex-wrap items-center gap-4 pt-3">
+          <a href="work.html" class="inline-flex items-center gap-2 bg-brand-orange hover:bg-brand-orangeHover text-white font-mono text-xs font-bold px-8 py-4 rounded-full shadow-xl transition transform hover:-translate-y-0.5">
+            <span>EXPLORE MY WORK</span>
+            <span>→</span>
+          </a>
+          <a href="#experience" class="inline-flex items-center gap-2 bg-[#0F131A] border border-[#1F2633] hover:border-slate-400 text-slate-200 font-mono text-xs px-6 py-4 rounded-full transition">
+            EXPERIENCE &amp; BACKGROUND
+          </a>
+          <button onclick="openVideoModal('assets/AI & Film/videos/shiv tandav.mp4', 'Shiv Tandav — Cinematic AI Film')" class="inline-flex items-center gap-2 bg-[#151A24] border border-brand-purple/40 hover:border-brand-purple text-purple-300 font-mono text-xs px-6 py-4 rounded-full transition">
+            <span>▶ PLAY SHOWREEL</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Floating Circular Showreel Trigger on Right side (Desktop) -->
+    <div class="hidden lg:flex absolute right-16 top-1/2 -translate-y-1/2 z-20 flex-col items-center">
+      <button onclick="openVideoModal('assets/AI & Film/videos/shiv tandav.mp4', 'Showreel & Featured Film')" class="w-28 h-28 rounded-full bg-[#080A0E] border-2 border-[#1F2633] hover:border-brand-orange flex flex-col items-center justify-center group hover:scale-110 transition-all duration-300 shadow-2xl">
+        <span class="w-12 h-12 rounded-full bg-brand-orange flex items-center justify-center text-white text-base shadow-lg group-hover:scale-105 transition">▶</span>
+        <span class="font-mono text-[10px] text-slate-300 tracking-wider mt-1.5 group-hover:text-brand-orange transition">SHOWREEL</span>
+      </button>
+    </div>
+
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- 03. FULL-WIDTH 7 CREATIVE DISCIPLINES BAR               -->
+  <!-- ======================================================== -->
+  <section class="w-full bg-[#0B0E14] border-y border-[#1F2633] py-5 px-6 sm:px-12">
+    <div class="max-w-[1720px] mx-auto">
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 font-mono text-xs">
+        
+        <a href="work.html?cat=graphic" class="solid-card rounded-xl p-4 flex flex-col justify-between group hover:border-brand-orange">
+          <span class="text-brand-orange font-bold text-[10px]">01</span>
+          <span class="text-white font-semibold group-hover:text-brand-orange transition mt-2">GRAPHIC DESIGN</span>
+          <span class="text-[10px] text-slate-500 mt-0.5">Posters &amp; Identity</span>
+        </a>
+
+        <a href="work.html?cat=ai" class="solid-card rounded-xl p-4 flex flex-col justify-between group hover:border-brand-purple">
+          <span class="text-brand-purple font-bold text-[10px]">02</span>
+          <span class="text-white font-semibold group-hover:text-brand-purple transition mt-2">AI CREATIVE</span>
+          <span class="text-[10px] text-slate-500 mt-0.5">Prompt &amp; Concept</span>
+        </a>
+
+        <a href="work.html?cat=ai&sub=videos" class="solid-card rounded-xl p-4 flex flex-col justify-between group hover:border-pink-500">
+          <span class="text-pink-500 font-bold text-[10px]">03</span>
+          <span class="text-white font-semibold group-hover:text-pink-500 transition mt-2">FILM &amp; VIDEO</span>
+          <span class="text-[10px] text-slate-500 mt-0.5">Cinematics &amp; Ads</span>
+        </a>
+
+        <a href="work.html?cat=uiux" class="solid-card rounded-xl p-4 flex flex-col justify-between group hover:border-blue-500">
+          <span class="text-blue-500 font-bold text-[10px]">04</span>
+          <span class="text-white font-semibold group-hover:text-blue-500 transition mt-2">UI / UX DESIGN</span>
+          <span class="text-[10px] text-slate-500 mt-0.5">Web &amp; Mobile</span>
+        </a>
+
+        <a href="work.html?cat=uiux&sub=game" class="solid-card rounded-xl p-4 flex flex-col justify-between group hover:border-emerald-500">
+          <span class="text-emerald-500 font-bold text-[10px]">05</span>
+          <span class="text-white font-semibold group-hover:text-emerald-500 transition mt-2">3D &amp; WORLDS</span>
+          <span class="text-[10px] text-slate-500 mt-0.5">Environments &amp; Asset</span>
+        </a>
+
+        <a href="work.html?cat=uiux&sub=game" class="solid-card rounded-xl p-4 flex flex-col justify-between group hover:border-brand-orange">
+          <span class="text-brand-orange font-bold text-[10px]">06</span>
+          <span class="text-white font-semibold group-hover:text-brand-orange transition mt-2">GAME UI</span>
+          <span class="text-[10px] text-slate-500 mt-0.5">HUD &amp; Worlds</span>
+        </a>
+
+        <a href="work.html?cat=ai&sub=storyboards" class="solid-card rounded-xl p-4 flex flex-col justify-between group hover:border-yellow-500">
+          <span class="text-yellow-500 font-bold text-[10px]">07</span>
+          <span class="text-white font-semibold group-hover:text-yellow-500 transition mt-2">STORYTELLING</span>
+          <span class="text-[10px] text-slate-500 mt-0.5">Narrative Arcs</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- 04. EXPERTISE & EXPERIENCE SECTION (NEW)                -->
+  <!-- ======================================================== -->
+  <section id="experience" class="py-24 bg-[#080A0E] border-t border-[#1F2633]">
+    <div class="max-w-[1720px] mx-auto px-6 sm:px-12 space-y-14">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#1F2633] pb-6">
+        <div>
+          <span class="font-mono text-xs text-brand-orange uppercase tracking-widest">CAREER TIMELINE &amp; JOURNEY</span>
+          <h2 class="text-4xl sm:text-6xl font-display font-extrabold text-white mt-1">EXPERIENCE</h2>
+          <p class="text-slate-400 text-base max-w-2xl mt-1">
+            Hands-on professional production, studio founding, and cross-disciplinary creative execution.
+          </p>
+        </div>
+        <div class="inline-flex items-center gap-3 bg-[#0F131A] border border-[#1F2633] px-5 py-2.5 rounded-full font-mono text-xs">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-slate-300">CURRENT STATUS: <strong class="text-emerald-400">FREELANCING WORLDWIDE</strong></span>
+        </div>
+      </div>
+
+      <!-- Experience Cards Grid (Ordered: ASK Grapika -> UI/UX Internship -> People Media Factory) -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- 01 ASK Grapika (First) -->
+        <div class="solid-card rounded-2xl p-8 space-y-6 flex flex-col justify-between border-t-4 border-t-brand-orange">
+          <div class="space-y-4">
+            <div class="flex justify-between items-start font-mono text-xs">
+              <span class="text-brand-orange font-bold tracking-wider">STUDIO FOUNDER</span>
+              <span class="text-slate-500 bg-[#080A0E] border border-[#1F2633] px-2.5 py-1 rounded">2022 – PRESENT</span>
+            </div>
+            <div>
+              <h3 class="text-2xl font-display font-bold text-white">ASK Grapika</h3>
+              <p class="text-xs font-mono text-brand-orange mt-1 font-semibold">FOUNDER · DESIGNER &amp; CREATIVE FREELANCER</p>
+            </div>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              Started my own design studio, ASK Grapika, focusing on visually creative and attractive designs. Gained hands-on experience year by year by learning, experimenting, and building practical design skills. Delivered graphic design services as a freelancer, creating impactful visuals for various creative needs, with strong focus on consistency, visual quality, and continuous skill development across design disciplines.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-[#1F2633] flex flex-wrap gap-2 font-mono text-[10px] text-slate-400">
+            <span class="px-2.5 py-1 rounded bg-[#080A0E] border border-[#1F2633]">Brand Identity</span>
+            <span class="px-2.5 py-1 rounded bg-[#080A0E] border border-[#1F2633]">Theatrical Posters</span>
+            <span class="px-2.5 py-1 rounded bg-[#080A0E] border border-[#1F2633]">Client Art Direction</span>
+            <span class="px-2.5 py-1 rounded bg-[#080A0E] border border-[#1F2633]">Design Systems</span>
+          </div>
+        </div>
+
+        <!-- 02 UI / UX Internship (Second) -->
+        <div class="solid-card rounded-2xl p-8 space-y-6 flex flex-col justify-between border-t-4 border-t-brand-cyan">
+          <div class="space-y-4">
+            <div class="flex justify-between items-start font-mono text-xs">
+              <span class="text-brand-cyan font-bold tracking-wider">PRODUCT DESIGN</span>
+              <span class="text-slate-500 bg-[#080A0E] border border-[#1F2633] px-2.5 py-1 rounded">6 MONTHS INTENSIVE</span>
+            </div>
+            <div>
+              <h3 class="text-2xl font-display font-bold text-white">UI / UX Design Internship</h3>
+              <p class="text-xs font-mono text-cyan-300 mt-1 font-semibold">UI / UX DESIGNER INTERN</p>
+            </div>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              Learned UI / UX design fundamentals through practical, hands-on experience, working on user research, wireframing, and usability-focused design approaches. Created a complete personal portfolio project as part of the internship experience, applying structured design thinking and user-centered design principles.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-[#1F2633] flex flex-wrap gap-2 font-mono text-[10px] text-slate-400">
+            <span class="px-2.5 py-1 rounded bg-[#080A0E] border border-[#1F2633]">User Research</span>
+            <span class="px-2.5 py-1 rounded bg-[#080A0E] border border-[#1F2633]">Wireframing</span>
+            <span class="px-2.5 py-1 rounded bg-[#080A0E] border border-[#1F2633]">Usability Testing</span>
+            <span class="px-2.5 py-1 rounded bg-[#080A0E] border border-[#1F2633]">Design Thinking</span>
+          </div>
+        </div>
+
+        <!-- 03 People Media Factory (Third) -->
+        <div class="solid-card rounded-2xl p-8 space-y-6 flex flex-col justify-between border-t-4 border-t-brand-purple">
+          <div class="space-y-4">
+            <div class="flex justify-between items-start font-mono text-xs">
+              <span class="text-brand-purple font-bold tracking-wider">PRODUCTION STUDIO</span>
+              <span class="text-slate-500 bg-[#080A0E] border border-[#1F2633] px-2.5 py-1 rounded">SEP 2025 – MAR 2026</span>
+            </div>
+            <div>
+              <h3 class="text-2xl font-display font-bold text-white">People Media Factory</h3>
+              <p class="text-xs font-mono text-purple-300 mt-1 font-semibold">AI FILMMAKER &amp; AI CONTENT CREATOR</p>
+            </div>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              Working on AI-driven cinematic visuals, character design, environments, and storytelling for digital media and creative projects. Collaborating with design and content teams to develop visually compelling narratives using advanced AI tools and creative workflows.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-[#1F2633] flex flex-wrap gap-2 font-mono text-[10px] text-slate-400">
+            <span class="px-2.5 py-1 rounded bg-[#080A0E] border border-[#1F2633]">AI Filmmaking</span>
+            <span class="px-2.5 py-1 rounded bg-[#080A0E] border border-[#1F2633]">Character Design</span>
+            <span class="px-2.5 py-1 rounded bg-[#080A0E] border border-[#1F2633]">Cinematic Prompts</span>
+            <span class="px-2.5 py-1 rounded bg-[#080A0E] border border-[#1F2633]">Visual Direction</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- 05. MY TOOLBOX (REVAMPED WITH USER'S EXACT TOOLS)        -->
+  <!-- ======================================================== -->
+  <section id="toolbox" class="py-24 bg-[#0B0E14] border-t border-[#1F2633]">
+    <div class="max-w-[1720px] mx-auto px-6 sm:px-12 space-y-16">
+      
+      <!-- Toolbox Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#1F2633] pb-6">
+        <div>
+          <span class="font-mono text-xs text-brand-cyan uppercase tracking-widest">CREATIVE TECHNOLOGY &amp; SOFTWARE</span>
+          <h2 class="text-4xl sm:text-6xl font-display font-extrabold text-white mt-1">MY TOOLBOX</h2>
+          <p class="text-slate-400 text-base max-w-2xl mt-1">
+            Categorized software, generative engines, and design platforms powering my creative workflows.
+          </p>
+        </div>
+        <div>
+          <span class="font-mono text-xs text-slate-500 bg-[#080A0E] border border-[#1F2633] px-4 py-2 rounded-xl">
+            TOTAL TOOLKIT: 24+ PRODUCTION TOOLS
+          </span>
+        </div>
+      </div>
+
+      <!-- 4 Primary Modules -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <!-- 01 AI TOOLS (11 Specific AI Engines & Cinematic Prompting) -->
+        <div class="lg:col-span-12 solid-card rounded-3xl p-8 space-y-6 border border-brand-purple/40">
+          <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+            <div>
+              <span class="font-mono text-xs text-brand-purple font-bold tracking-wider">GENERATIVE PRODUCTION SUITE</span>
+              <h3 class="text-2xl sm:text-3xl font-display font-bold text-white mt-0.5">AI Tools &amp; Prompt Engineering</h3>
+            </div>
+            <span class="font-mono text-xs text-slate-400 bg-[#080A0E] px-3 py-1 rounded-full border border-[#1F2633]">
+              11 ENGINES INTEGRATED
+            </span>
+          </div>
+          
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 font-mono text-xs">
+            <div class="p-3.5 bg-[#080A0E] border border-[#1F2633] rounded-xl flex items-center gap-2.5">
+              <span class="w-2 h-2 rounded-full bg-brand-purple"></span>
+              <span class="text-white font-semibold">Veo 3.1</span>
+            </div>
+            <div class="p-3.5 bg-[#080A0E] border border-[#1F2633] rounded-xl flex items-center gap-2.5">
+              <span class="w-2 h-2 rounded-full bg-brand-purple"></span>
+              <span class="text-white font-semibold">Runway ML</span>
+            </div>
+            <div class="p-3.5 bg-[#080A0E] border border-[#1F2633] rounded-xl flex items-center gap-2.5">
+              <span class="w-2 h-2 rounded-full bg-brand-purple"></span>
+              <span class="text-white font-semibold">Midjourney</span>
+            </div>
+            <div class="p-3.5 bg-[#080A0E] border border-[#1F2633] rounded-xl flex items-center gap-2.5">
+              <span class="w-2 h-2 rounded-full bg-brand-purple"></span>
+              <span class="text-white font-semibold">ChatGPT</span>
+            </div>
+            <div class="p-3.5 bg-[#080A0E] border border-[#1F2633] rounded-xl flex items-center gap-2.5">
+              <span class="w-2 h-2 rounded-full bg-brand-purple"></span>
+              <span class="text-white font-semibold">Gemini Nano Pro</span>
+            </div>
+            <div class="p-3.5 bg-[#080A0E] border border-[#1F2633] rounded-xl flex items-center gap-2.5">
+              <span class="w-2 h-2 rounded-full bg-brand-purple"></span>
+              <span class="text-white font-semibold">Nano Banana</span>
+            </div>
+            <div class="p-3.5 bg-[#080A0E] border border-[#1F2633] rounded-xl flex items-center gap-2.5">
+              <span class="w-2 h-2 rounded-full bg-brand-purple"></span>
+              <span class="text-white font-semibold">Higgsfield</span>
+            </div>
+            <div class="p-3.5 bg-[#080A0E] border border-[#1F2633] rounded-xl flex items-center gap-2.5">
+              <span class="w-2 h-2 rounded-full bg-brand-purple"></span>
+              <span class="text-white font-semibold">Whisk</span>
+            </div>
+            <div class="p-3.5 bg-[#080A0E] border border-[#1F2633] rounded-xl flex items-center gap-2.5">
+              <span class="w-2 h-2 rounded-full bg-brand-purple"></span>
+              <span class="text-white font-semibold">Meta AI</span>
+            </div>
+            <div class="p-3.5 bg-[#080A0E] border border-[#1F2633] rounded-xl flex items-center gap-2.5">
+              <span class="w-2 h-2 rounded-full bg-brand-purple"></span>
+              <span class="text-white font-semibold">Topazlabs</span>
+            </div>
+            <div class="p-3.5 bg-brand-purple/20 border border-brand-purple/40 rounded-xl flex items-center gap-2.5 col-span-2">
+              <span class="w-2 h-2 rounded-full bg-brand-orange animate-ping"></span>
+              <span class="text-purple-200 font-bold">Cinematic Prompting</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 02 UI / UX DESIGN & TOOLS -->
+        <div class="lg:col-span-4 solid-card rounded-3xl p-8 space-y-6 border border-blue-500/30">
+          <div>
+            <div class="flex justify-between items-center font-mono text-xs">
+              <span class="text-blue-400 font-bold">01 / UI &amp; UX DESIGN</span>
+              <span class="text-slate-500">USER EXPERIENCE</span>
+            </div>
+            <h4 class="text-xl font-display font-bold text-white mt-1">UX Process &amp; Prototyping</h4>
+            <p class="text-slate-400 text-xs mt-2 leading-relaxed">
+              User research, wireframing, usability testing, and structured design thinking processes.
+            </p>
+          </div>
+
+          <div class="space-y-3 pt-2">
+            <span class="font-mono text-[11px] text-slate-400 uppercase tracking-wider block">TOOLS MASTERED:</span>
+            <div class="flex flex-wrap gap-2 font-mono text-xs">
+              <span class="px-3 py-1.5 rounded-lg bg-[#080A0E] border border-[#1F2633] text-white">Figma</span>
+              <span class="px-3 py-1.5 rounded-lg bg-[#080A0E] border border-[#1F2633] text-white">ProtoPie</span>
+              <span class="px-3 py-1.5 rounded-lg bg-[#080A0E] border border-[#1F2633] text-white">Framer</span>
+              <span class="px-3 py-1.5 rounded-lg bg-[#080A0E] border border-[#1F2633] text-white">Miro</span>
+              <span class="px-3 py-1.5 rounded-lg bg-[#080A0E] border border-[#1F2633] text-white">Maze</span>
+              <span class="px-3 py-1.5 rounded-lg bg-[#080A0E] border border-[#1F2633] text-cyan-300">Visily AI</span>
+              <span class="px-3 py-1.5 rounded-lg bg-[#080A0E] border border-[#1F2633] text-cyan-300">Uizard AI</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 03 GRAPHIC DESIGN TOOLS -->
+        <div class="lg:col-span-4 solid-card rounded-3xl p-8 space-y-6 border border-brand-orange/30">
+          <div>
+            <div class="flex justify-between items-center font-mono text-xs">
+              <span class="text-brand-orange font-bold">02 / GRAPHIC DESIGN</span>
+              <span class="text-slate-500">VISUAL BRANDING</span>
+            </div>
+            <h4 class="text-xl font-display font-bold text-white mt-1">Print, Posters &amp; Identity</h4>
+            <p class="text-slate-400 text-xs mt-2 leading-relaxed">
+              Social media posters, brochures, high-CTR YouTube thumbnails, and theatrical cinematic posters.
+            </p>
+          </div>
+
+          <div class="space-y-3 pt-2">
+            <span class="font-mono text-[11px] text-slate-400 uppercase tracking-wider block">TOOLS MASTERED:</span>
+            <div class="flex flex-wrap gap-2 font-mono text-xs">
+              <span class="px-3.5 py-1.5 rounded-lg bg-[#080A0E] border border-[#1F2633] text-white font-bold">Photoshop</span>
+              <span class="px-3.5 py-1.5 rounded-lg bg-[#080A0E] border border-[#1F2633] text-white font-bold">Canva</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 04 VIDEO EDITING TOOLS -->
+        <div class="lg:col-span-4 solid-card rounded-3xl p-8 space-y-6 border border-pink-500/30">
+          <div>
+            <div class="flex justify-between items-center font-mono text-xs">
+              <span class="text-pink-400 font-bold">03 / VIDEO EDITING</span>
+              <span class="text-slate-500">MOTION &amp; CUTS</span>
+            </div>
+            <h4 class="text-xl font-display font-bold text-white mt-1">Cinematics &amp; Motion Ads</h4>
+            <p class="text-slate-400 text-xs mt-2 leading-relaxed">
+              Editing, teaser cuts, promotional trailers, and social media video advertisements.
+            </p>
+          </div>
+
+          <div class="space-y-3 pt-2">
+            <span class="font-mono text-[11px] text-slate-400 uppercase tracking-wider block">TOOLS MASTERED:</span>
+            <div class="flex flex-wrap gap-2 font-mono text-xs">
+              <span class="px-3.5 py-1.5 rounded-lg bg-[#080A0E] border border-[#1F2633] text-white font-bold">Premiere Pro</span>
+              <span class="px-3.5 py-1.5 rounded-lg bg-[#080A0E] border border-[#1F2633] text-white font-bold">Filmora</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- 06. REVAMPED CRAZY ABOUT / CREATOR PROFILE SECTION       -->
+  <!-- ======================================================== -->
+  <section id="about" class="py-28 bg-[#080A0E] border-t border-[#1F2633] relative overflow-hidden bg-stripes">
+    
+    <!-- Bold Ambient Cybernetic Accents -->
+    <div class="absolute -top-32 right-1/4 w-[500px] h-[500px] bg-brand-orange/10 rounded-full blur-[140px] pointer-events-none"></div>
+    <div class="absolute -bottom-32 left-1/4 w-[500px] h-[500px] bg-brand-purple/10 rounded-full blur-[140px] pointer-events-none"></div>
+
+    <div class="max-w-[1720px] mx-auto px-6 sm:px-12 relative z-10 space-y-16">
+      
+      <!-- Big Editorial Header -->
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-[#1F2633] pb-8">
+        <div>
+          <span class="font-mono text-xs text-brand-orange uppercase tracking-widest">ABOUT THE ARCHITECT</span>
+          <h2 class="text-5xl sm:text-7xl lg:text-8xl font-display font-extrabold text-white tracking-tight leading-[0.95] mt-1">
+            DESIGNER.<br>
+            CREATOR.<br>
+            <span class="bg-gradient-to-r from-brand-orange via-pink-500 to-brand-cyan bg-clip-text text-transparent text-glow-orange">
+              EXPLORER.
+            </span>
+          </h2>
+        </div>
+        <div class="font-mono text-xs text-slate-400 space-y-1">
+          <div class="text-white font-bold">LOCATION: INDIA (IST UTC +5:30)</div>
+          <div>CREATIVE UNIVERSE: PIXELS · FRAMES · WORLDS</div>
+          <div class="text-brand-orange">STATUS: AVAILABLE FOR SELECT CLIENTS</div>
+        </div>
+      </div>
+
+      <!-- High-Energy Asymmetric Creative Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left: Editorial Photo Composition with `me.jpg` -->
+        <div class="lg:col-span-5 relative group">
+          
+          <!-- Outer Solid Frame with Cyberpunk Accents -->
+          <div class="relative rounded-3xl overflow-hidden border-2 border-[#1F2633] group-hover:border-brand-orange bg-[#0B0E14] shadow-2xl transition duration-500">
+            <!-- Full Portrait of Chanakya with Sunglasses -->
+            <img src="me.jpg" alt="Chanakya Akondi" class="w-full h-[580px] object-cover object-top filter brightness-100 contrast-105 group-hover:scale-102 transition duration-700">
+            
+            <!-- Vignette bottom gradient -->
+            <div class="absolute inset-0 bg-gradient-to-t from-[#080A0E] via-transparent to-transparent"></div>
+            
+            <!-- Floating Top Coordinates / Badge -->
+            <div class="absolute top-5 left-5 right-5 flex justify-between items-center font-mono text-[10px]">
+              <span class="bg-[#080A0E] border border-[#1F2633] text-brand-orange px-3 py-1 rounded-full font-bold">
+                ● CREATOR DIRECTORY
+              </span>
+              <span class="bg-[#080A0E] border border-[#1F2633] text-slate-300 px-3 py-1 rounded-full">
+                ID: CHNK-2026
+              </span>
+            </div>
+
+            <!-- Floating Bottom Badge -->
+            <div class="absolute bottom-6 left-6 right-6 p-4 bg-[#080A0E] border border-[#1F2633] rounded-2xl flex items-center justify-between">
+              <div>
+                <div class="font-display font-bold text-white text-base">CHANAKYA AKONDI</div>
+                <div class="font-mono text-[11px] text-brand-orange">AI Creative Designer · Visual Storyteller</div>
+              </div>
+              <span class="w-8 h-8 rounded-full bg-brand-orange text-black flex items-center justify-center font-bold text-xs">
+                ★
+              </span>
+            </div>
+          </div>
+
+          <!-- Decorative Glow Behind Image -->
+          <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-brand-orange/20 rounded-full blur-2xl pointer-events-none"></div>
+
+        </div>
+
+        <!-- Right: Story, Narrative & Metric Blocks -->
+        <div class="lg:col-span-7 space-y-8">
+          
+          <!-- Quote / Philosophy Box -->
+          <div class="p-8 bg-[#0F131A] border-l-4 border-l-brand-orange border border-[#1F2633] rounded-2xl space-y-3">
+            <span class="font-mono text-xs text-brand-orange tracking-widest uppercase font-bold">CREATIVE MANIFESTO</span>
+            <p class="font-display font-bold text-xl sm:text-2xl text-white leading-snug">
+              "I don't just generate images. I direct digital universes across design, cinematic prompts, and interactive product architectures."
+            </p>
+          </div>
+
+          <!-- Extended Biography Narrative -->
+          <div class="space-y-4 text-slate-300 text-base leading-relaxed">
+            <p>
+              I’m <strong class="text-white">Chanakya Akondi</strong>, an AI Creative Designer, Filmmaker, and Visual Storyteller. My creative philosophy sits at the intersection of technical curiosity and bold art direction.
+            </p>
+            <p class="text-slate-400 text-sm">
+              From crafting commercial spec films and theatrical mass-media posters at <strong class="text-slate-200">ASK Grapika</strong>, to directing cutting-edge AI cinematics and character continuity at <strong class="text-slate-200">People Media Factory</strong>, I bridge classical design foundations with modern AI pipelines.
+            </p>
+          </div>
+
+          <!-- High-Impact 3-Metric Strips -->
+          <div class="grid grid-cols-3 gap-4 font-mono text-center pt-2">
+            <div class="solid-card rounded-2xl p-5 border-t-2 border-t-brand-orange">
+              <div class="text-3xl sm:text-4xl font-display font-extrabold text-brand-orange">4+</div>
+              <div class="text-[11px] text-slate-400 uppercase mt-1">Years Experience</div>
+            </div>
+            <div class="solid-card rounded-2xl p-5 border-t-2 border-t-brand-purple">
+              <div class="text-3xl sm:text-4xl font-display font-extrabold text-brand-purple">50+</div>
+              <div class="text-[11px] text-slate-400 uppercase mt-1">Projects Shipped</div>
+            </div>
+            <div class="solid-card rounded-2xl p-5 border-t-2 border-t-brand-cyan">
+              <div class="text-3xl sm:text-4xl font-display font-extrabold text-brand-cyan">∞</div>
+              <div class="text-[11px] text-slate-400 uppercase mt-1">Boundless Ideas</div>
+            </div>
+          </div>
+
+          <!-- Action Cluster -->
+          <div class="pt-4 flex flex-wrap gap-4">
+            <a href="work.html" class="inline-flex items-center gap-2 bg-brand-orange hover:bg-brand-orangeHover text-white font-mono text-xs font-bold px-8 py-4 rounded-full shadow-xl transition transform hover:scale-105">
+              <span>EXPLORE COMPLETE WORK ARCHIVE (65+)</span>
+              <span>→</span>
+            </a>
+            <a href="mailto:chanakya@gmail.com" class="inline-flex items-center gap-2 bg-[#0F131A] border border-[#1F2633] hover:border-slate-300 text-white font-mono text-xs px-6 py-4 rounded-full transition">
+              <span>EMAIL CHANAKYA</span>
+              <span>✉</span>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- 07. AI / CREATIVE LAB (Interactive Pipeline & Film)      -->
+  <!-- ======================================================== -->
+  <section id="ai-lab" class="py-24 bg-[#0B0E14] border-t border-[#1F2633]">
+    <div class="max-w-[1720px] mx-auto px-6 sm:px-12 space-y-16">
+      
+      <!-- AI Lab Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#1F2633] pb-6">
+        <div>
+          <span class="font-mono text-xs text-brand-purple uppercase tracking-widest">EXPERIMENTAL PLAYGROUND</span>
+          <h2 class="text-4xl sm:text-6xl font-display font-extrabold text-white mt-1">AI / CREATIVE LAB</h2>
+          <p class="text-slate-400 text-base max-w-2xl mt-1">
+            Exploring ideas, worlds and stories through AI-assisted creative production.
+          </p>
+        </div>
+        <div>
+          <a href="work.html?cat=ai" class="inline-flex items-center gap-2 bg-[#151A24] border border-[#1F2633] hover:border-brand-purple text-purple-300 font-mono text-xs px-5 py-2.5 rounded-full transition">
+            <span>VIEW ALL AI ASSETS &amp; MODELS</span>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 7-Stage Creative Production Pipeline Ribbon -->
+      <div class="solid-card rounded-2xl p-6 sm:p-8 space-y-6">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+          <div>
+            <span class="font-mono text-xs text-brand-purple font-bold">AI CREATIVE PRODUCTION</span>
+            <h3 class="text-xl sm:text-2xl font-display font-bold text-white">FROM AN IDEA TO A VISUAL WORLD</h3>
+          </div>
+          <span class="font-mono text-xs text-slate-500">A peek into my creative process</span>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 font-mono text-xs text-center">
+          <div class="p-3 bg-[#080A0E] border border-[#1F2633] rounded-xl space-y-2">
+            <span class="text-brand-purple font-bold text-[10px]">01 IDEA</span>
+            <div class="h-16 rounded overflow-hidden bg-black flex items-center justify-center">
+              <img src="assets/AI%20&%20Film/storyboards/final%20rough.jpeg" alt="Rough Idea" class="w-full h-full object-cover">
+            </div>
+            <span class="text-slate-400 text-[11px] block">Sketch &amp; Concept</span>
+          </div>
+
+          <div class="p-3 bg-[#080A0E] border border-[#1F2633] rounded-xl space-y-2">
+            <span class="text-brand-purple font-bold text-[10px]">02 PROMPT</span>
+            <div class="h-16 rounded p-1.5 bg-[#05070A] flex items-center justify-center text-[9px] text-slate-400 leading-tight overflow-hidden text-left font-mono">
+              /imagine cinematic shot of futuristic temple at sunset...
+            </div>
+            <span class="text-slate-400 text-[11px] block">Syntax &amp; Style</span>
+          </div>
+
+          <div class="p-3 bg-[#080A0E] border border-[#1F2633] rounded-xl space-y-2">
+            <span class="text-brand-purple font-bold text-[10px]">03 GENERATION</span>
+            <div class="h-16 rounded overflow-hidden bg-black">
+              <img src="assets/AI%20&%20Film/worlds%20and%20concept%20design/con(4).jpeg" alt="Generation" class="w-full h-full object-cover">
+            </div>
+            <span class="text-slate-400 text-[11px] block">Midjourney / Veo</span>
+          </div>
+
+          <div class="p-3 bg-[#080A0E] border border-[#1F2633] rounded-xl space-y-2">
+            <span class="text-brand-purple font-bold text-[10px]">04 EDITING</span>
+            <div class="h-16 rounded overflow-hidden bg-[#05070A] flex items-center justify-center text-[10px] text-slate-400">
+              Premiere Cut
+            </div>
+            <span class="text-slate-400 text-[11px] block">Timeline Assembly</span>
+          </div>
+
+          <div class="p-3 bg-[#080A0E] border border-[#1F2633] rounded-xl space-y-2">
+            <span class="text-brand-purple font-bold text-[10px]">05 COMPOSITING</span>
+            <div class="h-16 rounded overflow-hidden bg-black">
+              <img src="assets/AI%20&%20Film/storyboards/STORYBOARD.jpeg" alt="Compositing" class="w-full h-full object-cover">
+            </div>
+            <span class="text-slate-400 text-[11px] block">Photoshop / VFX</span>
+          </div>
+
+          <div class="p-3 bg-[#080A0E] border border-[#1F2633] rounded-xl space-y-2">
+            <span class="text-brand-purple font-bold text-[10px]">06 MOTION</span>
+            <div class="h-16 rounded overflow-hidden bg-black">
+              <video class="w-full h-full object-cover" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
+                <source src="assets/AI%20&%20Film/videos/clean%20gem%20-%20glass%20cleaner.mp4" type="video/mp4">
+              </video>
+            </div>
+            <span class="text-slate-400 text-[11px] block">Runway Gen-3</span>
+          </div>
+
+          <div class="p-3 bg-[#080A0E] border border-brand-purple/40 rounded-xl space-y-2">
+            <span class="text-brand-orange font-bold text-[10px]">07 FINAL</span>
+            <div class="h-16 rounded overflow-hidden bg-black">
+              <img src="assets/AI%20&%20Film/storyboards/final%20enhanced.jpeg" alt="Final Grade" class="w-full h-full object-cover">
+            </div>
+            <span class="text-white text-[11px] font-semibold block">Master Grade</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured Hero AI Film (Shiv Tandav) with Video Player -->
+      <div class="solid-card rounded-2xl overflow-hidden p-6 sm:p-10 border border-brand-purple/40">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <div class="lg:col-span-5 space-y-4">
+            <div class="inline-block px-3 py-1 rounded-full bg-[#151A24] border border-brand-purple/40 text-purple-300 font-mono text-xs">
+              ★ FEATURED AI FILM PROJECT
+            </div>
+            <h3 class="text-3xl sm:text-5xl font-display font-extrabold text-white">
+              SHIV TANDAV
+            </h3>
+            <p class="font-heading font-semibold text-purple-300 text-lg">
+              THE ETERNAL FORCE
+            </p>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              A cinematic AI short film exploring cosmic devotion, raw primordial energy, and visual storytelling. Crafted using advanced camera trajectory prompting, procedural motion synthesis, and atmospheric sound design.
+            </p>
+            <div class="pt-2">
+              <button onclick="openVideoModal('assets/AI & Film/videos/shiv tandav.mp4', 'Shiv Tandav — The Eternal Force (Full AI Film)')" class="inline-flex items-center gap-3 bg-brand-purple hover:bg-purple-600 text-white font-mono text-xs font-bold px-7 py-3.5 rounded-full shadow-lg transition transform hover:scale-105">
+                <span>▶ WATCH FILM FULLSCREEN</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7">
+            <div class="relative rounded-xl overflow-hidden bg-black border border-[#1F2633] group cursor-pointer" onclick="openVideoModal('assets/AI & Film/videos/shiv tandav.mp4', 'Shiv Tandav — Full Film')">
+              <video class="w-full h-80 object-cover" muted loop playsinline autoplay>
+                <source src="assets/AI & Film/videos/shiv tandav.mp4" type="video/mp4">
+              </video>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-6">
+                <div class="flex items-center justify-between w-full">
+                  <span class="font-mono text-xs text-white">CLICK TO WATCH WITH AUDIO</span>
+                  <span class="w-10 h-10 rounded-full bg-brand-purple text-white flex items-center justify-center font-bold">▶</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- 08. CONTACT EXPERIENCE                                   -->
+  <!-- ======================================================== -->
+  <section id="contact" class="py-28 bg-[#080A0E] border-t border-[#1F2633] text-center">
+    <div class="max-w-4xl mx-auto px-6 sm:px-12 space-y-8">
+      
+      <span class="font-mono text-xs text-brand-orange uppercase tracking-widest">START A CONVERSATION</span>
+      
+      <h2 class="text-4xl sm:text-7xl font-display font-extrabold text-white tracking-tight leading-tight">
+        HAVE AN IDEA?<br>
+        <span class="bg-gradient-to-r from-brand-orange via-pink-500 to-brand-cyan bg-clip-text text-transparent">
+          LET'S MAKE SOMETHING GREAT.
+        </span>
+      </h2>
+
+      <p class="text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
+        Whether it's a brand campaign, an AI film, a game UI concept, or a digital product — I'm always excited to collaborate on meaningful projects.
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-4 pt-4">
+        <a href="mailto:chanakya@gmail.com" class="inline-flex items-center gap-2 bg-brand-orange hover:bg-brand-orangeHover text-white font-mono text-xs font-bold px-8 py-4 rounded-full shadow-lg transition">
+          <span>LET'S CREATE</span>
+          <span>→</span>
+        </a>
+        <button onclick="copyEmail()" class="inline-flex items-center gap-2 bg-[#0F131A] border border-[#1F2633] hover:border-slate-400 text-slate-300 font-mono text-xs px-6 py-4 rounded-full transition">
+          <span>COPY EMAIL: chanakya@gmail.com</span>
+        </button>
+      </div>
+
+      <!-- Social Links Strip -->
+      <div class="pt-12 border-t border-[#1F2633] flex flex-wrap justify-center gap-6 font-mono text-xs text-slate-400">
+        <a href="mailto:chanakya@gmail.com" class="hover:text-brand-orange transition">EMAIL</a>
+        <a href="https://www.behance.net" target="_blank" class="hover:text-brand-orange transition">BEHANCE ↗</a>
+        <a href="#" class="hover:text-brand-orange transition">LINKEDIN</a>
+        <a href="#" class="hover:text-brand-orange transition">INSTAGRAM</a>
+        <a href="#" class="hover:text-brand-orange transition">YOUTUBE</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- 09. FOOTER                                               -->
+  <!-- ======================================================== -->
+  <footer class="border-t border-[#1F2633] py-8 px-6 sm:px-12 bg-[#080A0E] flex flex-col sm:flex-row justify-between items-center text-xs font-mono text-slate-500 gap-4">
+    <div>
+      <span class="text-white font-bold">CHANAKYA AKONDI •</span> AI CREATIVE DESIGNER · VISUAL STORYTELLER
+    </div>
+    <div>
+      © 2026 ALL RIGHTS RESERVED
+    </div>
+  </footer>
+
+  <!-- ======================================================== -->
+  <!-- VIDEO LIGHTBOX MODAL                                     -->
+  <!-- ======================================================== -->
+  <div id="video-modal" class="fixed inset-0 z-50 bg-black/95 hidden flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-5xl flex justify-between items-center pb-4 text-white font-mono text-xs">
+      <span id="video-modal-title" class="font-bold text-brand-orange">VIDEO PLAYER</span>
+      <button onclick="closeVideoModal()" class="text-slate-400 hover:text-white px-3 py-1 border border-white/20 rounded-full">✕ CLOSE (ESC)</button>
+    </div>
+    <div class="w-full max-w-5xl bg-black rounded-2xl overflow-hidden border border-[#1F2633] aspect-video">
+      <video id="modal-video-element" class="w-full h-full" controls autoplay>
+        <source src="" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <script>
+    function openVideoModal(videoSrc, title) {
+      const modal = document.getElementById('video-modal');
+      const videoEl = document.getElementById('modal-video-element');
+      const titleEl = document.getElementById('video-modal-title');
+
+      titleEl.innerText = title;
+      videoEl.src = videoSrc;
+      modal.classList.remove('hidden');
+      videoEl.play();
+    }
+
+    function closeVideoModal() {
+      const modal = document.getElementById('video-modal');
+      const videoEl = document.getElementById('modal-video-element');
+      modal.classList.add('hidden');
+      videoEl.pause();
+      videoEl.src = '';
+    }
+
+    function copyEmail() {
+      navigator.clipboard.writeText('chanakya@gmail.com');
+      alert('Email copied to clipboard: chanakya@gmail.com');
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeVideoModal();
+    });
+  </script>
+
+</body>
+</html>

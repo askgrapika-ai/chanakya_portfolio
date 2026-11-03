@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work Archive — Chanakya Akondi</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              black: '#080A0E',
+              dark: '#0B0E14',
+              surface: '#0F131A',
+              surfaceAlt: '#151A24',
+              border: '#1F2633',
+              borderLight: '#2D3748',
+              orange: '#FF6A00',
+              orangeHover: '#FF8533',
+              purple: '#8B5CF6',
+              cyan: '#00D8F6',
+              gold: '#F59E0B'
+            }
+          },
+          fontFamily: {
+            display: ['Syne', 'Space Grotesk', 'sans-serif'],
+            heading: ['Space Grotesk', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #080A0E;
+      color: #E2E8F0;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #080A0E;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1F2633;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #FF6A00;
+    }
+
+    /* Solid Dark Card styling (No Glassmorphism) */
+    .solid-card {
+      background: #0F131A;
+      border: 1px solid #1F2633;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .solid-card:hover {
+      border-color: #38455A;
+      background: #141A24;
+      transform: translateY(-3px);
+      box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.8), 0 0 20px -8px rgba(255, 106, 0, 0.25);
+    }
+
+    .tab-active {
+      background-color: #FF6A00 !important;
+      color: #FFFFFF !important;
+      border-color: #FF6A00 !important;
+    }
+
+    .subtab-active {
+      background-color: #1F2633 !important;
+      color: #FFFFFF !important;
+      border-color: #FF6A00 !important;
+    }
+  </style>
+</head>
+<body class="selection:bg-brand-orange selection:text-white">
+
+  <!-- ======================================================== -->
+  <!-- 01. NAVIGATION BAR (Solid Dark, No Glassmorphism)        -->
+  <!-- ======================================================== -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-[#080A0E] border-b border-[#1F2633] px-6 sm:px-12 py-4">
+    <div class="max-w-[1720px] mx-auto flex items-center justify-between">
+      <!-- Logo -->
+      <a href="index.html" class="flex items-center gap-2 group">
+        <span class="font-display font-extrabold text-lg sm:text-xl tracking-wider text-white group-hover:text-brand-orange transition-colors">
+          CHANAKYA AKONDI
+        </span>
+        <span class="w-2 h-2 rounded-full bg-brand-orange"></span>
+      </a>
+
+      <!-- Desktop Links -->
+      <nav class="hidden md:flex items-center gap-8 text-xs font-mono tracking-widest text-slate-400">
+        <a href="index.html" class="hover:text-brand-orange transition">HOME</a>
+        <a href="work.html" class="text-white font-bold border-b-2 border-brand-orange pb-0.5">WORK ARCHIVE</a>
+        <a href="index.html#experience" class="hover:text-brand-orange transition">EXPERIENCE</a>
+        <a href="index.html#toolbox" class="hover:text-brand-cyan transition">TOOLBOX</a>
+        <a href="index.html#ai-lab" class="hover:text-brand-purple transition">AI LAB</a>
+        <a href="index.html#about" class="hover:text-brand-orange transition">ABOUT</a>
+        <a href="index.html#contact" class="hover:text-brand-orange transition">CONTACT</a>
+      </nav>
+
+      <!-- CTA Button -->
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="inline-flex items-center gap-2 bg-[#151A24] border border-[#1F2633] hover:border-slate-400 text-slate-300 font-mono text-xs px-4 py-2.5 rounded-full transition">
+          <span>← BACK TO HOME</span>
+        </a>
+        <a href="index.html#contact" class="inline-flex items-center gap-2 bg-brand-orange hover:bg-brand-orangeHover text-white font-mono text-xs font-bold px-5 py-2.5 rounded-full shadow-lg transition">
+          <span>LET'S CREATE</span>
+          <span>→</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================================================== -->
+  <!-- 02. FULL-WIDTH WORK ARCHIVE HEADER                       -->
+  <!-- ======================================================== -->
+  <main class="w-full pt-32 pb-24">
+    <div class="max-w-[1720px] mx-auto px-6 sm:px-12 space-y-12">
+      
+      <!-- Page Header -->
+      <div class="border-b border-[#1F2633] pb-8 space-y-4">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <span class="font-mono text-xs text-brand-orange uppercase tracking-widest">COMPLETE CREATIVE ARCHIVE</span>
+            <h1 class="text-4xl sm:text-7xl font-display font-extrabold text-white mt-1">WORK</h1>
+            <p class="text-slate-400 text-base max-w-2xl mt-1">
+              Organized by category and disciplines: UI/UX, AI Filmmaking, Graphic Design, 3D Worlds, and Case Studies.
+            </p>
+          </div>
+          <div class="font-mono text-xs text-slate-400 bg-[#0F131A] border border-[#1F2633] px-4 py-2 rounded-xl flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>TOTAL ASSETS IN REPOSITORY: <strong class="text-white">65+ WORKS</strong></span>
+          </div>
+        </div>
+
+        <!-- Primary Category Filter Tabs -->
+        <div class="flex flex-wrap gap-2.5 pt-4">
+          <button onclick="setMainCategory('all')" id="tab-all" class="cat-tab tab-active font-mono text-xs px-5 py-2.5 rounded-full border border-[#1F2633] font-bold transition">
+            ALL WORKS (65+)
+          </button>
+          <button onclick="setMainCategory('uiux')" id="tab-uiux" class="cat-tab font-mono text-xs px-5 py-2.5 rounded-full bg-[#0F131A] text-slate-300 border border-[#1F2633] hover:border-brand-orange transition">
+            UI / UX DESIGN
+          </button>
+          <button onclick="setMainCategory('ai')" id="tab-ai" class="cat-tab font-mono text-xs px-5 py-2.5 rounded-full bg-[#0F131A] text-slate-300 border border-[#1F2633] hover:border-brand-purple transition">
+            AI &amp; FILM
+          </button>
+          <button onclick="setMainCategory('graphic')" id="tab-graphic" class="cat-tab font-mono text-xs px-5 py-2.5 rounded-full bg-[#0F131A] text-slate-300 border border-[#1F2633] hover:border-yellow-500 transition">
+            GRAPHIC DESIGN
+          </button>
+          <button onclick="setMainCategory('casestudy')" id="tab-casestudy" class="cat-tab font-mono text-xs px-5 py-2.5 rounded-full bg-[#0F131A] text-slate-300 border border-[#1F2633] hover:border-cyan-400 transition">
+            CASE STUDIES &amp; PRESENTATIONS
+          </button>
+        </div>
+
+        <!-- Subcategory Filter Pills (Dynamically Updated) -->
+        <div id="subcategories-bar" class="flex flex-wrap gap-2 pt-2 border-t border-[#1F2633]/60">
+          <!-- Populated by JS -->
+        </div>
+
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- 03. WORKS ASYMMETRIC GRID (ALL WORKS PLACED)             -->
+      <!-- ======================================================== -->
+      <div id="works-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+        <!-- ==================================================== -->
+        <!-- CATEGORY: UI UX — SUB: GAME UI                       -->
+        <!-- ==================================================== -->
+        
+        <!-- Spiderman (With Behance embed & redirect) -->
+        <div class="work-card cat-uiux sub-gameui solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="uiux" data-sub="gameui">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/UI%20UX/game%20UI/spiderman.png" alt="Spider-Man Suit & HUD" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-blue-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">GAME UI</span>
+            <span class="absolute top-3 right-3 bg-brand-orange text-black font-mono text-[9px] font-bold px-2 py-0.5 rounded">BEHANCE PROJECT</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Spider-Man Suit &amp; HUD</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">GAME INTERFACE · COMBAT TELEMETRY</p>
+              <p class="text-slate-400 text-xs mt-2">Diegetic suit inventory, gadget radial menus, and real-time combat telemetry.</p>
+            </div>
+            <div class="space-y-2 pt-2 border-t border-[#1F2633]">
+              <button onclick="openBehanceModal('https://www.behance.net/embed/project/255055209?ilo0=1', 'Spider-Man Suit & HUD Game UI')" class="w-full bg-[#151A24] hover:bg-brand-orange hover:text-white text-slate-300 font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW BEHANCE EMBED</span>
+                <span>👁️</span>
+              </button>
+              <a href="https://www.behance.net/gallery/255055209/" target="_blank" class="w-full bg-brand-orange/10 hover:bg-brand-orange hover:text-white text-brand-orange border border-brand-orange/30 font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>REDIRECT TO BEHANCE</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- NEXORA -->
+        <div class="work-card cat-uiux sub-gameui solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="uiux" data-sub="gameui">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/UI%20UX/game%20UI/NEXORA.png" alt="NEXORA" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-brand-orange border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">GAME UI / 3D</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">NEXORA</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">FUTURISTIC RACING · DIEGETIC HUD</p>
+              <p class="text-slate-400 text-xs mt-2">Cockpit telemetry instruments, futuristic vehicle worldbuilding, and UI framework.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/UI UX/game UI/NEXORA.png', 'NEXORA — Futuristic Racing UI')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- The Lost Temple -->
+        <div class="work-card cat-uiux sub-gameui solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="uiux" data-sub="gameui">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/UI%20UX/game%20UI/the%20lost%20temple.png" alt="Lost Temple" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-emerald-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">3D / REAL-TIME</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">The Lost Temple</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">3D ENVIRONMENT · LEVEL DESIGN</p>
+              <p class="text-slate-400 text-xs mt-2">Ancient stone citadel environment with waterfall cascades and volumetric lighting.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/UI UX/game UI/the%20lost%20temple.png', 'The Lost Temple 3D')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- CATEGORY: UI UX — SUB: WEB UI                        -->
+        <!-- ==================================================== -->
+
+        <!-- ScriptSight (With Behance embed & redirect) -->
+        <div class="work-card cat-uiux sub-webui solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="uiux" data-sub="webui">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/UI%20UX/web%20UI/ScriptSight%20-%20Landing%20Page.png" alt="ScriptSight" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-cyan-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">WEB UI</span>
+            <span class="absolute top-3 right-3 bg-brand-orange text-black font-mono text-[9px] font-bold px-2 py-0.5 rounded">BEHANCE PROJECT</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">ScriptSight Landing Page</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">SAAS PLATFORM · LANDING PAGE ARCHITECTURE</p>
+              <p class="text-slate-400 text-xs mt-2">Modern AI-driven script analysis SaaS web application with dark-mode hierarchy.</p>
+            </div>
+            <div class="space-y-2 pt-2 border-t border-[#1F2633]">
+              <button onclick="openBehanceModal('https://www.behance.net/embed/project/252154409?ilo0=1', 'ScriptSight Landing Page UI')" class="w-full bg-[#151A24] hover:bg-brand-orange hover:text-white text-slate-300 font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW BEHANCE EMBED</span>
+                <span>👁️</span>
+              </button>
+              <a href="https://www.behance.net/gallery/252154409/" target="_blank" class="w-full bg-brand-orange/10 hover:bg-brand-orange hover:text-white text-brand-orange border border-brand-orange/30 font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>REDIRECT TO BEHANCE</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bhakti Bandhan -->
+        <div class="work-card cat-uiux sub-webui solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="uiux" data-sub="webui">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/UI%20UX/web%20UI/bhakti%20bandhan.png" alt="Bhakti Bandhan" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-amber-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">WEB &amp; PRODUCT</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Bhakti Bandhan</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">DEVOTIONAL PRODUCT · DESIGN SYSTEM</p>
+              <p class="text-slate-400 text-xs mt-2">Connecting tradition with modern digital experience and temple congregation.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/UI UX/web UI/bhakti%20bandhan.png', 'Bhakti Bandhan Platform')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- VitaJuice -->
+        <div class="work-card cat-uiux sub-webui solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="uiux" data-sub="webui">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/UI%20UX/web%20UI/vitajuice.jpg" alt="VitaJuice" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-emerald-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">E-COMMERCE UI</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">VitaJuice Organic Brand</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">E-COMMERCE · PRODUCT LANDING PAGE</p>
+              <p class="text-slate-400 text-xs mt-2">Fresh organic beverage product showcase with vibrant typographic treatment.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/UI UX/web UI/vitajuice.jpg', 'VitaJuice Landing Page')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- CATEGORY: UI UX — SUB: MOBILE UI                     -->
+        <!-- ==================================================== -->
+        <div class="work-card cat-uiux sub-mobileui solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="uiux" data-sub="mobileui">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/UI%20UX/mobile%20UI/1.png" alt="Mobile App UI" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-pink-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">MOBILE APP</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Mobile Application Suite</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">IOS &amp; ANDROID · MOBILE SCREENS</p>
+              <p class="text-slate-400 text-xs mt-2">End-to-end user journeys, onboarding flows, and tactile interface components.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/UI UX/mobile UI/1.png', 'Mobile App Screens')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- CATEGORY: UI UX — SUB: WIREFRAMES                    -->
+        <!-- ==================================================== -->
+
+        <!-- Wireframing & UX Architecture (With Behance embed & redirect) -->
+        <div class="work-card cat-uiux sub-wireframes solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="uiux" data-sub="wireframes">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/UI%20UX/wireframes/myv%20vapes.jpg" alt="Wireframing" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-slate-300 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">WIREFRAMES</span>
+            <span class="absolute top-3 right-3 bg-brand-orange text-black font-mono text-[9px] font-bold px-2 py-0.5 rounded">BEHANCE PROJECT</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">UX Architecture &amp; Wireframes</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">LOW &amp; HIGH FIDELITY PROTOTYPING</p>
+              <p class="text-slate-400 text-xs mt-2">Information architecture, user flow wireframing, and structure mapping.</p>
+            </div>
+            <div class="space-y-2 pt-2 border-t border-[#1F2633]">
+              <button onclick="openBehanceModal('https://www.behance.net/embed/project/252154175?ilo0=1', 'Wireframing & UX Architecture')" class="w-full bg-[#151A24] hover:bg-brand-orange hover:text-white text-slate-300 font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW BEHANCE EMBED</span>
+                <span>👁️</span>
+              </button>
+              <a href="https://www.behance.net/gallery/252154175/" target="_blank" class="w-full bg-brand-orange/10 hover:bg-brand-orange hover:text-white text-brand-orange border border-brand-orange/30 font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>REDIRECT TO BEHANCE</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ASK Grapika Wireframe PDF -->
+        <div class="work-card cat-uiux sub-wireframes solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="uiux" data-sub="wireframes">
+          <div class="p-8 h-60 bg-[#0B0E14] flex flex-col items-center justify-center text-center space-y-3">
+            <span class="text-4xl">📄</span>
+            <span class="font-mono text-xs text-brand-orange">PDF WIREFRAME</span>
+            <div class="font-display font-bold text-white text-base">ASK Grapika Website Wireframe</div>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <p class="text-slate-400 text-xs">Complete architectural wireframe layout for ASK Grapika digital presence.</p>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <a href="assets/UI%20UX/wireframes/ASK%20Grapika%20Website.pdf" target="_blank" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>OPEN PDF WIREFRAME</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Millet Snacks Wireframe PDF -->
+        <div class="work-card cat-uiux sub-wireframes solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="uiux" data-sub="wireframes">
+          <div class="p-8 h-60 bg-[#0B0E14] flex flex-col items-center justify-center text-center space-y-3">
+            <span class="text-4xl">📄</span>
+            <span class="font-mono text-xs text-brand-cyan">PDF WIREFRAME</span>
+            <div class="font-display font-bold text-white text-base">Millet Snacks Brand Wireframe</div>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <p class="text-slate-400 text-xs">UX flow and component blueprint for health-conscious food brand.</p>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <a href="assets/UI%20UX/wireframes/Millet%20Snacks.pdf" target="_blank" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>OPEN PDF WIREFRAME</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- CATEGORY: AI & FILM — SUB: VIDEOS (11 VIDEOS)        -->
+        <!-- ==================================================== -->
+
+        <!-- 01 CleanGem Video -->
+        <div class="work-card cat-ai sub-videos solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="ai" data-sub="videos">
+          <div class="relative h-60 overflow-hidden bg-black cursor-pointer group" onclick="openVideoModal('assets/AI & Film/videos/clean gem - glass cleaner.mp4', 'CleanGem — Commercial Ad')">
+            <video class="w-full h-full object-cover" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
+              <source src="assets/AI & Film/videos/clean gem - glass cleaner.mp4" type="video/mp4">
+            </video>
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-cyan-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">AI COMMERCIAL</span>
+            <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-transparent transition">
+              <span class="w-12 h-12 rounded-full bg-brand-cyan text-black flex items-center justify-center font-bold text-sm shadow-xl">▶</span>
+            </div>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">CleanGem Glass Cleaner</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">PRODUCT SPEC COMMERCIAL</p>
+              <p class="text-slate-400 text-xs mt-2">Generative liquid simulation, macro lens lighting, and high-end luxury grading.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openVideoModal('assets/AI & Film/videos/clean gem - glass cleaner.mp4', 'CleanGem — Commercial Ad')" class="w-full bg-[#151A24] hover:bg-brand-cyan hover:text-black text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>PLAY FULL VIDEO (AUDIO)</span>
+                <span>▶</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 02 Shiv Tandav Video -->
+        <div class="work-card cat-ai sub-videos solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="ai" data-sub="videos">
+          <div class="relative h-60 overflow-hidden bg-black cursor-pointer group" onclick="openVideoModal('assets/AI & Film/videos/shiv tandav.mp4', 'Shiv Tandav — The Eternal Force')">
+            <video class="w-full h-full object-cover" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
+              <source src="assets/AI & Film/videos/shiv tandav.mp4" type="video/mp4">
+            </video>
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-purple-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">AI CINEMA</span>
+            <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-transparent transition">
+              <span class="w-12 h-12 rounded-full bg-brand-purple text-white flex items-center justify-center font-bold text-sm shadow-xl">▶</span>
+            </div>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Shiv Tandav</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">THE ETERNAL FORCE</p>
+              <p class="text-slate-400 text-xs mt-2">Cosmic dance of primordial destruction and rebirth orchestrated with AI video tools.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openVideoModal('assets/AI & Film/videos/shiv tandav.mp4', 'Shiv Tandav — The Eternal Force')" class="w-full bg-[#151A24] hover:bg-brand-purple hover:text-white text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>PLAY FULL VIDEO (AUDIO)</span>
+                <span>▶</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 03 Silver Spoon Teaser Video -->
+        <div class="work-card cat-ai sub-videos solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="ai" data-sub="videos">
+          <div class="relative h-60 overflow-hidden bg-black cursor-pointer group" onclick="openVideoModal('assets/AI & Film/videos/silver spoon teaser_title VO.mp4', 'Silver Spoon — Title Teaser')">
+            <video class="w-full h-full object-cover" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
+              <source src="assets/AI & Film/videos/silver spoon teaser_title VO.mp4" type="video/mp4">
+            </video>
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-brand-orange border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">TITLE TEASER</span>
+            <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-transparent transition">
+              <span class="w-12 h-12 rounded-full bg-brand-orange text-white flex items-center justify-center font-bold text-sm shadow-xl">▶</span>
+            </div>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Silver Spoon Title Teaser</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">THEATRICAL TEASER &amp; VOICE-OVER</p>
+              <p class="text-slate-400 text-xs mt-2">Pacing, typographic reveals, and atmospheric motion design for title sequence.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openVideoModal('assets/AI & Film/videos/silver spoon teaser_title VO.mp4', 'Silver Spoon — Title Teaser')" class="w-full bg-[#151A24] hover:bg-brand-orange hover:text-white text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>PLAY FULL VIDEO (AUDIO)</span>
+                <span>▶</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 04 Alone AI Video -->
+        <div class="work-card cat-ai sub-videos solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="ai" data-sub="videos">
+          <div class="relative h-60 overflow-hidden bg-black cursor-pointer group" onclick="openVideoModal('assets/AI & Film/videos/Alone - AI video.mp4', 'Alone — AI Narrative Film')">
+            <video class="w-full h-full object-cover" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
+              <source src="assets/AI & Film/videos/Alone - AI video.mp4" type="video/mp4">
+            </video>
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-pink-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">NARRATIVE FILM</span>
+            <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-transparent transition">
+              <span class="w-12 h-12 rounded-full bg-pink-500 text-white flex items-center justify-center font-bold text-sm shadow-xl">▶</span>
+            </div>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Alone — AI Short Film</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">CINEMATIC SHORT FILM</p>
+              <p class="text-slate-400 text-xs mt-2">Atmospheric solitary journey across desolate alien landscapes.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openVideoModal('assets/AI & Film/videos/Alone - AI video.mp4', 'Alone — AI Narrative Film')" class="w-full bg-[#151A24] hover:bg-pink-500 hover:text-white text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>PLAY FULL VIDEO (AUDIO)</span>
+                <span>▶</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 05 The Ride Invitation Final -->
+        <div class="work-card cat-ai sub-videos solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="ai" data-sub="videos">
+          <div class="relative h-60 overflow-hidden bg-black cursor-pointer group" onclick="openVideoModal('assets/AI & Film/videos/the ride invitation final.mp4', 'The Ride Invitation')">
+            <video class="w-full h-full object-cover" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
+              <source src="assets/AI & Film/videos/the ride invitation final.mp4" type="video/mp4">
+            </video>
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-yellow-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">MOTION DESIGN</span>
+            <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-transparent transition">
+              <span class="w-12 h-12 rounded-full bg-yellow-400 text-black flex items-center justify-center font-bold text-sm shadow-xl">▶</span>
+            </div>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">The Ride Invitation</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">EVENT CINEMATICS</p>
+              <p class="text-slate-400 text-xs mt-2">Dynamic kinetic typography and high-octane automotive journey teaser.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openVideoModal('assets/AI & Film/videos/the ride invitation final.mp4', 'The Ride Invitation')" class="w-full bg-[#151A24] hover:bg-yellow-400 hover:text-black text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>PLAY FULL VIDEO (AUDIO)</span>
+                <span>▶</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 06 Annadanam AI Video -->
+        <div class="work-card cat-ai sub-videos solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="ai" data-sub="videos">
+          <div class="relative h-60 overflow-hidden bg-black cursor-pointer group" onclick="openVideoModal('assets/AI & Film/videos/annadanam AI video.mp4', 'Annadanam AI Video')">
+            <video class="w-full h-full object-cover" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
+              <source src="assets/AI & Film/videos/annadanam AI video.mp4" type="video/mp4">
+            </video>
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-amber-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">CULTURAL FILM</span>
+            <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-transparent transition">
+              <span class="w-12 h-12 rounded-full bg-amber-400 text-black flex items-center justify-center font-bold text-sm shadow-xl">▶</span>
+            </div>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Annadanam Cultural Video</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">HERITAGE VISUAL STORY</p>
+              <p class="text-slate-400 text-xs mt-2">Traditional Indian community giving portrayed through expressive generative cinematography.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openVideoModal('assets/AI & Film/videos/annadanam AI video.mp4', 'Annadanam AI Video')" class="w-full bg-[#151A24] hover:bg-amber-400 hover:text-black text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>PLAY FULL VIDEO (AUDIO)</span>
+                <span>▶</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 07 Mystery Popups Ad -->
+        <div class="work-card cat-ai sub-videos solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="ai" data-sub="videos">
+          <div class="relative h-60 overflow-hidden bg-black cursor-pointer group" onclick="openVideoModal('assets/AI & Film/videos/Mystery popups -ad.mp4', 'Mystery Popups Commercial')">
+            <video class="w-full h-full object-cover" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
+              <source src="assets/AI & Film/videos/Mystery popups -ad.mp4" type="video/mp4">
+            </video>
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-purple-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">PRODUCT AD</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Mystery Popups Commercial</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">COMMERCIAL REEL</p>
+              <p class="text-slate-400 text-xs mt-2">Vibrant animated brand commercial with quick pacing and sound sync.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openVideoModal('assets/AI & Film/videos/Mystery popups -ad.mp4', 'Mystery Popups Commercial')" class="w-full bg-[#151A24] hover:bg-purple-500 hover:text-white text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>PLAY FULL VIDEO</span>
+                <span>▶</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 08 Friendship Bands Ad -->
+        <div class="work-card cat-ai sub-videos solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="ai" data-sub="videos">
+          <div class="relative h-60 overflow-hidden bg-black cursor-pointer group" onclick="openVideoModal('assets/AI & Film/videos/friendship badns - ad 2.mp4', 'Friendship Bands Ad')">
+            <video class="w-full h-full object-cover" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
+              <source src="assets/AI & Film/videos/friendship badns - ad 2.mp4" type="video/mp4">
+            </video>
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-rose-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">CAMPAIGN AD</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Friendship Bands Campaign</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">COMMERCIAL SHORT</p>
+              <p class="text-slate-400 text-xs mt-2">Youth fashion and emotion-driven social campaign film.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openVideoModal('assets/AI & Film/videos/friendship badns - ad 2.mp4', 'Friendship Bands Ad')" class="w-full bg-[#151A24] hover:bg-rose-500 hover:text-white text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>PLAY FULL VIDEO</span>
+                <span>▶</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 09 AI Envi 1 & 2 -->
+        <div class="work-card cat-ai sub-videos solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="ai" data-sub="videos">
+          <div class="relative h-60 overflow-hidden bg-black cursor-pointer group" onclick="openVideoModal('assets/AI & Film/videos/AI Envi -1.mp4', 'AI Environment Volumetric Pass')">
+            <video class="w-full h-full object-cover" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
+              <source src="assets/AI & Film/videos/AI Envi -1.mp4" type="video/mp4">
+            </video>
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-emerald-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">AI 3D ENVI</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Procedural AI Environment</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">REAL-TIME CAMERA TRACKING</p>
+              <p class="text-slate-400 text-xs mt-2">Seamless camera fly-through in a procedural volumetric landscape.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openVideoModal('assets/AI & Film/videos/AI Envi -1.mp4', 'AI Environment Volumetric Pass')" class="w-full bg-[#151A24] hover:bg-emerald-500 hover:text-black text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>PLAY FULL VIDEO</span>
+                <span>▶</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- CATEGORY: AI & FILM — SUB: CHARACTER DESIGN          -->
+        <!-- ==================================================== -->
+
+        <!-- Samurai Character Sheet -->
+        <div class="work-card cat-ai sub-characters solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="ai" data-sub="characters">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/AI%20&%20Film/Character%20design/Samurai_character_design_sheet_2K_20261008175008.jpg" alt="Samurai Sheet" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-brand-orange border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">CHARACTER LAB</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Samurai 2K Design Sheet</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">CHARACTER CONTINUITY &amp; MODEL SHEET</p>
+              <p class="text-slate-400 text-xs mt-2">Consistent facial geometry, armor textures, and weapon rigging.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/AI & Film/Character design/Samurai_character_design_sheet_2K_20261008175008.jpg', 'Samurai Design Sheet')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Samurai Katana Strike -->
+        <div class="work-card cat-ai sub-characters solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="ai" data-sub="characters">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/AI%20&%20Film/Character%20design/Samurai_performing_katana_strike_2K_20261008181238.jpg" alt="Katana Strike" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-brand-orange border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">ACTION POSE</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Katana Dynamic Strike</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">DYNAMIC COMBAT POSE</p>
+              <p class="text-slate-400 text-xs mt-2">Motion blur synthesis, fabric physics, and blade reflection highlights.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/AI & Film/Character design/Samurai_performing_katana_strike_2K_20261008181238.jpg', 'Katana Strike')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Samurai vs Yakuza -->
+        <div class="work-card cat-ai sub-characters solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="ai" data-sub="characters">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/AI%20&%20Film/Character%20design/Samurai_and_yakuza_sword_clash_2K_20261008181815.jpg" alt="Sword Clash" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-brand-orange border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">CINEMATIC FRAME</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Samurai &amp; Yakuza Clash</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">DUAL-CHARACTER TENSION</p>
+              <p class="text-slate-400 text-xs mt-2">High dynamic range lighting pass with rain droplets and sparks.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/AI & Film/Character design/Samurai_and_yakuza_sword_clash_2K_20261008181815.jpg', 'Sword Clash')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Character Turnaround Sheet -->
+        <div class="work-card cat-ai sub-characters solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="ai" data-sub="characters">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/AI%20&%20Film/Character%20design/turnaround.jpeg" alt="Character Turnaround" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-purple-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">TURNAROUND</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Character 360° Turnaround</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">3D ANIMATION REFERENCE</p>
+              <p class="text-slate-400 text-xs mt-2">Orthographic views for character modelers and riggers.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/AI & Film/Character design/turnaround.jpeg', 'Character Turnaround')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- CATEGORY: AI & FILM — SUB: STORYBOARDS               -->
+        <!-- ==================================================== -->
+
+        <!-- Storyboard Sheet -->
+        <div class="work-card cat-ai sub-storyboards solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="ai" data-sub="storyboards">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/AI%20&%20Film/storyboards/STORYBOARD.jpeg" alt="Storyboard Sheet" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-pink-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">STORYBOARD</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Cinematic Storyboard Matrix</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">CAMERA PANELS &amp; COMPOSITION</p>
+              <p class="text-slate-400 text-xs mt-2">Sequential film storyboarding displaying scene transitions and angles.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/AI & Film/storyboards/STORYBOARD.jpeg', 'Storyboard Matrix')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Jewellery Storyboard -->
+        <div class="work-card cat-ai sub-storyboards solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="ai" data-sub="storyboards">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/AI%20&%20Film/storyboards/jewellery%20storyboard.jpeg" alt="Jewellery Storyboard" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-amber-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">COMMERCIAL BOARD</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Luxury Jewellery Commercial Board</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">PRE-PRODUCTION PLANNING</p>
+              <p class="text-slate-400 text-xs mt-2">Macro close-ups and model framing for commercial shoot.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/AI & Film/storyboards/jewellery%20storyboard.jpeg', 'Jewellery Storyboard')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- CATEGORY: AI & FILM — SUB: WORLDS & CONCEPT          -->
+        <!-- ==================================================== -->
+
+        <!-- Citadel Environment env(1) -->
+        <div class="work-card cat-ai sub-worlds solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="ai" data-sub="worlds">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/AI%20&%20Film/worlds%20and%20concept%20design/env(1).jpeg" alt="Citadel" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-emerald-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">CONCEPT WORLD</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Celestial Citadel</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">ENVIRONMENT WORLDBUILDING</p>
+              <p class="text-slate-400 text-xs mt-2">Towering spires nested in mountain mists with morning light rays.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/AI & Film/worlds%20and%20concept%20design/env(1).jpeg', 'Celestial Citadel')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Surreal Concept con(4) -->
+        <div class="work-card cat-ai sub-worlds solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="ai" data-sub="worlds">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/AI%20&%20Film/worlds%20and%20concept%20design/con(4).jpeg" alt="Surreal Concept" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-purple-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">SURREAL SCENE</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Mythic Horizon</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">CONCEPTUAL ART DIRECTION</p>
+              <p class="text-slate-400 text-xs mt-2">Ancient temples illuminated under twilight aurora skies.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/AI & Film/worlds%20and%20concept%20design/con(4).jpeg', 'Mythic Horizon')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- CATEGORY: GRAPHIC DESIGN — SUB: POSTERS              -->
+        <!-- ==================================================== -->
+
+        <!-- Bhavodvegam Poster -->
+        <div class="work-card cat-graphic sub-posters solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="graphic" data-sub="posters">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/Graphic%20Design/Posters/bhavodvegam%20poster%202.1.jpg" alt="Bhavodvegam" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-yellow-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">THEATRICAL POSTER</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Bhavodvegam Official Poster</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">FILM PUBLICITY · POSTER DESIGN</p>
+              <p class="text-slate-400 text-xs mt-2">Duo-tone red &amp; blue lighting composition with theatrical typography.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/Graphic Design/Posters/bhavodvegam%20poster%202.1.jpg', 'Bhavodvegam Official Poster')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PSPK CDP -->
+        <div class="work-card cat-graphic sub-posters solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="graphic" data-sub="posters">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/Graphic%20Design/Posters/pspk%20cdp.jpg" alt="PSPK CDP" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-yellow-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">MASS MEDIA CDP</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">PSPK Common Display Poster</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">CELEBRITY PUBLICITY ARTWORK</p>
+              <p class="text-slate-400 text-xs mt-2">High energy commercial tribute artwork with layered crowd visuals.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/Graphic Design/Posters/pspk%20cdp.jpg', 'PSPK Common Display Poster')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SSMB Bday CDP -->
+        <div class="work-card cat-graphic sub-posters solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="graphic" data-sub="posters">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/Graphic%20Design/Posters/ssmb%20bday%20cdp.jpg" alt="SSMB Birthday" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-yellow-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">TRIBUTE POSTER</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">SSMB Birthday Tribute</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">PUBLIC RELATIONS ARTWORK</p>
+              <p class="text-slate-400 text-xs mt-2">Monochromatic character detailing with dramatic rim lighting.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/Graphic Design/Posters/ssmb%20bday%20cdp.jpg', 'SSMB Birthday Tribute')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dasu Vegi Poster -->
+        <div class="work-card cat-graphic sub-posters solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="graphic" data-sub="posters">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/Graphic%20Design/Posters/8%20x%2012%20dasu%20vegi%202.jpg" alt="Dasu Vegi" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-yellow-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">EDITORIAL POSTER</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Dasu Vegi Theatrical Poster</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">8x12 PRINT POSTER</p>
+              <p class="text-slate-400 text-xs mt-2">Dramatic narrative lighting with theatrical cast integration.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/Graphic Design/Posters/8%20x%2012%20dasu%20vegi%202.jpg', 'Dasu Vegi Theatrical Poster')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- CATEGORY: GRAPHIC DESIGN — SUB: BUSINESS CARDS       -->
+        <!-- ==================================================== -->
+
+        <!-- ASK Grapika VC -->
+        <div class="work-card cat-graphic sub-businesscards solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="graphic" data-sub="businesscards">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/Graphic%20Design/Business%20cards/ASK%20Grapika%20VC%20Front.jpg" alt="ASK Grapika" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-cyan-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">BUSINESS CARD</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">ASK Grapika Stationery</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">CORPORATE IDENTITY</p>
+              <p class="text-slate-400 text-xs mt-2">Minimal corporate card design with bold geometric branding.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/Graphic Design/Business cards/ASK%20Grapika%20VC%20Front.jpg', 'ASK Grapika Business Card')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coffee Shop VC -->
+        <div class="work-card cat-graphic sub-businesscards solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="graphic" data-sub="businesscards">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/Graphic%20Design/Business%20cards/coffee%20shop.jpg" alt="Coffee Shop" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-amber-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">HOSPITALITY BRAND</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Artisanal Coffee Card</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">CAFE BRAND IDENTITY</p>
+              <p class="text-slate-400 text-xs mt-2">Warm minimalist branding for artisan specialty coffee roastery.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/Graphic Design/Business cards/coffee%20shop.jpg', 'Artisanal Coffee Card')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- CATEGORY: GRAPHIC DESIGN — SUB: VOUCHERS             -->
+        <!-- ==================================================== -->
+
+        <!-- Voucher 1 Front & Back -->
+        <div class="work-card cat-graphic sub-vouchers solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="graphic" data-sub="vouchers">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/Graphic%20Design/Vouchurs%20and%20coupons/Voucher%201%20Front.jpg" alt="Voucher Front" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-emerald-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">PRINT VOUCHER</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Luxury Gift Voucher Suite</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">PRINT &amp; PACKAGING</p>
+              <p class="text-slate-400 text-xs mt-2">Premium metallic foil accents, typography, and barcode security layout.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/Graphic Design/Vouchurs%20and%20coupons/Voucher%201%20Front.jpg', 'Luxury Gift Voucher')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- CATEGORY: GRAPHIC DESIGN — SUB: WEB BANNERS          -->
+        <!-- ==================================================== -->
+
+        <!-- Large Format Banner (72x24) -->
+        <div class="work-card cat-graphic sub-banners solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="graphic" data-sub="banners">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/Graphic%20Design/Web%20banners/banner%20%2072%20X%2024.jpg" alt="Outdoor Banner" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-blue-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">OUTDOOR BANNER</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Outdoor Billboard (72x24)</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">LARGE SCALE CAMPAIGN</p>
+              <p class="text-slate-400 text-xs mt-2">High-visibility promotional banner built for large highway hoardings.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/Graphic Design/Web banners/banner%20%2072%20X%2024.jpg', 'Outdoor Billboard Banner')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- CATEGORY: GRAPHIC DESIGN — SUB: YOUTUBE THUMBNAILS   -->
+        <!-- ==================================================== -->
+
+        <!-- Sundarakanda Live Thumbnail -->
+        <div class="work-card cat-graphic sub-thumbnails solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="graphic" data-sub="thumbnails">
+          <div class="relative h-60 overflow-hidden bg-black group">
+            <img src="assets/Graphic%20Design/Youtube%20thumbnails/Sundarakanda%20Live.jpg" alt="YouTube Thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#080A0E] text-red-400 border border-[#1F2633] font-mono text-[10px] px-2.5 py-0.5 rounded">YT THUMBNAIL</span>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Sundarakanda Live Broadcast</h3>
+              <p class="text-xs font-mono text-slate-400 mt-0.5">DIGITAL CONTENT PACKAGING</p>
+              <p class="text-slate-400 text-xs mt-2">High click-through-rate streaming thumbnail with vibrant typography.</p>
+            </div>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <button onclick="openImageModal('assets/Graphic Design/Youtube thumbnails/Sundarakanda%20Live.jpg', 'Sundarakanda Live Thumbnail')" class="w-full bg-[#151A24] hover:bg-[#1F2633] text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2">
+                <span>VIEW FULL RESOLUTION</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- CATEGORY: CASE STUDIES & PRESENTATIONS               -->
+        <!-- ==================================================== -->
+
+        <!-- Lost & Found Storyboard Presentation -->
+        <div class="work-card cat-casestudy sub-presentation solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="casestudy" data-sub="presentation">
+          <div class="p-8 h-60 bg-[#0B0E14] flex flex-col items-center justify-center text-center space-y-3">
+            <span class="text-5xl">📑</span>
+            <span class="font-mono text-xs text-brand-orange">CASE STUDY PRESENTATION</span>
+            <div class="font-display font-bold text-white text-lg">Lost &amp; Found Storyboard Deck</div>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <p class="text-slate-400 text-xs">Complete cinematic pitch deck detailing narrative storytelling, character arcs, and shot progression.</p>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <a href="assets/case%20studies%20%20or%20presentations/Lost%20&%20Found%20storyboard%20presentatin.pdf" target="_blank" class="w-full bg-brand-orange hover:bg-brand-orangeHover text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2 font-bold">
+                <span>OPEN FULL PDF DECK</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- The Window Beyond the Stars -->
+        <div class="work-card cat-casestudy sub-presentation solid-card rounded-2xl overflow-hidden flex flex-col justify-between" data-cat="casestudy" data-sub="presentation">
+          <div class="p-8 h-60 bg-[#0B0E14] flex flex-col items-center justify-center text-center space-y-3">
+            <span class="text-5xl">✨</span>
+            <span class="font-mono text-xs text-brand-purple">FLAGSHIP PRESENTATION</span>
+            <div class="font-display font-bold text-white text-lg">The Window Beyond The Stars</div>
+          </div>
+          <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+            <p class="text-slate-400 text-xs">245MB master presentation deck exploring cosmic AI filmmaking, procedural aesthetics, and art direction.</p>
+            <div class="pt-2 border-t border-[#1F2633]">
+              <a href="assets/case%20studies%20%20or%20presentations/The%20window%20beyond%20the%20stars.pdf" target="_blank" class="w-full bg-brand-purple hover:bg-purple-600 text-white font-mono text-xs py-2 rounded-lg transition flex items-center justify-center gap-2 font-bold">
+                <span>OPEN FULL 245MB DECK</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- 04. FOOTER                                               -->
+  <!-- ======================================================== -->
+  <footer class="border-t border-[#1F2633] py-10 px-6 sm:px-12 bg-[#080A0E] max-w-[1720px] mx-auto flex flex-col sm:flex-row justify-between items-center text-xs font-mono text-slate-500 gap-4">
+    <div>
+      <span class="text-white font-bold">CHANAKYA AKONDI •</span> AI CREATIVE DESIGNER · VISUAL STORYTELLER
+    </div>
+    <div class="flex items-center gap-6">
+      <a href="index.html" class="hover:text-white">HOME</a>
+      <a href="index.html#contact" class="hover:text-white">CONTACT</a>
+      <span>© 2026 ALL RIGHTS RESERVED</span>
+    </div>
+  </footer>
+
+  <!-- ======================================================== -->
+  <!-- 05. MODALS (BEHANCE EMBED, VIDEO PLAYER, IMAGE DETAIL)   -->
+  <!-- ======================================================== -->
+
+  <!-- Behance Embed Modal -->
+  <div id="behance-modal" class="fixed inset-0 z-50 bg-black/95 hidden flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-5xl flex justify-between items-center pb-4 text-white font-mono text-xs">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-brand-orange"></span>
+        <span id="behance-modal-title" class="font-bold text-white text-sm">BEHANCE PROJECT EMBED</span>
+      </div>
+      <button onclick="closeBehanceModal()" class="text-slate-400 hover:text-white px-3 py-1.5 border border-white/20 rounded-full">✕ CLOSE (ESC)</button>
+    </div>
+    <div class="w-full max-w-5xl h-[80vh] bg-black rounded-2xl overflow-hidden border border-[#1F2633]">
+      <iframe id="behance-iframe-element" src="" class="w-full h-full" frameborder="0" allowfullscreen lazyload allow="clipboard-write"></iframe>
+    </div>
+  </div>
+
+  <!-- Video Player Modal -->
+  <div id="video-modal" class="fixed inset-0 z-50 bg-black/95 hidden flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-5xl flex justify-between items-center pb-4 text-white font-mono text-xs">
+      <span id="video-modal-title" class="font-bold text-brand-orange text-sm">VIDEO PLAYER</span>
+      <button onclick="closeVideoModal()" class="text-slate-400 hover:text-white px-3 py-1.5 border border-white/20 rounded-full">✕ CLOSE (ESC)</button>
+    </div>
+    <div class="w-full max-w-5xl bg-black rounded-2xl overflow-hidden border border-[#1F2633] aspect-video">
+      <video id="modal-video-element" class="w-full h-full" controls autoplay>
+        <source src="" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- Image Detail Modal -->
+  <div id="image-modal" class="fixed inset-0 z-50 bg-black/95 hidden flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-5xl flex justify-between items-center pb-4 text-white font-mono text-xs">
+      <span id="image-modal-title" class="font-bold text-brand-cyan text-sm">FULL RESOLUTION ARTWORK</span>
+      <button onclick="closeImageModal()" class="text-slate-400 hover:text-white px-3 py-1.5 border border-white/20 rounded-full">✕ CLOSE (ESC)</button>
+    </div>
+    <div class="max-w-5xl max-h-[82vh] overflow-hidden rounded-2xl border border-[#1F2633]">
+      <img id="modal-image-element" src="" alt="Detail" class="w-full h-full object-contain max-h-[82vh]">
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- 06. JAVASCRIPT FILTERING & INTERACTION LOGIC             -->
+  <!-- ======================================================== -->
+  <script>
+    const subcategoryData = {
+      all: [
+        { id: 'all', label: 'All Subcategories' }
+      ],
+      uiux: [
+        { id: 'all', label: 'All UI/UX' },
+        { id: 'gameui', label: 'Game UI & HUD' },
+        { id: 'webui', label: 'Web UI & SaaS' },
+        { id: 'mobileui', label: 'Mobile Apps' },
+        { id: 'wireframes', label: 'Wireframes & Architecture' }
+      ],
+      ai: [
+        { id: 'all', label: 'All AI & Film' },
+        { id: 'videos', label: 'Commercial & AI Videos' },
+        { id: 'characters', label: 'Character Turnarounds' },
+        { id: 'storyboards', label: 'Storyboards & Framing' },
+        { id: 'worlds', label: 'Worlds & Citadels' }
+      ],
+      graphic: [
+        { id: 'all', label: 'All Graphic Design' },
+        { id: 'posters', label: 'Theatrical Posters' },
+        { id: 'businesscards', label: 'Business Cards' },
+        { id: 'vouchers', label: 'Vouchers & Coupons' },
+        { id: 'banners', label: 'Web & Outdoor Banners' },
+        { id: 'thumbnails', label: 'YouTube Thumbnails' }
+      ],
+      casestudy: [
+        { id: 'all', label: 'All Presentations' }
+      ]
+    };
+
+    let activeCat = 'all';
+    let activeSub = 'all';
+
+    function setMainCategory(cat) {
+      activeCat = cat;
+      activeSub = 'all';
+
+      // Update Tab Styles
+      document.querySelectorAll('.cat-tab').forEach(btn => btn.classList.remove('tab-active'));
+      const activeTab = document.getElementById('tab-' + cat);
+      if (activeTab) activeTab.classList.add('tab-active');
+
+      renderSubcategories();
+      applyFilters();
+    }
+
+    function setSubCategory(sub) {
+      activeSub = sub;
+      document.querySelectorAll('.sub-tab').forEach(btn => btn.classList.remove('subtab-active'));
+      const activeSubTab = document.getElementById('subtab-' + sub);
+      if (activeSubTab) activeSubTab.classList.add('subtab-active');
+
+      applyFilters();
+    }
+
+    function renderSubcategories() {
+      const container = document.getElementById('subcategories-bar');
+      const list = subcategoryData[activeCat] || [];
+      
+      if (list.length <= 1) {
+        container.innerHTML = '';
+        container.style.display = 'none';
+        return;
+      }
+
+      container.style.display = 'flex';
+      container.innerHTML = list.map(item => `
+        <button onclick="setSubCategory('${item.id}')" id="subtab-${item.id}" class="sub-tab ${item.id === activeSub ? 'subtab-active' : ''} font-mono text-[11px] px-3.5 py-1.5 rounded-full bg-[#0F131A] text-slate-300 border border-[#1F2633] hover:border-brand-orange transition">
+          ${item.label}
+        </button>
+      `).join('');
+    }
+
+    function applyFilters() {
+      const cards = document.querySelectorAll('.work-card');
+
+      cards.forEach(card => {
+        const itemCat = card.getAttribute('data-cat');
+        const itemSub = card.getAttribute('data-sub');
+
+        const catMatches = (activeCat === 'all' || itemCat === activeCat);
+        const subMatches = (activeSub === 'all' || itemSub === activeSub);
+
+        if (catMatches && subMatches) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Check URL Query params on load (e.g., work.html?cat=graphic)
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const urlCat = params.get('cat');
+      const urlSub = params.get('sub');
+
+      if (urlCat && subcategoryData[urlCat]) {
+        setMainCategory(urlCat);
+        if (urlSub) setSubCategory(urlSub);
+      } else {
+        setMainCategory('all');
+      }
+    });
+
+    // Modals
+    function openBehanceModal(embedUrl, title) {
+      const modal = document.getElementById('behance-modal');
+      const iframe = document.getElementById('behance-iframe-element');
+      document.getElementById('behance-modal-title').innerText = title;
+
+      iframe.src = embedUrl;
+      modal.classList.remove('hidden');
+    }
+
+    function closeBehanceModal() {
+      const modal = document.getElementById('behance-modal');
+      const iframe = document.getElementById('behance-iframe-element');
+      modal.classList.add('hidden');
+      iframe.src = '';
+    }
+
+    function openVideoModal(videoSrc, title) {
+      const modal = document.getElementById('video-modal');
+      const videoEl = document.getElementById('modal-video-element');
+      document.getElementById('video-modal-title').innerText = title;
+
+      videoEl.src = videoSrc;
+      modal.classList.remove('hidden');
+      videoEl.play();
+    }
+
+    function closeVideoModal() {
+      const modal = document.getElementById('video-modal');
+      const videoEl = document.getElementById('modal-video-element');
+      modal.classList.add('hidden');
+      videoEl.pause();
+      videoEl.src = '';
+    }
+
+    function openImageModal(imgSrc, title) {
+      const modal = document.getElementById('image-modal');
+      document.getElementById('image-modal-title').innerText = title;
+      document.getElementById('modal-image-element').src = imgSrc;
+      modal.classList.remove('hidden');
+    }
+
+    function closeImageModal() {
+      document.getElementById('image-modal').classList.add('hidden');
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeBehanceModal();
+        closeVideoModal();
+        closeImageModal();
+      }
+    });
+  </script>
+
+</body>
+</html>
