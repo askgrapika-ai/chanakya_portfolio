@@ -556,7 +556,7 @@
           <!-- Outer Solid Frame with Cyberpunk Accents -->
           <div class="relative rounded-3xl overflow-hidden border-2 border-[#1F2633] group-hover:border-brand-orange bg-[#0B0E14] shadow-2xl transition duration-500">
             <!-- Full Portrait of Chanakya with Sunglasses -->
-            <img src="me.jpg" alt="Chanakya Akondi" class="w-full h-[580px] object-cover object-top filter brightness-100 contrast-105 group-hover:scale-102 transition duration-700">
+            <img src="me.jpg" alt="Chanakya Akondi" loading="lazy" decoding="async" class="w-full h-[580px] object-cover object-top filter brightness-100 contrast-105 group-hover:scale-102 transition duration-700">
             
             <!-- Vignette bottom gradient -->
             <div class="absolute inset-0 bg-gradient-to-t from-[#080A0E] via-transparent to-transparent"></div>
@@ -721,7 +721,7 @@
           <div class="p-3 bg-[#080A0E] border border-[#1F2633] rounded-xl space-y-2">
             <span class="text-brand-purple font-bold text-[10px]">06 MOTION</span>
             <div class="h-16 rounded overflow-hidden bg-black">
-              <video class="w-full h-full object-cover" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
+              <video class="w-full h-full object-cover" muted loop playsinline preload="none" onmouseover="this.play()" onmouseout="this.pause()">
                 <source src="assets/AI%20&%20Film/videos/clean%20gem%20-%20glass%20cleaner.mp4" type="video/mp4">
               </video>
             </div>
@@ -764,7 +764,7 @@
 
           <div class="lg:col-span-7">
             <div class="relative rounded-xl overflow-hidden bg-black border border-[#1F2633] group cursor-pointer" onclick="openVideoModal('assets/AI & Film/videos/shiv tandav.mp4', 'Shiv Tandav — Full Film')">
-              <video class="w-full h-80 object-cover" muted loop playsinline autoplay>
+              <video class="w-full h-80 object-cover" muted loop playsinline preload="none" onmouseover="this.play()" onmouseout="this.pause()">
                 <source src="assets/AI & Film/videos/shiv tandav.mp4" type="video/mp4">
               </video>
               <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-6">
@@ -836,17 +836,20 @@
   </footer>
 
   <!-- ======================================================== -->
-  <!-- VIDEO LIGHTBOX MODAL                                     -->
+  <!-- VIDEO LIGHTBOX MODAL (Direct MP4 & Vimeo Stream Support) -->
   <!-- ======================================================== -->
   <div id="video-modal" class="fixed inset-0 z-50 bg-black/95 hidden flex flex-col items-center justify-center p-4">
     <div class="w-full max-w-5xl flex justify-between items-center pb-4 text-white font-mono text-xs">
       <span id="video-modal-title" class="font-bold text-brand-orange">VIDEO PLAYER</span>
       <button onclick="closeVideoModal()" class="text-slate-400 hover:text-white px-3 py-1 border border-white/20 rounded-full">✕ CLOSE (ESC)</button>
     </div>
-    <div class="w-full max-w-5xl bg-black rounded-2xl overflow-hidden border border-[#1F2633] aspect-video">
-      <video id="modal-video-element" class="w-full h-full" controls autoplay>
+    <div class="w-full max-w-5xl bg-black rounded-2xl overflow-hidden border border-[#1F2633] aspect-video relative">
+      <video id="modal-video-element" class="w-full h-full" controls autoplay preload="auto">
         <source src="" type="video/mp4">
       </video>
+      <div id="modal-vimeo-container" class="absolute inset-0 w-full h-full hidden">
+        <iframe id="modal-vimeo-iframe" class="w-full h-full" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+      </div>
     </div>
   </div>
 
@@ -854,20 +857,40 @@
     function openVideoModal(videoSrc, title) {
       const modal = document.getElementById('video-modal');
       const videoEl = document.getElementById('modal-video-element');
+      const vimeoContainer = document.getElementById('modal-vimeo-container');
+      const vimeoIframe = document.getElementById('modal-vimeo-iframe');
       const titleEl = document.getElementById('video-modal-title');
 
       titleEl.innerText = title;
-      videoEl.src = videoSrc;
+
+      if (videoSrc && videoSrc.includes('vimeo.com')) {
+        const match = videoSrc.match(/(?:vimeo\.com\/|video\/)(\d+)/);
+        const videoId = match ? match[1] : videoSrc;
+        vimeoIframe.src = `https://player.vimeo.com/video/${videoId}?autoplay=1&color=ff6a00&title=0&byline=0&portrait=0`;
+        vimeoContainer.classList.remove('hidden');
+        videoEl.classList.add('hidden');
+        videoEl.pause();
+      } else {
+        if (vimeoContainer) vimeoContainer.classList.add('hidden');
+        if (vimeoIframe) vimeoIframe.src = '';
+        videoEl.classList.remove('hidden');
+        videoEl.src = videoSrc;
+        videoEl.play();
+      }
+
       modal.classList.remove('hidden');
-      videoEl.play();
     }
 
     function closeVideoModal() {
       const modal = document.getElementById('video-modal');
       const videoEl = document.getElementById('modal-video-element');
+      const vimeoContainer = document.getElementById('modal-vimeo-container');
+      const vimeoIframe = document.getElementById('modal-vimeo-iframe');
       modal.classList.add('hidden');
       videoEl.pause();
       videoEl.src = '';
+      if (vimeoIframe) vimeoIframe.src = '';
+      if (vimeoContainer) vimeoContainer.classList.add('hidden');
     }
 
     function copyEmail() {
