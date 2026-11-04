@@ -187,7 +187,7 @@
           <a href="#experience" class="inline-flex items-center gap-2 bg-[#0F131A] border border-[#1F2633] hover:border-slate-400 text-slate-200 font-mono text-xs px-6 py-4 rounded-full transition">
             EXPERIENCE &amp; BACKGROUND
           </a>
-          <button onclick="openVideoModal('assets/AI & Film/videos/shiv tandav.mp4', 'Shiv Tandav — Cinematic AI Film')" class="inline-flex items-center gap-2 bg-[#151A24] border border-brand-purple/40 hover:border-brand-purple text-purple-300 font-mono text-xs px-6 py-4 rounded-full transition">
+          <button onclick="openVideoModal('https://player.vimeo.com/video/1216900813?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479', 'Shiv Tandav — Cinematic AI Film')" class="inline-flex items-center gap-2 bg-[#151A24] border border-brand-purple/40 hover:border-brand-purple text-purple-300 font-mono text-xs px-6 py-4 rounded-full transition">
             <span>▶ PLAY SHOWREEL</span>
           </button>
         </div>
@@ -197,7 +197,7 @@
 
     <!-- Floating Circular Showreel Trigger on Right side (Desktop) -->
     <div class="hidden lg:flex absolute right-16 top-1/2 -translate-y-1/2 z-20 flex-col items-center">
-      <button onclick="openVideoModal('assets/AI & Film/videos/shiv tandav.mp4', 'Showreel & Featured Film')" class="w-28 h-28 rounded-full bg-[#080A0E] border-2 border-[#1F2633] hover:border-brand-orange flex flex-col items-center justify-center group hover:scale-110 transition-all duration-300 shadow-2xl">
+      <button onclick="openVideoModal('https://player.vimeo.com/video/1216900813?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479', 'Showreel &amp; Featured Film')" class="w-28 h-28 rounded-full bg-[#080A0E] border-2 border-[#1F2633] hover:border-brand-orange flex flex-col items-center justify-center group hover:scale-110 transition-all duration-300 shadow-2xl">
         <span class="w-12 h-12 rounded-full bg-brand-orange flex items-center justify-center text-white text-base shadow-lg group-hover:scale-105 transition">▶</span>
         <span class="font-mono text-[10px] text-slate-300 tracking-wider mt-1.5 group-hover:text-brand-orange transition">SHOWREEL</span>
       </button>
@@ -721,9 +721,7 @@
           <div class="p-3 bg-[#080A0E] border border-[#1F2633] rounded-xl space-y-2">
             <span class="text-brand-purple font-bold text-[10px]">06 MOTION</span>
             <div class="h-16 rounded overflow-hidden bg-black">
-              <video class="w-full h-full object-cover" muted loop playsinline preload="none" onmouseover="this.play()" onmouseout="this.pause()">
-                <source src="assets/AI%20&%20Film/videos/clean%20gem%20-%20glass%20cleaner.mp4" type="video/mp4">
-              </video>
+              <img src="https://i.vimeocdn.com/video/2221187389-b72cc4e3c53833c58524899d82e77760b053b155594b8ddd8e65925eae7d99f5-d_640?region=us" alt="Runway Gen-3 Motion" loading="lazy" decoding="async" class="w-full h-full object-cover">
             </div>
             <span class="text-slate-400 text-[11px] block">Runway Gen-3</span>
           </div>
@@ -756,23 +754,15 @@
               A cinematic AI short film exploring cosmic devotion, raw primordial energy, and visual storytelling. Crafted using advanced camera trajectory prompting, procedural motion synthesis, and atmospheric sound design.
             </p>
             <div class="pt-2">
-              <button onclick="openVideoModal('assets/AI & Film/videos/shiv tandav.mp4', 'Shiv Tandav — The Eternal Force (Full AI Film)')" class="inline-flex items-center gap-3 bg-brand-purple hover:bg-purple-600 text-white font-mono text-xs font-bold px-7 py-3.5 rounded-full shadow-lg transition transform hover:scale-105">
+              <button onclick="openVideoModal('https://player.vimeo.com/video/1216900813?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479', 'Shiv Tandav — The Eternal Force (Full AI Film)')" class="inline-flex items-center gap-3 bg-brand-purple hover:bg-purple-600 text-white font-mono text-xs font-bold px-7 py-3.5 rounded-full shadow-lg transition transform hover:scale-105">
                 <span>▶ WATCH FILM FULLSCREEN</span>
               </button>
             </div>
           </div>
 
           <div class="lg:col-span-7">
-            <div class="relative rounded-xl overflow-hidden bg-black border border-[#1F2633] group cursor-pointer" onclick="openVideoModal('assets/AI & Film/videos/shiv tandav.mp4', 'Shiv Tandav — Full Film')">
-              <video class="w-full h-80 object-cover" muted loop playsinline preload="none" onmouseover="this.play()" onmouseout="this.pause()">
-                <source src="assets/AI & Film/videos/shiv tandav.mp4" type="video/mp4">
-              </video>
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-6">
-                <div class="flex items-center justify-between w-full">
-                  <span class="font-mono text-xs text-white">CLICK TO WATCH WITH AUDIO</span>
-                  <span class="w-10 h-10 rounded-full bg-brand-purple text-white flex items-center justify-center font-bold">▶</span>
-                </div>
-              </div>
+            <div class="relative rounded-xl overflow-hidden bg-black border border-[#1F2633] aspect-video shadow-2xl">
+              <iframe src="https://player.vimeo.com/video/1216900813?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" class="w-full h-full" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen title="Shiv Tandav — The Eternal Force"></iframe>
             </div>
           </div>
 
