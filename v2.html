@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chanakya Akondi — Portfolio v2</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Syne (Display) + Plus Jakarta Sans (Body) + JetBrains Mono (Tech) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0E0E10',
+            paper: '#F2EFE9',
+            accent: 'var(--accent, #CCFF00)', // Electric Lime default
+            surface: '#151518',
+            surfaceBorder: '#232328',
+            mutedText: '#8E8D94'
+          },
+          fontFamily: {
+            display: ['Syne', 'sans-serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --accent: #CCFF00; /* Electric Lime */
+      --bg: #0E0E10;
+      --paper: #F2EFE9;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--paper);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      selection-background-color: var(--accent);
+      selection-color: #0E0E10;
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: #0E0E10;
+    }
+
+    /* Custom Cursor */
+    .custom-cursor {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.25s ease, height 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, transform 0.08s ease-out;
+      will-change: transform, width, height;
+    }
+
+    /* Expanding Panels Mechanics */
+    .expand-panel {
+      flex: 1;
+      transition: flex 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 1024px) {
+      .expand-container:hover .expand-panel {
+        flex: 0.85;
+        opacity: 0.7;
+      }
+      .expand-container .expand-panel:hover {
+        flex: 3.4;
+        opacity: 1;
+      }
+    }
+
+    /* Rotated Text for Desktop Closed State */
+    @media (min-width: 1024px) {
+      .panel-vertical-title {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        transition: opacity 0.3s ease, transform 0.4s ease;
+      }
+      .expand-panel:hover .panel-vertical-title {
+        opacity: 0;
+        pointer-events: none;
+        transform: rotate(180deg) translateY(20px);
+      }
+      .panel-expanded-content {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.45s 0.15s ease, transform 0.45s 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+        pointer-events: none;
+      }
+      .expand-panel:hover .panel-expanded-content {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+    }
+
+    /* Soft Scroll Fade */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-on-scroll.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hide default scrollbar but keep functional */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0E0E10;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #232328;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
+    }
+  </style>
+</head>
+<body class="bg-[#0E0E10] text-[#F2EFE9] antialiased">
+
+  <!-- Custom Cursor Element -->
+  <div id="cursor" class="custom-cursor hidden md:flex items-center justify-center rounded-full border border-[#F2EFE9]/40 bg-transparent w-8 h-8 text-[9px] font-mono font-bold tracking-widest text-[#0E0E10] uppercase"></div>
+
+  <!-- ======================================================== -->
+  <!-- 01. MINIMAL TOP BAR                                      -->
+  <!-- ======================================================== -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-[#0E0E10]/85 backdrop-blur-md border-b border-[#232328]/60 transition-all duration-300">
+    <div class="max-w-[1800px] mx-auto px-6 sm:px-12 h-20 flex items-center justify-between">
+      
+      <!-- Brand / Name -->
+      <a href="v2.html" class="flex items-center gap-3 group">
+        <span class="font-display font-extrabold text-lg sm:text-xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors">
+          CHANAKYA AKONDI
+        </span>
+        <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+      </a>
+
+      <!-- Quick Nav -->
+      <nav class="hidden md:flex items-center gap-8 font-mono text-xs tracking-wider uppercase text-[#8E8D94]">
+        <a href="#panels" class="hover:text-[var(--accent)] transition-colors">01 DISCIPLINES</a>
+        <a href="#featured" class="hover:text-[var(--accent)] transition-colors">02 FEATURED</a>
+        <a href="#about" class="hover:text-[var(--accent)] transition-colors">03 ABOUT</a>
+        <a href="#work-archive" class="hover:text-[var(--accent)] transition-colors">04 ARCHIVE</a>
+        <a href="#contact" class="hover:text-[var(--accent)] transition-colors">05 CONTACT</a>
+      </nav>
+
+      <!-- Right Action & Version Switcher -->
+      <div class="flex items-center gap-3">
+        <!-- Switcher to V1 -->
+        <a href="index.html" class="hidden sm:inline-flex items-center gap-1.5 font-mono text-[11px] px-3.5 py-1.5 rounded-full border border-[#232328] hover:border-[var(--accent)] text-[#8E8D94] hover:text-[#F2EFE9] transition-all">
+          <span>V1 CLASSIC</span>
+          <span class="text-xs">↗</span>
+        </a>
+
+        <!-- Accent Swatch Switcher (Lime / Orange / Violet) -->
+        <div class="hidden lg:flex items-center gap-1.5 px-2 py-1 rounded-full bg-[#151518] border border-[#232328]">
+          <button onclick="setThemeAccent('#CCFF00')" title="Electric Lime" class="w-3.5 h-3.5 rounded-full bg-[#CCFF00] hover:scale-125 transition-transform"></button>
+          <button onclick="setThemeAccent('#FF5500')" title="Soft Orange" class="w-3.5 h-3.5 rounded-full bg-[#FF5500] hover:scale-125 transition-transform"></button>
+          <button onclick="setThemeAccent('#B066FF')" title="Violet" class="w-3.5 h-3.5 rounded-full bg-[#B066FF] hover:scale-125 transition-transform"></button>
+        </div>
+
+        <!-- Contact CTA -->
+        <a href="#contact" class="font-mono text-xs font-bold px-5 py-2.5 rounded-full bg-[var(--accent)] text-[#0E0E10] hover:opacity-90 transition-transform active:scale-95">
+          LET'S TALK
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ======================================================== -->
+  <!-- 02. HERO: GENEROUS EMPTY SPACE & STATEMENT               -->
+  <!-- ======================================================== -->
+  <section class="min-h-[82vh] flex flex-col justify-between pt-36 pb-16 px-6 sm:px-12 max-w-[1800px] mx-auto relative">
+    
+    <!-- Top Overline / Coordinates -->
+    <div class="flex flex-wrap items-center justify-between gap-4 font-mono text-xs text-[#8E8D94] pt-4">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-[var(--accent)] animate-pulse"></span>
+        <span class="text-[#F2EFE9]">AVAILABLE FOR SELECT PROJECTS &amp; COMMISSIONS</span>
+      </div>
+      <div class="tracking-widest">
+        HYDERABAD, INDIA · PORTFOLIO V2.0
+      </div>
+    </div>
+
+    <!-- Massive Editorial Headline -->
+    <div class="my-auto py-12 space-y-8 max-w-6xl">
+      <h1 class="text-5xl sm:text-7xl lg:text-9xl font-display font-extrabold tracking-tight leading-[0.95] text-[#F2EFE9]">
+        CHANAKYA<br>
+        <span class="text-[#8E8D94] hover:text-[var(--accent)] transition-colors duration-500">AKONDI.</span>
+      </h1>
+
+      <p class="text-lg sm:text-2xl text-[#8E8D94] max-w-3xl font-light leading-relaxed">
+        AI Creative Designer &amp; Visual Storyteller. Directing artificial intelligence, cinematic motion, spatial game worlds, and interactive systems.
+      </p>
+    </div>
+
+    <!-- Bottom Scroll Cue -->
+    <div class="flex items-center justify-between border-t border-[#232328] pt-8 font-mono text-xs text-[#8E8D94]">
+      <div class="flex items-center gap-3">
+        <span class="animate-bounce text-[var(--accent)]">↓</span>
+        <span>SCROLL TO EXPLORE 5 DISCIPLINES</span>
+      </div>
+      <div class="hidden sm:block text-[11px] tracking-wider text-[#8E8D94]">
+        HOVER PANELS TO EXPAND · CLICK TO OPEN
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- 03. THE CORE IDEA: FIVE EXPANDING PANELS                -->
+  <!-- ======================================================== -->
+  <section id="panels" class="py-12 px-4 sm:px-8 max-w-[1880px] mx-auto">
+    
+    <!-- Section Title Ribbon -->
+    <div class="flex flex-col sm:flex-row justify-between sm:items-end gap-3 pb-8 px-2 border-b border-[#232328]">
+      <div>
+        <span class="font-mono text-xs text-[var(--accent)] tracking-widest uppercase">DISCIPLINE DIRECTORY</span>
+        <h2 class="text-2xl sm:text-4xl font-display font-extrabold text-[#F2EFE9]">FIVE CREATIVE WORLDS</h2>
+      </div>
+      <span class="font-mono text-xs text-[#8E8D94]">
+        Hover to preview · Click to filter work archive
+      </span>
+    </div>
+
+    <!-- 5 Tall Side-by-Side Panels (Desktop: Flex Row, Mobile: Stacked) -->
+    <div class="expand-container flex flex-col lg:flex-row w-full h-auto lg:h-[80vh] min-h-[640px] gap-2 lg:gap-3 pt-6">
+
+      <!-- ================= PANEL 01: AI FILMMAKING & DESIGN ================= -->
+      <div onclick="scrollToDiscipline('ai-film')" data-cursor="EXPLORE" class="expand-panel rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] cursor-pointer group">
+        
+        <!-- Background Media Preview -->
+        <div class="absolute inset-0 z-0">
+          <img src="https://i.vimeocdn.com/video/2188450696-bd35b8644b77f05b560998bc77af4487d9a5f9d4a25ef5f3dab96e617b0ee021-d_640?region=us" alt="Shiv Tandav AI Film" class="w-full h-full object-cover filter brightness-50 group-hover:brightness-90 group-hover:scale-105 transition-all duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-[#0E0E10]/40 to-transparent"></div>
+        </div>
+
+        <!-- Panel Foreground Content -->
+        <div class="relative z-10 h-full p-6 sm:p-8 flex flex-col justify-between">
+          
+          <!-- Top Row: Number & Project Count -->
+          <div class="flex justify-between items-start font-mono">
+            <span class="text-2xl sm:text-4xl font-display font-extrabold text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors">01</span>
+            <span class="text-[10px] tracking-wider px-3 py-1 rounded-full bg-[#0E0E10]/80 border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] transition-colors">
+              12 PROJECTS
+            </span>
+          </div>
+
+          <!-- Desktop Collapsed Vertical Title -->
+          <div class="hidden lg:flex my-auto items-center justify-center pointer-events-none">
+            <span class="panel-vertical-title font-display font-bold text-xl tracking-wider text-[#F2EFE9]/80 uppercase">
+              AI FILMMAKING &amp; DESIGN
+            </span>
+          </div>
+
+          <!-- Expanded Content Revealed on Hover -->
+          <div class="panel-expanded-content space-y-4">
+            <span class="inline-block font-mono text-[11px] text-[var(--accent)] tracking-widest uppercase">
+              PROCEDURAL CINEMATICS &amp; PROMPT ART
+            </span>
+            <h3 class="text-3xl sm:text-5xl font-display font-extrabold text-[#F2EFE9] leading-tight">
+              AI Filmmaking &amp; Design
+            </h3>
+            <p class="text-sm text-[#8E8D94] max-w-md font-light leading-relaxed line-clamp-3">
+              Directing cosmic visual short films, procedural camera trajectories, and generative world design through Veo, Midjourney, and Runway.
+            </p>
+            <div class="pt-2 flex items-center gap-3 font-mono text-xs font-bold text-[var(--accent)]">
+              <span>EXPLORE FILMS &amp; AI WORK</span>
+              <span class="group-hover:translate-x-1 transition-transform">→</span>
+            </div>
+          </div>
+
+          <!-- Mobile Only Bottom Title Strip -->
+          <div class="lg:hidden pt-4">
+            <h3 class="text-xl font-display font-bold text-[#F2EFE9]">AI Filmmaking &amp; Design</h3>
+            <p class="text-xs text-[#8E8D94] mt-1 font-mono">12 Projects · Veo, Midjourney, Runway</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ================= PANEL 02: GRAPHIC DESIGN ================= -->
+      <div onclick="scrollToDiscipline('graphic-design')" data-cursor="EXPLORE" class="expand-panel rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] cursor-pointer group">
+        
+        <!-- Background Media Preview -->
+        <div class="absolute inset-0 z-0">
+          <img src="assets/Graphic%20Design/Posters/bhavodvegam%20poster%202.1.jpg" alt="Graphic Design Posters" class="w-full h-full object-cover filter brightness-50 group-hover:brightness-90 group-hover:scale-105 transition-all duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-[#0E0E10]/40 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 h-full p-6 sm:p-8 flex flex-col justify-between">
+          <div class="flex justify-between items-start font-mono">
+            <span class="text-2xl sm:text-4xl font-display font-extrabold text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors">02</span>
+            <span class="text-[10px] tracking-wider px-3 py-1 rounded-full bg-[#0E0E10]/80 border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] transition-colors">
+              18 PROJECTS
+            </span>
+          </div>
+
+          <div class="hidden lg:flex my-auto items-center justify-center pointer-events-none">
+            <span class="panel-vertical-title font-display font-bold text-xl tracking-wider text-[#F2EFE9]/80 uppercase">
+              GRAPHIC DESIGN
+            </span>
+          </div>
+
+          <div class="panel-expanded-content space-y-4">
+            <span class="inline-block font-mono text-[11px] text-[var(--accent)] tracking-widest uppercase">
+              POSTERS &amp; VISUAL IDENTITY
+            </span>
+            <h3 class="text-3xl sm:text-5xl font-display font-extrabold text-[#F2EFE9] leading-tight">
+              Graphic Design
+            </h3>
+            <p class="text-sm text-[#8E8D94] max-w-md font-light leading-relaxed line-clamp-3">
+              Theatrical mass-media posters, YouTube high-CTR thumbnails, brand identities, and editorial print work crafted at ASK Grapika.
+            </p>
+            <div class="pt-2 flex items-center gap-3 font-mono text-xs font-bold text-[var(--accent)]">
+              <span>EXPLORE GRAPHIC POSTERS</span>
+              <span class="group-hover:translate-x-1 transition-transform">→</span>
+            </div>
+          </div>
+
+          <div class="lg:hidden pt-4">
+            <h3 class="text-xl font-display font-bold text-[#F2EFE9]">Graphic Design</h3>
+            <p class="text-xs text-[#8E8D94] mt-1 font-mono">18 Projects · Posters, Identity &amp; Print</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= PANEL 03: UI/UX DESIGN ================= -->
+      <div onclick="scrollToDiscipline('ui-ux')" data-cursor="EXPLORE" class="expand-panel rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] cursor-pointer group">
+        
+        <!-- Background Media Preview -->
+        <div class="absolute inset-0 z-0">
+          <img src="assets/UI%20UX/web%20UI/ScriptSight%20-%20Landing%20Page.jpg" alt="UI/UX Design" class="w-full h-full object-cover object-top filter brightness-50 group-hover:brightness-90 group-hover:scale-105 transition-all duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-[#0E0E10]/40 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 h-full p-6 sm:p-8 flex flex-col justify-between">
+          <div class="flex justify-between items-start font-mono">
+            <span class="text-2xl sm:text-4xl font-display font-extrabold text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors">03</span>
+            <span class="text-[10px] tracking-wider px-3 py-1 rounded-full bg-[#0E0E10]/80 border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] transition-colors">
+              10 PROJECTS
+            </span>
+          </div>
+
+          <div class="hidden lg:flex my-auto items-center justify-center pointer-events-none">
+            <span class="panel-vertical-title font-display font-bold text-xl tracking-wider text-[#F2EFE9]/80 uppercase">
+              UI / UX DESIGN
+            </span>
+          </div>
+
+          <div class="panel-expanded-content space-y-4">
+            <span class="inline-block font-mono text-[11px] text-[var(--accent)] tracking-widest uppercase">
+              PRODUCT SYSTEMS &amp; SAAS
+            </span>
+            <h3 class="text-3xl sm:text-5xl font-display font-extrabold text-[#F2EFE9] leading-tight">
+              UI / UX Design
+            </h3>
+            <p class="text-sm text-[#8E8D94] max-w-md font-light leading-relaxed line-clamp-3">
+              Design thinking, structured wireframing, component design systems, and responsive web/mobile applications like ScriptSight and Bhakthi Bandhan.
+            </p>
+            <div class="pt-2 flex items-center gap-3 font-mono text-xs font-bold text-[var(--accent)]">
+              <span>EXPLORE CASE STUDIES</span>
+              <span class="group-hover:translate-x-1 transition-transform">→</span>
+            </div>
+          </div>
+
+          <div class="lg:hidden pt-4">
+            <h3 class="text-xl font-display font-bold text-[#F2EFE9]">UI / UX Design</h3>
+            <p class="text-xs text-[#8E8D94] mt-1 font-mono">10 Projects · Web &amp; Mobile Systems</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= PANEL 04: GAME DESIGN ================= -->
+      <div onclick="scrollToDiscipline('game-design')" data-cursor="EXPLORE" class="expand-panel rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] cursor-pointer group">
+        
+        <!-- Background Media Preview -->
+        <div class="absolute inset-0 z-0">
+          <img src="assets/UI%20UX/game%20UI/NEXORA.png" alt="NEXORA Game UI" class="w-full h-full object-cover filter brightness-50 group-hover:brightness-90 group-hover:scale-105 transition-all duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-[#0E0E10]/40 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 h-full p-6 sm:p-8 flex flex-col justify-between">
+          <div class="flex justify-between items-start font-mono">
+            <span class="text-2xl sm:text-4xl font-display font-extrabold text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors">04</span>
+            <span class="text-[10px] tracking-wider px-3 py-1 rounded-full bg-[#0E0E10]/80 border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] transition-colors">
+              8 PROJECTS
+            </span>
+          </div>
+
+          <div class="hidden lg:flex my-auto items-center justify-center pointer-events-none">
+            <span class="panel-vertical-title font-display font-bold text-xl tracking-wider text-[#F2EFE9]/80 uppercase">
+              GAME DESIGN
+            </span>
+          </div>
+
+          <div class="panel-expanded-content space-y-4">
+            <span class="inline-block font-mono text-[11px] text-[var(--accent)] tracking-widest uppercase">
+              DIEGETIC HUDS &amp; 3D WORLDS
+            </span>
+            <h3 class="text-3xl sm:text-5xl font-display font-extrabold text-[#F2EFE9] leading-tight">
+              Game Design
+            </h3>
+            <p class="text-sm text-[#8E8D94] max-w-md font-light leading-relaxed line-clamp-3">
+              Futuristic vehicle cockpits, Spider-Man diegetic telemetry HUDs, procedural volumetric landscapes, and 3D environment architecture.
+            </p>
+            <div class="pt-2 flex items-center gap-3 font-mono text-xs font-bold text-[var(--accent)]">
+              <span>EXPLORE GAME HUDS &amp; 3D</span>
+              <span class="group-hover:translate-x-1 transition-transform">→</span>
+            </div>
+          </div>
+
+          <div class="lg:hidden pt-4">
+            <h3 class="text-xl font-display font-bold text-[#F2EFE9]">Game Design</h3>
+            <p class="text-xs text-[#8E8D94] mt-1 font-mono">8 Projects · HUDs, 3D Worlds &amp; Assets</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= PANEL 05: VIDEO EDITING ================= -->
+      <div onclick="scrollToDiscipline('video-editing')" data-cursor="EXPLORE" class="expand-panel rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] cursor-pointer group">
+        
+        <!-- Background Media Preview -->
+        <div class="absolute inset-0 z-0">
+          <img src="https://i.vimeocdn.com/video/2221187389-b72cc4e3c53833c58524899d82e77760b053b155594b8ddd8e65925eae7d99f5-d_640?region=us" alt="CleanGem Video Editing" class="w-full h-full object-cover filter brightness-50 group-hover:brightness-90 group-hover:scale-105 transition-all duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-[#0E0E10]/40 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 h-full p-6 sm:p-8 flex flex-col justify-between">
+          <div class="flex justify-between items-start font-mono">
+            <span class="text-2xl sm:text-4xl font-display font-extrabold text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors">05</span>
+            <span class="text-[10px] tracking-wider px-3 py-1 rounded-full bg-[#0E0E10]/80 border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] transition-colors">
+              8 PROJECTS
+            </span>
+          </div>
+
+          <div class="hidden lg:flex my-auto items-center justify-center pointer-events-none">
+            <span class="panel-vertical-title font-display font-bold text-xl tracking-wider text-[#F2EFE9]/80 uppercase">
+              VIDEO EDITING
+            </span>
+          </div>
+
+          <div class="panel-expanded-content space-y-4">
+            <span class="inline-block font-mono text-[11px] text-[var(--accent)] tracking-widest uppercase">
+              COMMERCIAL SPECS &amp; TEASERS
+            </span>
+            <h3 class="text-3xl sm:text-5xl font-display font-extrabold text-[#F2EFE9] leading-tight">
+              Video Editing
+            </h3>
+            <p class="text-sm text-[#8E8D94] max-w-md font-light leading-relaxed line-clamp-3">
+              Commercial spec spots (CleanGem, Mystery Popups), title teasers (Silver Spoon), kinetic automotive teasers, and sound-synced Instagram reels.
+            </p>
+            <div class="pt-2 flex items-center gap-3 font-mono text-xs font-bold text-[var(--accent)]">
+              <span>EXPLORE VIDEO COMMERCIALS</span>
+              <span class="group-hover:translate-x-1 transition-transform">→</span>
+            </div>
+          </div>
+
+          <div class="lg:hidden pt-4">
+            <h3 class="text-xl font-display font-bold text-[#F2EFE9]">Video Editing</h3>
+            <p class="text-xs text-[#8E8D94] mt-1 font-mono">8 Projects · Teasers, Reels &amp; Ads</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- 04. FEATURED WORK: 4 CROSS-DISCIPLINE HIGHLIGHTS         -->
+  <!-- ======================================================== -->
+  <section id="featured" class="py-24 px-6 sm:px-12 max-w-[1800px] mx-auto border-t border-[#232328]">
+    
+    <div class="flex flex-col sm:flex-row justify-between sm:items-end gap-4 pb-12">
+      <div>
+        <span class="font-mono text-xs text-[var(--accent)] tracking-widest uppercase">CURATED SELECTION</span>
+        <h2 class="text-3xl sm:text-6xl font-display font-extrabold text-[#F2EFE9] tracking-tight mt-1">FEATURED WORK</h2>
+      </div>
+      <p class="text-[#8E8D94] text-sm max-w-md font-light">
+        A snapshot across generative cinema, diegetic gaming interfaces, commercial motion, and SaaS architecture.
+      </p>
+    </div>
+
+    <!-- 4 High-Impact Mixed Discipline Cards -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+      <!-- Featured 01: Shiv Tandav (AI Film) -->
+      <div class="rounded-3xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden transition-all duration-500 group flex flex-col justify-between">
+        <div class="relative aspect-video overflow-hidden bg-black cursor-pointer" onclick="openVideoModal('https://player.vimeo.com/video/1216900813', 'Shiv Tandav — The Eternal Force (Full AI Film)')" data-cursor="PLAY">
+          <img src="https://i.vimeocdn.com/video/2188450696-bd35b8644b77f05b560998bc77af4487d9a5f9d4a25ef5f3dab96e617b0ee021-d_640?region=us" alt="Shiv Tandav" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors flex items-center justify-center">
+            <span class="w-16 h-16 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-xl shadow-2xl group-hover:scale-110 transition-transform">▶</span>
+          </div>
+          <span class="absolute top-4 left-4 font-mono text-[10px] tracking-wider px-3 py-1 rounded-full bg-[#0E0E10]/90 text-[var(--accent)] border border-[#232328]">
+            AI FILMMAKING · FEATURED HERO
+          </span>
+        </div>
+        <div class="p-8 space-y-4">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-2xl sm:text-3xl font-display font-bold text-[#F2EFE9]">Shiv Tandav</h3>
+              <p class="font-mono text-xs text-[#8E8D94] mt-1">THE ETERNAL FORCE · CINEMATIC AI SHORT</p>
+            </div>
+            <span class="font-mono text-xs text-[#8E8D94]">2026</span>
+          </div>
+          <p class="text-sm text-[#8E8D94] font-light leading-relaxed">
+            Cosmic AI film exploring primordial energy and devotion. Crafted through specialized trajectory camera prompting, procedural motion synthesis, and atmospheric master grading.
+          </p>
+          <div class="pt-4 border-t border-[#232328] flex items-center justify-between">
+            <span class="font-mono text-xs text-[#8E8D94]">Veo 3.1 · Midjourney · Topazlabs</span>
+            <button onclick="openVideoModal('https://player.vimeo.com/video/1216900813', 'Shiv Tandav — The Eternal Force')" class="font-mono text-xs font-bold text-[var(--accent)] hover:underline flex items-center gap-1.5">
+              <span>WATCH WITH AUDIO</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured 02: NEXORA (Game Design) -->
+      <div class="rounded-3xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden transition-all duration-500 group flex flex-col justify-between">
+        <div class="relative aspect-video overflow-hidden bg-black cursor-pointer" onclick="openImageModal('assets/UI%20UX/game%20UI/NEXORA.png', 'NEXORA — Futuristic Racing UI & Cockpit HUD')" data-cursor="VIEW">
+          <img src="assets/UI%20UX/game%20UI/NEXORA.png" alt="NEXORA Game UI" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-transparent to-transparent flex items-end p-6">
+            <span class="font-mono text-xs text-[#F2EFE9] opacity-0 group-hover:opacity-100 transition-opacity">CLICK TO VIEW FULL RESOLUTION HUD ↗</span>
+          </div>
+          <span class="absolute top-4 left-4 font-mono text-[10px] tracking-wider px-3 py-1 rounded-full bg-[#0E0E10]/90 text-[var(--accent)] border border-[#232328]">
+            GAME DESIGN · DIEGETIC HUD
+          </span>
+        </div>
+        <div class="p-8 space-y-4">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-2xl sm:text-3xl font-display font-bold text-[#F2EFE9]">NEXORA</h3>
+              <p class="font-mono text-xs text-[#8E8D94] mt-1">FUTURISTIC RACING TELEMETRY &amp; COCKPIT</p>
+            </div>
+            <span class="font-mono text-xs text-[#8E8D94]">3D / HUD</span>
+          </div>
+          <p class="text-sm text-[#8E8D94] font-light leading-relaxed">
+            In-cockpit diegetic telemetry instruments, spatial speedometer architecture, cybernetic warning indicators, and sci-fi vehicular user experience.
+          </p>
+          <div class="pt-4 border-t border-[#232328] flex items-center justify-between">
+            <span class="font-mono text-xs text-[#8E8D94]">Figma · Blender · UI Tokens</span>
+            <button onclick="openImageModal('assets/UI%20UX/game%20UI/NEXORA.png', 'NEXORA — Futuristic Racing UI')" class="font-mono text-xs font-bold text-[var(--accent)] hover:underline flex items-center gap-1.5">
+              <span>INSPECT HUD DETAILS</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured 03: CleanGem (Video Editing & Spec Commercial) -->
+      <div class="rounded-3xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden transition-all duration-500 group flex flex-col justify-between">
+        <div class="relative aspect-video overflow-hidden bg-black cursor-pointer" onclick="openVideoModal('https://player.vimeo.com/video/1242827116', 'CleanGem Glass Cleaner — Commercial Spec Ad')" data-cursor="PLAY">
+          <img src="https://i.vimeocdn.com/video/2221187389-b72cc4e3c53833c58524899d82e77760b053b155594b8ddd8e65925eae7d99f5-d_640?region=us" alt="CleanGem Commercial" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors flex items-center justify-center">
+            <span class="w-16 h-16 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-xl shadow-2xl group-hover:scale-110 transition-transform">▶</span>
+          </div>
+          <span class="absolute top-4 left-4 font-mono text-[10px] tracking-wider px-3 py-1 rounded-full bg-[#0E0E10]/90 text-[var(--accent)] border border-[#232328]">
+            VIDEO EDITING · COMMERCIAL SPEC
+          </span>
+        </div>
+        <div class="p-8 space-y-4">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-2xl sm:text-3xl font-display font-bold text-[#F2EFE9]">CleanGem Glass Cleaner</h3>
+              <p class="font-mono text-xs text-[#8E8D94] mt-1">PRODUCT SPEC COMMERCIAL &amp; SOUND DESIGN</p>
+            </div>
+            <span class="font-mono text-xs text-[#8E8D94]">SPEC AD</span>
+          </div>
+          <p class="text-sm text-[#8E8D94] font-light leading-relaxed">
+            High-end luxury commercial edit featuring procedural macro fluid simulations, caustic refraction highlights, snappily cut to punchy sound design.
+          </p>
+          <div class="pt-4 border-t border-[#232328] flex items-center justify-between">
+            <span class="font-mono text-xs text-[#8E8D94]">Premiere Pro · Runway Gen-3 · After Effects</span>
+            <button onclick="openVideoModal('https://player.vimeo.com/video/1242827116', 'CleanGem Glass Cleaner')" class="font-mono text-xs font-bold text-[var(--accent)] hover:underline flex items-center gap-1.5">
+              <span>PLAY COMMERCIAL</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured 04: ScriptSight (UI/UX Design System) -->
+      <div class="rounded-3xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden transition-all duration-500 group flex flex-col justify-between">
+        <div class="relative aspect-video overflow-hidden bg-black cursor-pointer" onclick="openBehanceModal('https://www.behance.net/embed/project/252154409?ilo0=1', 'ScriptSight — Screenplay Intelligence SaaS')" data-cursor="VIEW">
+          <img src="assets/UI%20UX/web%20UI/ScriptSight%20-%20Landing%20Page.jpg" alt="ScriptSight Landing Page" loading="lazy" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-transparent to-transparent flex items-end p-6">
+            <span class="font-mono text-xs text-[#F2EFE9] opacity-0 group-hover:opacity-100 transition-opacity">VIEW INTERACTIVE BEHANCE EMBED ↗</span>
+          </div>
+          <span class="absolute top-4 left-4 font-mono text-[10px] tracking-wider px-3 py-1 rounded-full bg-[#0E0E10]/90 text-[var(--accent)] border border-[#232328]">
+            UI / UX DESIGN · SAAS PLATFORM
+          </span>
+        </div>
+        <div class="p-8 space-y-4">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-2xl sm:text-3xl font-display font-bold text-[#F2EFE9]">ScriptSight</h3>
+              <p class="font-mono text-xs text-[#8E8D94] mt-1">AI SCREENPLAY ANALYSIS &amp; SAAS LANDING SYSTEM</p>
+            </div>
+            <span class="font-mono text-xs text-[#8E8D94]">CASE STUDY</span>
+          </div>
+          <p class="text-sm text-[#8E8D94] font-light leading-relaxed">
+            Full-stack product design case study: user personas, screenplay telemetry breakdowns, and a 20,000px high-conversion landing page framework.
+          </p>
+          <div class="pt-4 border-t border-[#232328] flex items-center justify-between">
+            <span class="font-mono text-xs text-[#8E8D94]">Figma · Design Tokens · Wireframing</span>
+            <button onclick="openBehanceModal('https://www.behance.net/embed/project/252154409?ilo0=1', 'ScriptSight')" class="font-mono text-xs font-bold text-[var(--accent)] hover:underline flex items-center gap-1.5">
+              <span>EXPLORE CASE STUDY</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- 05. DISCIPLINE WORK EXPLORER (6-8 Projects Per Discipline)-->
+  <!-- ======================================================== -->
+  <section id="work-archive" class="py-24 px-6 sm:px-12 max-w-[1800px] mx-auto border-t border-[#232328]">
+    
+    <div class="flex flex-col sm:flex-row justify-between sm:items-end gap-6 pb-12">
+      <div>
+        <span class="font-mono text-xs text-[var(--accent)] tracking-widest uppercase">SECTION SPECIFIC ARCHIVE</span>
+        <h2 class="text-3xl sm:text-6xl font-display font-extrabold text-[#F2EFE9] tracking-tight mt-1">DISCIPLINE WORK</h2>
+      </div>
+
+      <!-- Filter Buttons matching the 5 Disciplines -->
+      <div class="flex flex-wrap gap-2 font-mono text-xs">
+        <button onclick="filterV2Work('all')" id="v2btn-all" class="v2-filter-btn px-4 py-2 rounded-full bg-[var(--accent)] text-[#0E0E10] font-bold transition-all">ALL (38+)</button>
+        <button onclick="filterV2Work('ai-film')" id="v2btn-ai-film" class="v2-filter-btn px-4 py-2 rounded-full bg-[#151518] text-[#8E8D94] hover:text-[#F2EFE9] border border-[#232328] transition-all">AI FILM (12)</button>
+        <button onclick="filterV2Work('graphic-design')" id="v2btn-graphic-design" class="v2-filter-btn px-4 py-2 rounded-full bg-[#151518] text-[#8E8D94] hover:text-[#F2EFE9] border border-[#232328] transition-all">GRAPHIC (8)</button>
+        <button onclick="filterV2Work('ui-ux')" id="v2btn-ui-ux" class="v2-filter-btn px-4 py-2 rounded-full bg-[#151518] text-[#8E8D94] hover:text-[#F2EFE9] border border-[#232328] transition-all">UI / UX (6)</button>
+        <button onclick="filterV2Work('game-design')" id="v2btn-game-design" class="v2-filter-btn px-4 py-2 rounded-full bg-[#151518] text-[#8E8D94] hover:text-[#F2EFE9] border border-[#232328] transition-all">GAME DESIGN (6)</button>
+        <button onclick="filterV2Work('video-editing')" id="v2btn-video-editing" class="v2-filter-btn px-4 py-2 rounded-full bg-[#151518] text-[#8E8D94] hover:text-[#F2EFE9] border border-[#232328] transition-all">VIDEO EDITING (6)</button>
+      </div>
+    </div>
+
+    <!-- The Tailored Projects Grid -->
+    <div id="v2-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
+
+      <!-- AI FILM 01: Shiv Tandav -->
+      <div class="v2-card v2-ai-film rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openVideoModal('https://player.vimeo.com/video/1216900813', 'Shiv Tandav — The Eternal Force')" data-cursor="PLAY">
+          <img src="https://i.vimeocdn.com/video/2188450696-bd35b8644b77f05b560998bc77af4487d9a5f9d4a25ef5f3dab96e617b0ee021-d_640?region=us" alt="Shiv Tandav" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">AI CINEMA</span>
+          <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-transparent">
+            <span class="w-10 h-10 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-sm shadow-xl">▶</span>
+          </div>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Shiv Tandav</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Behind the scenes: Prompt camera trajectory, cosmological style tokens, multi-pass motion upscale.</p>
+          <button onclick="openVideoModal('https://player.vimeo.com/video/1216900813', 'Shiv Tandav')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">PLAY WITH AUDIO →</button>
+        </div>
+      </div>
+
+      <!-- AI FILM 02: Alone -->
+      <div class="v2-card v2-ai-film rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openVideoModal('https://player.vimeo.com/video/1216900814', 'Alone — AI Narrative Short Film')" data-cursor="PLAY">
+          <img src="https://i.vimeocdn.com/video/2188451076-55bbb65a640487d60e1115d0ea1daa5bd486c6d91b80b80908e34ef091e9d018-d_640?region=us" alt="Alone" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">AI SHORT FILM</span>
+          <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-transparent">
+            <span class="w-10 h-10 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-sm shadow-xl">▶</span>
+          </div>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Alone</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Behind the scenes: Emotional pacing, surreal isolation landscapes, generative ambient soundscapes.</p>
+          <button onclick="openVideoModal('https://player.vimeo.com/video/1216900814', 'Alone')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">PLAY FILM →</button>
+        </div>
+      </div>
+
+      <!-- AI FILM 03: Annadanam -->
+      <div class="v2-card v2-ai-film rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openVideoModal('https://player.vimeo.com/video/1242818468', 'Annadanam — Cultural AI Film')" data-cursor="PLAY">
+          <img src="https://i.vimeocdn.com/video/2221175698-afafddd15c24a45cfe60e9b7c9f60d066a96e15ff6662f3147ec9217d9241ab1-d_640?region=us" alt="Annadanam" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">HERITAGE AI</span>
+          <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-transparent">
+            <span class="w-10 h-10 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-sm shadow-xl">▶</span>
+          </div>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Annadanam</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Behind the scenes: Traditional Indian sacred offering portrayed through photorealistic generative cinematography.</p>
+          <button onclick="openVideoModal('https://player.vimeo.com/video/1242818468', 'Annadanam')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">PLAY FILM →</button>
+        </div>
+      </div>
+
+      <!-- AI FILM 04: AI Creative Production Workflow -->
+      <div class="v2-card v2-ai-film rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group md:col-span-2 lg:col-span-3">
+        <div class="relative h-72 bg-black cursor-pointer overflow-hidden" onclick="openImageModal('assets/AI%20Creative%20Production%20Workflow.png', 'AI Creative Production Workflow')" data-cursor="VIEW">
+          <img src="assets/AI%20Creative%20Production%20Workflow.png" alt="Workflow Architecture" loading="lazy" class="w-full h-full object-contain group-hover:scale-102 transition-transform duration-500">
+          <span class="absolute top-4 left-4 font-mono text-[9px] px-3 py-1 rounded-full bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">PIPELINE INFOGRAPHIC</span>
+        </div>
+        <div class="p-6 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+          <div>
+            <h4 class="font-display font-bold text-xl text-[#F2EFE9]">AI Creative Production Workflow</h4>
+            <p class="font-mono text-xs text-[#8E8D94]">End-to-end framework from ideation and prompt architecture to generative synthesis and final grade.</p>
+          </div>
+          <button onclick="openImageModal('assets/AI%20Creative%20Production%20Workflow.png', 'AI Creative Production Workflow')" class="font-mono text-xs font-bold text-[var(--accent)] hover:underline whitespace-nowrap">VIEW HIGH-RES INFOGRAPHIC ↗</button>
+        </div>
+      </div>
+
+      <!-- GRAPHIC 01: Bhavodvegam Poster -->
+      <div class="v2-card v2-graphic-design rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-80 bg-black cursor-pointer overflow-hidden" onclick="openImageModal('assets/Graphic%20Design/Posters/bhavodvegam%20poster%202.1.jpg', 'Bhavodvegam Theatrical Poster')" data-cursor="VIEW">
+          <img src="assets/Graphic%20Design/Posters/bhavodvegam%20poster%202.1.jpg" alt="Poster" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">THEATRICAL POSTER</span>
+        </div>
+        <div class="p-6 space-y-2">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Bhavodvegam Poster</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Theatrical mass-media cinematic poster with custom typography and dramatic lighting.</p>
+          <button onclick="openImageModal('assets/Graphic%20Design/Posters/bhavodvegam%20poster%202.1.jpg', 'Bhavodvegam')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-1">FULLSCREEN ZOOM ↗</button>
+        </div>
+      </div>
+
+      <!-- GRAPHIC 02: Dasu Vegi Poster -->
+      <div class="v2-card v2-graphic-design rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-80 bg-black cursor-pointer overflow-hidden" onclick="openImageModal('assets/Graphic%20Design/Posters/8%20x%2012%20dasu%20vegi%202.jpg', 'Dasu Vegi Event Poster')" data-cursor="VIEW">
+          <img src="assets/Graphic%20Design/Posters/8%20x%2012%20dasu%20vegi%202.jpg" alt="Poster" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">EVENT POSTER</span>
+        </div>
+        <div class="p-6 space-y-2">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Dasu Vegi Visual</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">High-contrast portrait composition with layered typography and color theory.</p>
+          <button onclick="openImageModal('assets/Graphic%20Design/Posters/8%20x%2012%20dasu%20vegi%202.jpg', 'Dasu Vegi')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-1">FULLSCREEN ZOOM ↗</button>
+        </div>
+      </div>
+
+      <!-- GRAPHIC 03: Tammu Birthday CDP -->
+      <div class="v2-card v2-graphic-design rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-80 bg-black cursor-pointer overflow-hidden" onclick="openImageModal('assets/Graphic%20Design/Posters/tammu%20bday.jpg', 'Celebrity Birthday Poster')" data-cursor="VIEW">
+          <img src="assets/Graphic%20Design/Posters/tammu%20bday.jpg" alt="Poster" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">MASS POSTER</span>
+        </div>
+        <div class="p-6 space-y-2">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Hero Theatrical CDP</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Festival celebratory poster, multi-source lighting, and dynamic brush typography.</p>
+          <button onclick="openImageModal('assets/Graphic%20Design/Posters/tammu%20bday.jpg', 'Hero Theatrical')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-1">FULLSCREEN ZOOM ↗</button>
+        </div>
+      </div>
+
+      <!-- UI/UX 01: ScriptSight -->
+      <div class="v2-card v2-ui-ux rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openBehanceModal('https://www.behance.net/embed/project/252154409?ilo0=1', 'ScriptSight')" data-cursor="VIEW">
+          <img src="assets/UI%20UX/web%20UI/ScriptSight%20-%20Landing%20Page.jpg" alt="ScriptSight" loading="lazy" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">CASE STUDY · SAAS</span>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">ScriptSight Case Study</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Problem: Complex script metrics overwhelm writers. Process: Modular telemetry HUDs. Outcome: High conversion SaaS layout.</p>
+          <button onclick="openBehanceModal('https://www.behance.net/embed/project/252154409?ilo0=1', 'ScriptSight')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">VIEW BEHANCE EMBED ↗</button>
+        </div>
+      </div>
+
+      <!-- UI/UX 02: Bhakthi Bandhan -->
+      <div class="v2-card v2-ui-ux rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openImageModal('assets/UI%20UX/web%20UI/bhakti%20bandhan.png', 'Bhakthi Bandhan Devotional Web UI')" data-cursor="VIEW">
+          <img src="assets/UI%20UX/web%20UI/bhakti%20bandhan.png" alt="Bhakthi Bandhan" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">CASE STUDY · WEB</span>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Bhakthi Bandhan</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Problem: Traditional temple activities lack modern accessibility. Solution: Sacred aesthetic tokens with digital event calendars.</p>
+          <button onclick="openImageModal('assets/UI%20UX/web%20UI/bhakti%20bandhan.png', 'Bhakthi Bandhan')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">VIEW SCREENS ↗</button>
+        </div>
+      </div>
+
+      <!-- UI/UX 03: Wireframes & Architecture -->
+      <div class="v2-card v2-ui-ux rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openBehanceModal('https://www.behance.net/embed/project/252154175?ilo0=1', 'Wireframing & UX Architecture')" data-cursor="VIEW">
+          <img src="assets/UI%20UX/wireframes/myv%20vapes.jpg" alt="Wireframing" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">UX ARCHITECTURE</span>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">UX Wireframes &amp; Blueprints</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Information architecture, user flows, and low-fidelity prototyping before high-fidelity visual design.</p>
+          <button onclick="openBehanceModal('https://www.behance.net/embed/project/252154175?ilo0=1', 'Wireframing')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">VIEW BEHANCE EMBED ↗</button>
+        </div>
+      </div>
+
+      <!-- GAME 01: NEXORA -->
+      <div class="v2-card v2-game-design rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openImageModal('assets/UI%20UX/game%20UI/NEXORA.png', 'NEXORA — Cockpit HUD')" data-cursor="VIEW">
+          <img src="assets/UI%20UX/game%20UI/NEXORA.png" alt="NEXORA" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">GAME HUD</span>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">NEXORA Cockpit HUD</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Concept: Futuristic anti-grav racer. Mechanics: Real-time battery depletion &amp; G-force telemetry.</p>
+          <button onclick="openImageModal('assets/UI%20UX/game%20UI/NEXORA.png', 'NEXORA HUD')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">INSPECT HUD ↗</button>
+        </div>
+      </div>
+
+      <!-- GAME 02: Spider-Man Suit & HUD -->
+      <div class="v2-card v2-game-design rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openBehanceModal('https://www.behance.net/embed/project/255055209?ilo0=1', 'Spider-Man HUD & Game UI')" data-cursor="VIEW">
+          <img src="assets/UI%20UX/game%20UI/spiderman.png" alt="Spider-Man Game UI" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">GAME UI</span>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Spider-Man Suit &amp; HUD</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Concept: Augmented reality visor telemetry for web-shooters, threat scanning, and agility tracking.</p>
+          <button onclick="openBehanceModal('https://www.behance.net/embed/project/255055209?ilo0=1', 'Spider-Man UI')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">VIEW BEHANCE EMBED ↗</button>
+        </div>
+      </div>
+
+      <!-- GAME 03: The Lost Temple (3D Envi) -->
+      <div class="v2-card v2-game-design rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openImageModal('assets/UI%20UX/game%20UI/the%20lost%20temple.jpg', 'The Lost Temple 3D Level Design')" data-cursor="VIEW">
+          <img src="assets/UI%20UX/game%20UI/the%20lost%20temple.jpg" alt="Lost Temple" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">3D LEVEL DESIGN</span>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">The Lost Temple</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Concept: Ancient forgotten citadel environment with waterfall cascades and volumetric lighting.</p>
+          <button onclick="openImageModal('assets/UI%20UX/game%20UI/the%20lost%20temple.jpg', 'The Lost Temple')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">FULLSCREEN VIEW ↗</button>
+        </div>
+      </div>
+
+      <!-- GAME 04: AI Game Env Loops -->
+      <div class="v2-card v2-game-design rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openVideoModal('https://player.vimeo.com/video/1243143041', 'AI Game Environment Loop 2')" data-cursor="PLAY">
+          <img src="https://i.vimeocdn.com/video/2221585370-e66b0977b75bad339d23bc84f86c15e9a2e67675d46f0a7d3e47e48e0bcf7b0e-d_640?region=us" alt="AI Game Env Loop 2" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">3D ENVI LOOP</span>
+          <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-transparent">
+            <span class="w-10 h-10 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-sm shadow-xl">▶</span>
+          </div>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Procedural 3D Environment Pass</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Volumetric light rays, procedural terrain meshes, dynamic skybox lighting loops.</p>
+          <button onclick="openVideoModal('https://player.vimeo.com/video/1243143041', 'AI Game Env Loop 2')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">PLAY LOOP →</button>
+        </div>
+      </div>
+
+      <!-- VIDEO EDITING 01: CleanGem -->
+      <div class="v2-card v2-video-editing rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openVideoModal('https://player.vimeo.com/video/1242827116', 'CleanGem Commercial')" data-cursor="PLAY">
+          <img src="https://i.vimeocdn.com/video/2221187389-b72cc4e3c53833c58524899d82e77760b053b155594b8ddd8e65925eae7d99f5-d_640?region=us" alt="CleanGem" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">COMMERCIAL</span>
+          <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-transparent">
+            <span class="w-10 h-10 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-sm shadow-xl">▶</span>
+          </div>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">CleanGem Glass Cleaner</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Commercial spec edit, fluid physics simulations, luxury color correction and SFX.</p>
+          <button onclick="openVideoModal('https://player.vimeo.com/video/1242827116', 'CleanGem')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">PLAY WITH AUDIO →</button>
+        </div>
+      </div>
+
+      <!-- VIDEO EDITING 02: Silver Spoon -->
+      <div class="v2-card v2-video-editing rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openVideoModal('https://player.vimeo.com/video/1242826703', 'Silver Spoon Title Teaser VO')" data-cursor="PLAY">
+          <img src="https://i.vimeocdn.com/video/2221188155-37eb415a3694295eac277c8d13bb9efe2d38453e7ede951b297c6fceb4e5e175-d_640?region=us" alt="Silver Spoon" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">TITLE TEASER</span>
+          <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-transparent">
+            <span class="w-10 h-10 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-sm shadow-xl">▶</span>
+          </div>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Silver Spoon</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Theatrical teaser cut, dark neo-noir typography, dramatic title voiceover sync.</p>
+          <button onclick="openVideoModal('https://player.vimeo.com/video/1242826703', 'Silver Spoon')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">PLAY TEASER →</button>
+        </div>
+      </div>
+
+      <!-- VIDEO EDITING 03: Skillinduce Reel -->
+      <div class="v2-card v2-video-editing rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openVideoModal('https://player.vimeo.com/video/1242823795', 'Skillinduce Social Reel Edit')" data-cursor="PLAY">
+          <img src="https://i.vimeocdn.com/video/2221179597-5e12a503fd612f0ec49ecc14384ed0817c0b8cbe60e042ec6bab1aa8fe9ff180-d_640?region=us" alt="Skillinduce Reel" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">INSTAGRAM REEL</span>
+          <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-transparent">
+            <span class="w-10 h-10 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-sm shadow-xl">▶</span>
+          </div>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Skillinduce Reel Edit</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Short-form vertical video edit with fast kinetic captions and micro-animations.</p>
+          <button onclick="openVideoModal('https://player.vimeo.com/video/1242823795', 'Skillinduce Reel')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">PLAY REEL →</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- View All CTA Linking to Main Archive -->
+    <div class="text-center pt-16">
+      <a href="work.html" class="inline-flex items-center gap-3 font-mono text-xs font-bold px-8 py-4 rounded-full border border-[#232328] hover:border-[var(--accent)] hover:bg-[#151518] text-[#F2EFE9] transition-all">
+        <span>VIEW ALL 65+ PROJECTS IN COMPLETE ARCHIVE</span>
+        <span class="text-[var(--accent)]">↗</span>
+      </a>
+    </div>
+
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- 06. ABOUT: SHORT INTRO & THIN SKILLS STRIP               -->
+  <!-- ======================================================== -->
+  <section id="about" class="py-24 px-6 sm:px-12 max-w-[1800px] mx-auto border-t border-[#232328]">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Portrait Photo of Chanakya -->
+      <div class="lg:col-span-5 relative group">
+        <div class="rounded-3xl overflow-hidden border border-[#232328] bg-[#151518] max-w-md mx-auto relative">
+          <img src="me.jpg" alt="Chanakya Akondi" loading="lazy" class="w-full h-[520px] object-cover object-top filter grayscale contrast-110 group-hover:grayscale-0 transition-all duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-transparent to-transparent"></div>
+          <div class="absolute bottom-6 left-6 right-6 flex justify-between items-end font-mono text-xs">
+            <div>
+              <div class="font-display font-bold text-base text-[#F2EFE9]">CHANAKYA AKONDI</div>
+              <div class="text-[var(--accent)] text-[11px]">AI Creative Designer</div>
+            </div>
+            <span class="text-[#8E8D94] bg-[#0E0E10]/90 px-3 py-1 rounded-full border border-[#232328]">1+ YRS EXP</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Narrative & Journey -->
+      <div class="lg:col-span-7 space-y-8">
+        <div>
+          <span class="font-mono text-xs text-[var(--accent)] tracking-widest uppercase">ABOUT THE CREATOR</span>
+          <h2 class="text-3xl sm:text-6xl font-display font-extrabold text-[#F2EFE9] tracking-tight mt-1">
+            BRIDGING CLASSICAL CRAFT &amp; AI DIRECTION.
+          </h2>
+        </div>
+
+        <div class="space-y-4 text-base text-[#8E8D94] font-light leading-relaxed max-w-2xl">
+          <p>
+            I'm <strong class="text-[#F2EFE9] font-medium">Chanakya Akondi</strong>, an AI Creative Designer, Filmmaker, and Visual Storyteller. My creative philosophy sits at the convergence of technical curiosity and bold art direction.
+          </p>
+          <p>
+            From launching my studio <strong class="text-[#F2EFE9] font-medium">ASK Grapika</strong> in 2022 to creating commercial spec films, completing an intensive UI/UX design internship, and directing cutting-edge AI cinematics at <strong class="text-[#F2EFE9] font-medium">People Media Factory</strong> — I treat every medium as an immersive universe waiting to be realized.
+          </p>
+        </div>
+
+        <!-- Thin Skills Strip (Restrained, No Clutter) -->
+        <div class="space-y-3 pt-4 border-t border-[#232328]">
+          <span class="font-mono text-[11px] text-[#8E8D94] uppercase tracking-wider block">PRODUCTION TOOLKIT:</span>
+          <div class="flex flex-wrap gap-2 font-mono text-xs text-[#F2EFE9]">
+            <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] hover:border-[var(--accent)] transition-colors">Blender</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] hover:border-[var(--accent)] transition-colors">Midjourney</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] hover:border-[var(--accent)] transition-colors">Veo 3.1</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] hover:border-[var(--accent)] transition-colors">Runway ML</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] hover:border-[var(--accent)] transition-colors">Premiere Pro</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] hover:border-[var(--accent)] transition-colors">Figma</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] hover:border-[var(--accent)] transition-colors">Photoshop</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] hover:border-[var(--accent)] transition-colors">Tripo AI</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] hover:border-[var(--accent)] transition-colors">Meshy AI</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] hover:border-[var(--accent)] transition-colors">Layer AI</span>
+          </div>
+        </div>
+
+        <!-- Career Milestones Ribbon -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 font-mono text-xs">
+          <div class="p-4 rounded-xl bg-[#151518] border border-[#232328]">
+            <div class="text-[var(--accent)] font-bold">2022 — PRESENT</div>
+            <div class="text-[#F2EFE9] font-bold mt-1">ASK Grapika</div>
+            <div class="text-[11px] text-[#8E8D94] mt-0.5">Founder &amp; Designer</div>
+          </div>
+          <div class="p-4 rounded-xl bg-[#151518] border border-[#232328]">
+            <div class="text-[var(--accent)] font-bold">6 MONTHS</div>
+            <div class="text-[#F2EFE9] font-bold mt-1">UI / UX Internship</div>
+            <div class="text-[11px] text-[#8E8D94] mt-0.5">Product &amp; Systems</div>
+          </div>
+          <div class="p-4 rounded-xl bg-[#151518] border border-[#232328]">
+            <div class="text-[var(--accent)] font-bold">2025 — 2026</div>
+            <div class="text-[#F2EFE9] font-bold mt-1">People Media Factory</div>
+            <div class="text-[11px] text-[#8E8D94] mt-0.5">AI Film &amp; Content</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- 07. CONTACT: BIG, SIMPLE CALL TO ACTION                  -->
+  <!-- ======================================================== -->
+  <section id="contact" class="py-32 px-6 sm:px-12 max-w-[1800px] mx-auto border-t border-[#232328] text-center">
+    <div class="max-w-4xl mx-auto space-y-8">
+      
+      <span class="font-mono text-xs text-[var(--accent)] tracking-widest uppercase">READY TO COLLABORATE?</span>
+      
+      <h2 class="text-4xl sm:text-7xl lg:text-8xl font-display font-extrabold text-[#F2EFE9] tracking-tight leading-none">
+        LET'S MAKE<br>
+        <span class="text-[var(--accent)]">SOMETHING GREAT.</span>
+      </h2>
+
+      <p class="text-[#8E8D94] text-base sm:text-lg max-w-xl mx-auto font-light leading-relaxed">
+        Whether it's an AI film, a game UI concept, a commercial brand spot, or digital product architecture — let's build something unforgettable.
+      </p>
+
+      <div class="flex flex-wrap items-center justify-center gap-4 pt-6">
+        <a href="mailto:chanakya@gmail.com" class="font-mono text-sm font-bold px-9 py-4 rounded-full bg-[var(--accent)] text-[#0E0E10] hover:scale-105 active:scale-95 transition-all shadow-xl">
+          LET'S TALK → chanakya@gmail.com
+        </a>
+        <button onclick="copyEmailV2()" class="font-mono text-xs px-6 py-4 rounded-full border border-[#232328] hover:border-[var(--accent)] text-[#F2EFE9] bg-[#151518] transition-all">
+          COPY EMAIL
+        </button>
+      </div>
+
+      <!-- Social Links Strip -->
+      <div class="pt-16 border-t border-[#232328] flex flex-wrap justify-center gap-8 font-mono text-xs text-[#8E8D94]">
+        <a href="mailto:chanakya@gmail.com" class="hover:text-[var(--accent)] transition-colors">EMAIL</a>
+        <a href="https://www.behance.net" target="_blank" class="hover:text-[var(--accent)] transition-colors">BEHANCE ↗</a>
+        <a href="#" class="hover:text-[var(--accent)] transition-colors">LINKEDIN</a>
+        <a href="#" class="hover:text-[var(--accent)] transition-colors">INSTAGRAM</a>
+        <a href="#" class="hover:text-[var(--accent)] transition-colors">YOUTUBE</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- 08. MINIMAL FOOTER                                       -->
+  <!-- ======================================================== -->
+  <footer class="py-8 px-6 sm:px-12 border-t border-[#232328] bg-[#0E0E10] text-[#8E8D94] font-mono text-xs flex flex-col sm:flex-row justify-between items-center gap-4">
+    <div>
+      <span class="text-[#F2EFE9] font-bold">CHANAKYA AKONDI</span> · PORTFOLIO V2
+    </div>
+    <div class="flex items-center gap-4">
+      <a href="index.html" class="hover:text-[var(--accent)]">BACK TO V1</a>
+      <span>·</span>
+      <span>© 2026 ALL RIGHTS RESERVED</span>
+    </div>
+  </footer>
+
+  <!-- ======================================================== -->
+  <!-- MODALS: VIMEO PLAYER, IMAGE ZOOM, BEHANCE EMBED          -->
+  <!-- ======================================================== -->
+
+  <!-- Video Modal -->
+  <div id="video-modal" class="fixed inset-0 z-50 bg-[#0E0E10]/95 backdrop-blur-md hidden flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-5xl flex justify-between items-center pb-4 text-[#F2EFE9] font-mono text-xs">
+      <span id="video-modal-title" class="font-bold text-[var(--accent)]">VIDEO STREAM</span>
+      <button onclick="closeVideoModal()" class="text-[#8E8D94] hover:text-[#F2EFE9] px-3 py-1.5 border border-[#232328] rounded-full">✕ CLOSE (ESC)</button>
+    </div>
+    <div class="w-full max-w-5xl bg-black rounded-2xl overflow-hidden border border-[#232328] aspect-video relative">
+      <iframe id="modal-vimeo-iframe" class="w-full h-full" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- Image Modal -->
+  <div id="image-modal" class="fixed inset-0 z-50 bg-[#0E0E10]/95 backdrop-blur-md hidden flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-5xl flex justify-between items-center pb-4 text-[#F2EFE9] font-mono text-xs">
+      <span id="image-modal-title" class="font-bold text-[var(--accent)]">FULL RESOLUTION ARTWORK</span>
+      <button onclick="closeImageModal()" class="text-[#8E8D94] hover:text-[#F2EFE9] px-3 py-1.5 border border-[#232328] rounded-full">✕ CLOSE (ESC)</button>
+    </div>
+    <div class="max-w-5xl max-h-[85vh] overflow-hidden rounded-2xl border border-[#232328] bg-black">
+      <img id="modal-image-element" src="" alt="Detail" class="w-full h-full object-contain max-h-[85vh]">
+    </div>
+  </div>
+
+  <!-- Behance Embed Modal -->
+  <div id="behance-modal" class="fixed inset-0 z-50 bg-[#0E0E10]/95 backdrop-blur-md hidden flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-5xl flex justify-between items-center pb-4 text-[#F2EFE9] font-mono text-xs">
+      <span id="behance-modal-title" class="font-bold text-[var(--accent)]">BEHANCE PROJECT EMBED</span>
+      <button onclick="closeBehanceModal()" class="text-[#8E8D94] hover:text-[#F2EFE9] px-3 py-1.5 border border-[#232328] rounded-full">✕ CLOSE (ESC)</button>
+    </div>
+    <div class="w-full max-w-5xl h-[80vh] bg-black rounded-2xl overflow-hidden border border-[#232328]">
+      <iframe id="modal-behance-iframe" src="" class="w-full h-full" frameborder="0" allowfullscreen lazyload allow="clipboard-write"></iframe>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- INTERACTIONS JAVASCRIPT LOGIC                            -->
+  <!-- ======================================================== -->
+  <script>
+    // 1. Dynamic Cursor Interaction
+    const cursor = document.getElementById('cursor');
+    let mouseX = 0, mouseY = 0;
+    let cursorX = 0, cursorY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function updateCursor() {
+      cursorX += (mouseX - cursorX) * 0.2;
+      cursorY += (mouseY - cursorY) * 0.2;
+      if (cursor) {
+        cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
+      }
+      requestAnimationFrame(updateCursor);
+    }
+    updateCursor();
+
+    // Contextual Cursor badges
+    document.querySelectorAll('[data-cursor]').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        const text = el.getAttribute('data-cursor');
+        cursor.innerText = text;
+        cursor.classList.remove('w-8', 'h-8', 'border-[#F2EFE9]/40', 'bg-transparent');
+        cursor.classList.add('w-20', 'h-20', 'bg-[var(--accent)]', 'text-[#0E0E10]', 'border-transparent', 'font-black');
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.innerText = '';
+        cursor.classList.add('w-8', 'h-8', 'border-[#F2EFE9]/40', 'bg-transparent');
+        cursor.classList.remove('w-20', 'h-20', 'bg-[var(--accent)]', 'text-[#0E0E10]', 'border-transparent', 'font-black');
+      });
+    });
+
+    // 2. Scroll to Discipline from Expanding Panels
+    function scrollToDiscipline(disciplineKey) {
+      filterV2Work(disciplineKey);
+      const target = document.getElementById('work-archive');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // 3. Filter Discipline Work Archive
+    function filterV2Work(category) {
+      document.querySelectorAll('.v2-filter-btn').forEach(btn => {
+        btn.classList.remove('bg-[var(--accent)]', 'text-[#0E0E10]', 'font-bold');
+        btn.classList.add('bg-[#151518]', 'text-[#8E8D94]', 'border-[#232328]');
+      });
+
+      const activeBtn = document.getElementById('v2btn-' + category);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-[var(--accent)]', 'text-[#0E0E10]', 'font-bold');
+        activeBtn.classList.remove('bg-[#151518]', 'text-[#8E8D94]');
+      }
+
+      const cards = document.querySelectorAll('.v2-card');
+      cards.forEach(card => {
+        if (category === 'all' || card.classList.contains('v2-' + category)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // 4. Modals (Vimeo, Image, Behance)
+    function openVideoModal(videoSrc, title) {
+      const modal = document.getElementById('video-modal');
+      const vimeoIframe = document.getElementById('modal-vimeo-iframe');
+      const titleEl = document.getElementById('video-modal-title');
+      titleEl.innerText = title;
+
+      const match = videoSrc.match(/(?:vimeo\.com\/|video\/)(\d+)/);
+      const videoId = match ? match[1] : videoSrc;
+      vimeoIframe.src = `https://player.vimeo.com/video/${videoId}?autoplay=1&color=ccff00&title=0&byline=0&portrait=0`;
+      modal.classList.remove('hidden');
+    }
+
+    function closeVideoModal() {
+      const modal = document.getElementById('video-modal');
+      const vimeoIframe = document.getElementById('modal-vimeo-iframe');
+      modal.classList.add('hidden');
+      if (vimeoIframe) vimeoIframe.src = '';
+    }
+
+    function openImageModal(imgSrc, title) {
+      const modal = document.getElementById('image-modal');
+      document.getElementById('image-modal-title').innerText = title;
+      document.getElementById('modal-image-element').src = imgSrc;
+      modal.classList.remove('hidden');
+    }
+
+    function closeImageModal() {
+      const modal = document.getElementById('image-modal');
+      modal.classList.add('hidden');
+      document.getElementById('modal-image-element').src = '';
+    }
+
+    function openBehanceModal(behanceSrc, title) {
+      const modal = document.getElementById('behance-modal');
+      document.getElementById('behance-modal-title').innerText = title;
+      document.getElementById('modal-behance-iframe').src = behanceSrc;
+      modal.classList.remove('hidden');
+    }
+
+    function closeBehanceModal() {
+      const modal = document.getElementById('behance-modal');
+      modal.classList.add('hidden');
+      document.getElementById('modal-behance-iframe').src = '';
+    }
+
+    // 5. One-click Accent Switcher
+    function setThemeAccent(hexColor) {
+      document.documentElement.style.setProperty('--accent', hexColor);
+      localStorage.setItem('chanakya_accent', hexColor);
+    }
+    const savedAccent = localStorage.getItem('chanakya_accent');
+    if (savedAccent) {
+      setThemeAccent(savedAccent);
+    }
+
+    function copyEmailV2() {
+      navigator.clipboard.writeText('chanakya@gmail.com');
+      alert('Email copied: chanakya@gmail.com');
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeVideoModal();
+        closeImageModal();
+        closeBehanceModal();
+      }
+    });
+  </script>
+
+</body>
+</html>
