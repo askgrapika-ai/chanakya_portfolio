@@ -123,6 +123,66 @@
       transform: translateY(0);
     }
 
+
+    /* ---- DriftWall Vanilla JS Component CSS ---- */
+    .dw-root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .dw-stage {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .dw-wall {
+      display: flex;
+      gap: var(--dw-gap, 14px);
+      transform-style: preserve-3d;
+    }
+    .dw-col {
+      display: flex;
+      flex-direction: column;
+      gap: var(--dw-gap, 14px);
+      flex-shrink: 0;
+    }
+    .dw-track {
+      display: flex;
+      flex-direction: column;
+      gap: var(--dw-gap, 14px);
+      will-change: transform;
+    }
+    .dw-tile {
+      flex-shrink: 0;
+      border-radius: var(--dw-radius, 10px);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.35s ease;
+    }
+    .dw-tile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+    }
+    .dw-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      transition: background-color 0.35s ease;
+    }
+    .dw-fade {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
     /* Hide default scrollbar but keep functional */
     ::-webkit-scrollbar {
       width: 6px;
@@ -169,11 +229,7 @@
 
       <!-- Right Action & Version Switcher -->
       <div class="flex items-center gap-3">
-        <!-- Switcher to V1 -->
-        <a href="index.html" class="hidden sm:inline-flex items-center gap-1.5 font-mono text-[11px] px-3.5 py-1.5 rounded-full border border-[#232328] hover:border-[var(--accent)] text-[#8E8D94] hover:text-[#F2EFE9] transition-all">
-          <span>V1 CLASSIC</span>
-          <span class="text-xs">↗</span>
-        </a>
+
 
         <!-- Accent Swatch Switcher (Lime / Orange / Violet) -->
         <div class="hidden lg:flex items-center gap-1.5 px-2 py-1 rounded-full bg-[#151518] border border-[#232328]">
@@ -642,6 +698,19 @@
   </section>
 
   <!-- ======================================================== -->
+  <!-- FULL-WIDTH AI CREATIVE PRODUCTION WORKFLOW INFOGRAPHIC  -->
+  <!-- ======================================================== -->
+  <section class="w-full border-t border-[#232328] bg-[#0E0E10]">
+    <img
+      src="assets/AI%20Creative%20Production%20Workflow.png"
+      alt="AI Creative Production Workflow"
+      loading="lazy"
+      decoding="async"
+      class="w-full h-auto object-cover block"
+    >
+  </section>
+
+  <!-- ======================================================== -->
   <!-- 05. DISCIPLINE WORK EXPLORER (6-8 Projects Per Discipline)-->
   <!-- ======================================================== -->
   <section id="work-archive" class="py-24 px-6 sm:px-12 max-w-[1800px] mx-auto border-t border-[#232328]">
@@ -714,20 +783,7 @@
         </div>
       </div>
 
-      <!-- AI FILM 04: AI Creative Production Workflow -->
-      <div class="v2-card v2-ai-film rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group md:col-span-2 lg:col-span-3">
-        <div class="relative h-72 bg-black cursor-pointer overflow-hidden" onclick="openImageModal('assets/AI%20Creative%20Production%20Workflow.png', 'AI Creative Production Workflow')" data-cursor="VIEW">
-          <img src="assets/AI%20Creative%20Production%20Workflow.png" alt="Workflow Architecture" loading="lazy" class="w-full h-full object-contain group-hover:scale-102 transition-transform duration-500">
-          <span class="absolute top-4 left-4 font-mono text-[9px] px-3 py-1 rounded-full bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">PIPELINE INFOGRAPHIC</span>
-        </div>
-        <div class="p-6 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
-          <div>
-            <h4 class="font-display font-bold text-xl text-[#F2EFE9]">AI Creative Production Workflow</h4>
-            <p class="font-mono text-xs text-[#8E8D94]">End-to-end framework from ideation and prompt architecture to generative synthesis and final grade.</p>
-          </div>
-          <button onclick="openImageModal('assets/AI%20Creative%20Production%20Workflow.png', 'AI Creative Production Workflow')" class="font-mono text-xs font-bold text-[var(--accent)] hover:underline whitespace-nowrap">VIEW HIGH-RES INFOGRAPHIC ↗</button>
-        </div>
-      </div>
+
 
       <!-- GRAPHIC 01: Bhavodvegam Poster -->
       <div class="v2-card v2-graphic-design rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
@@ -912,13 +968,7 @@
 
     </div>
 
-    <!-- View All CTA Linking to Main Archive -->
-    <div class="text-center pt-16">
-      <a href="work.html" class="inline-flex items-center gap-3 font-mono text-xs font-bold px-8 py-4 rounded-full border border-[#232328] hover:border-[var(--accent)] hover:bg-[#151518] text-[#F2EFE9] transition-all">
-        <span>VIEW ALL 65+ PROJECTS IN COMPLETE ARCHIVE</span>
-        <span class="text-[var(--accent)]">↗</span>
-      </a>
-    </div>
+
 
   </section>
 
@@ -1003,38 +1053,122 @@
   </section>
 
   <!-- ======================================================== -->
-  <!-- 07. CONTACT: BIG, SIMPLE CALL TO ACTION                  -->
+  <!-- 07. CONTACT: DRIFTWALL BG + LEFT TEXT + RIGHT FORM      -->
   <!-- ======================================================== -->
-  <section id="contact" class="py-32 px-6 sm:px-12 max-w-[1800px] mx-auto border-t border-[#232328] text-center">
-    <div class="max-w-4xl mx-auto space-y-8">
-      
-      <span class="font-mono text-xs text-[var(--accent)] tracking-widest uppercase">READY TO COLLABORATE?</span>
-      
-      <h2 class="text-4xl sm:text-7xl lg:text-8xl font-display font-extrabold text-[#F2EFE9] tracking-tight leading-none">
-        LET'S MAKE<br>
-        <span class="text-[var(--accent)]">SOMETHING GREAT.</span>
-      </h2>
+  <section id="contact" class="relative min-h-screen border-t border-[#232328] overflow-hidden">
 
-      <p class="text-[#8E8D94] text-base sm:text-lg max-w-xl mx-auto font-light leading-relaxed">
-        Whether it's an AI film, a game UI concept, a commercial brand spot, or digital product architecture — let's build something unforgettable.
-      </p>
+    <!-- DriftWall Background -->
+    <div id="contact-driftwall" class="dw-root" aria-hidden="true"></div>
 
-      <div class="flex flex-wrap items-center justify-center gap-4 pt-6">
-        <a href="mailto:chanakya@gmail.com" class="font-mono text-sm font-bold px-9 py-4 rounded-full bg-[var(--accent)] text-[#0E0E10] hover:scale-105 active:scale-95 transition-all shadow-xl">
-          LET'S TALK → chanakya@gmail.com
-        </a>
-        <button onclick="copyEmailV2()" class="font-mono text-xs px-6 py-4 rounded-full border border-[#232328] hover:border-[var(--accent)] text-[#F2EFE9] bg-[#151518] transition-all">
-          COPY EMAIL
-        </button>
+    <!-- Gradient overlay so text stays readable -->
+    <div class="absolute inset-0 z-10 pointer-events-none"
+         style="background: linear-gradient(to right, rgba(14,14,16,0.97) 0%, rgba(14,14,16,0.82) 45%, rgba(14,14,16,0.55) 100%)">
+    </div>
+
+    <!-- Main content (above overlay) -->
+    <div class="relative z-20 max-w-[1800px] mx-auto px-6 sm:px-12 py-24 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center min-h-screen">
+
+      <!-- LEFT: Text (left-aligned) -->
+      <div class="space-y-8 text-left">
+        <span class="font-mono text-xs text-[var(--accent)] tracking-widest uppercase">READY TO COLLABORATE?</span>
+
+        <h2 class="text-5xl sm:text-7xl font-display font-extrabold text-[#F2EFE9] leading-none tracking-tight">
+          LET'S MAKE<br>
+          <span class="text-[var(--accent)]">SOMETHING GREAT.</span>
+        </h2>
+
+        <p class="text-[#8E8D94] text-base font-light leading-relaxed max-w-md">
+          Whether it's an AI film, a game UI concept, a commercial brand spot, or digital product architecture — let's build something unforgettable.
+        </p>
+
+        <!-- Direct contact -->
+        <div class="space-y-3">
+          <a href="mailto:suryakrishnachanakya@gmail.com"
+             class="flex items-center gap-2 font-mono text-sm text-[#F2EFE9] hover:text-[var(--accent)] transition-colors group">
+            <span class="w-6 h-6 rounded-full bg-[#232328] group-hover:bg-[var(--accent)] group-hover:text-[#0E0E10] flex items-center justify-center text-xs transition-all">✉</span>
+            suryakrishnachanakya@gmail.com
+          </a>
+          <button onclick="copyEmailV2()"
+                  class="font-mono text-xs px-5 py-2.5 rounded-full border border-[#232328] hover:border-[var(--accent)] text-[#8E8D94] hover:text-[#F2EFE9] bg-[#151518]/60 transition-all">
+            COPY EMAIL
+          </button>
+        </div>
+
+        <!-- Social Links Strip -->
+        <div class="pt-6 border-t border-[#232328]/60 flex flex-wrap gap-6 font-mono text-xs text-[#8E8D94]">
+          <a href="mailto:suryakrishnachanakya@gmail.com" class="hover:text-[var(--accent)] transition-colors">EMAIL</a>
+          <a href="https://www.behance.net" target="_blank" rel="noopener" class="hover:text-[var(--accent)] transition-colors">BEHANCE ↗</a>
+          <a href="#" class="hover:text-[var(--accent)] transition-colors">LINKEDIN ↗</a>
+          <a href="#" class="hover:text-[var(--accent)] transition-colors">INSTAGRAM ↗</a>
+          <a href="#" class="hover:text-[var(--accent)] transition-colors">YOUTUBE ↗</a>
+        </div>
       </div>
 
-      <!-- Social Links Strip -->
-      <div class="pt-16 border-t border-[#232328] flex flex-wrap justify-center gap-8 font-mono text-xs text-[#8E8D94]">
-        <a href="mailto:chanakya@gmail.com" class="hover:text-[var(--accent)] transition-colors">EMAIL</a>
-        <a href="https://www.behance.net" target="_blank" class="hover:text-[var(--accent)] transition-colors">BEHANCE ↗</a>
-        <a href="#" class="hover:text-[var(--accent)] transition-colors">LINKEDIN</a>
-        <a href="#" class="hover:text-[var(--accent)] transition-colors">INSTAGRAM</a>
-        <a href="#" class="hover:text-[var(--accent)] transition-colors">YOUTUBE</a>
+      <!-- RIGHT: Contact Form -->
+      <div class="bg-[#151518]/80 backdrop-blur-sm rounded-3xl p-8 sm:p-10 border border-[#232328] space-y-5">
+        <h3 class="font-display font-bold text-xl text-[#F2EFE9]">Start a Project</h3>
+        <form id="contact-form" onsubmit="submitContactForm(event)" class="space-y-4">
+
+          <!-- Name -->
+          <div>
+            <label class="block font-mono text-[10px] text-[#8E8D94] tracking-widest uppercase mb-1.5">Your Name</label>
+            <input
+              type="text" name="name" required
+              placeholder="e.g. Ravi Kumar"
+              class="w-full bg-[#0E0E10] border border-[#232328] rounded-xl px-4 py-3 font-sans text-sm text-[#F2EFE9] placeholder-[#4a4a52] focus:outline-none focus:border-[var(--accent)] transition-colors"
+            >
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label class="block font-mono text-[10px] text-[#8E8D94] tracking-widest uppercase mb-1.5">Your Email</label>
+            <input
+              type="email" name="email" required
+              placeholder="you@example.com"
+              class="w-full bg-[#0E0E10] border border-[#232328] rounded-xl px-4 py-3 font-sans text-sm text-[#F2EFE9] placeholder-[#4a4a52] focus:outline-none focus:border-[var(--accent)] transition-colors"
+            >
+          </div>
+
+          <!-- Project Type -->
+          <div>
+            <label class="block font-mono text-[10px] text-[#8E8D94] tracking-widest uppercase mb-1.5">Project Type</label>
+            <select
+              name="project_type"
+              class="w-full bg-[#0E0E10] border border-[#232328] rounded-xl px-4 py-3 font-sans text-sm text-[#F2EFE9] focus:outline-none focus:border-[var(--accent)] transition-colors appearance-none"
+            >
+              <option value="" disabled selected>Select a discipline…</option>
+              <option value="AI Film">AI Film / Cinematic</option>
+              <option value="Graphic Design">Graphic Design / Poster</option>
+              <option value="UI/UX">UI / UX Design</option>
+              <option value="Game Design">Game Design / 3D Env</option>
+              <option value="Video Editing">Video Editing / Reel</option>
+              <option value="Other">Other / Collaboration</option>
+            </select>
+          </div>
+
+          <!-- Message -->
+          <div>
+            <label class="block font-mono text-[10px] text-[#8E8D94] tracking-widest uppercase mb-1.5">Your Message</label>
+            <textarea
+              name="message" rows="4" required
+              placeholder="Tell me about your project, timeline, and goals…"
+              class="w-full bg-[#0E0E10] border border-[#232328] rounded-xl px-4 py-3 font-sans text-sm text-[#F2EFE9] placeholder-[#4a4a52] focus:outline-none focus:border-[var(--accent)] transition-colors resize-none"
+            ></textarea>
+          </div>
+
+          <!-- Submit -->
+          <button
+            type="submit"
+            class="w-full font-mono text-sm font-bold py-4 rounded-xl bg-[var(--accent)] text-[#0E0E10] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-[var(--accent)]/20"
+          >
+            SEND MESSAGE →
+          </button>
+
+        </form>
+
+        <p id="form-sent-msg" class="hidden font-mono text-xs text-[var(--accent)] text-center pt-2">
+          ✓ Message sent! I'll get back to you soon.
+        </p>
       </div>
 
     </div>
@@ -1048,8 +1182,6 @@
       <span class="text-[#F2EFE9] font-bold">CHANAKYA AKONDI</span> · PORTFOLIO V2
     </div>
     <div class="flex items-center gap-4">
-      <a href="index.html" class="hover:text-[var(--accent)]">BACK TO V1</a>
-      <span>·</span>
       <span>© 2026 ALL RIGHTS RESERVED</span>
     </div>
   </footer>
@@ -1219,9 +1351,12 @@
     }
 
     function copyEmailV2() {
-      navigator.clipboard.writeText('chanakya@gmail.com');
-      alert('Email copied: chanakya@gmail.com');
+      navigator.clipboard.writeText('suryakrishnachanakya@gmail.com').then(() => {
+        const btn = document.querySelector('[onclick="copyEmailV2()"]');
+        if (btn) { btn.innerText = 'COPIED ✓'; setTimeout(() => btn.innerText = 'COPY EMAIL', 2200); }
+      });
     }
+    
 
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
@@ -1230,6 +1365,212 @@
         closeBehanceModal();
       }
     });
+  
+    // ---- Contact Form Submit ----
+    function submitContactForm(e) {
+      e.preventDefault();
+      const form = e.target;
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const type = form.project_type.value || 'General';
+      const msg = form.message.value.trim();
+      const subject = encodeURIComponent('[Portfolio Inquiry] ' + type + ' — ' + name);
+      const body = encodeURIComponent(
+        'Hi Chanakya,\n\nName: ' + name +
+        '\nEmail: ' + email +
+        '\nProject Type: ' + type +
+        '\n\nMessage:\n' + msg +
+        '\n\n— Sent via portfolio contact form'
+      );
+      window.location.href = 'mailto:suryakrishnachanakya@gmail.com?subject=' + subject + '&body=' + body;
+      document.getElementById('form-sent-msg').classList.remove('hidden');
+      setTimeout(() => document.getElementById('form-sent-msg').classList.add('hidden'), 5000);
+    }
+
+    // ---- DriftWall Vanilla JS ----
+    (function initDriftWall() {
+      const container = document.getElementById('contact-driftwall');
+      if (!container) return;
+
+      const CONFIG = {
+        columns: 5,
+        tileW: 190,
+        tileH: 126,
+        gap: 14,
+        radius: 10,
+        tilt: 12,      // rotateX degrees
+        turn: -10,     // rotateY degrees
+        perspective: 1100,
+        depth: 100,
+        speed: 30,     // px/s base
+        direction: 'up',
+        variance: 0.42,
+        parallax: 0.45,
+        lift: 50,
+        fade: 0.65,
+        dim: 0.45,
+        overlayColor: '#0E0E10',
+      };
+
+      const ITEMS = [
+        { image: 'https://i.vimeocdn.com/video/2188450696-bd35b8644b77f05b560998bc77af4487d9a5f9d4a25ef5f3dab96e617b0ee021-d_640?region=us', title: 'Shiv Tandav' },
+        { image: 'https://i.vimeocdn.com/video/2188451076-55bbb65a640487d60e1115d0ea1daa5bd486c6d91b80b80908e34ef091e9d018-d_640?region=us', title: 'Alone' },
+        { image: 'assets/UI%20UX/game%20UI/NEXORA.png', title: 'NEXORA HUD' },
+        { image: 'assets/UI%20UX/web%20UI/ScriptSight%20-%20Landing%20Page.jpg', title: 'ScriptSight' },
+        { image: 'assets/Graphic%20Design/Posters/bhavodvegam%20poster%202.1.jpg', title: 'Bhavodvegam' },
+        { image: 'https://i.vimeocdn.com/video/2221187389-b72cc4e3c53833c58524899d82e77760b053b155594b8ddd8e65925eae7d99f5-d_640?region=us', title: 'CleanGem' },
+        { image: 'assets/UI%20UX/game%20UI/spiderman.png', title: 'Spider-Man' },
+        { image: 'https://i.vimeocdn.com/video/2221175698-afafddd15c24a45cfe60e9b7c9f60d066a96e15ff6662f3147ec9217d9241ab1-d_640?region=us', title: 'Annadanam' },
+        { image: 'assets/UI%20UX/game%20UI/the%20lost%20temple.jpg', title: 'Lost Temple' },
+        { image: 'https://i.vimeocdn.com/video/2221188155-37eb415a3694295eac277c8d13bb9efe2d38453e7ede951b297c6fceb4e5e175-d_640?region=us', title: 'Silver Spoon' },
+        { image: 'assets/Graphic%20Design/Posters/8%20x%2012%20dasu%20vegi%202.jpg', title: 'Dasu Vegi' },
+        { image: 'https://i.vimeocdn.com/video/2221585370-e66b0977b75bad339d23bc84f86c15e9a2e67675d46f0a7d3e47e48e0bcf7b0e-d_640?region=us', title: 'AI Game Env' },
+        { image: 'assets/UI%20UX/web%20UI/bhakti%20bandhan.png', title: 'Bhakthi Bandhan' },
+        { image: 'https://i.vimeocdn.com/video/2221179597-5e12a503fd612f0ec49ecc14384ed0817c0b8cbe60e042ec6bab1aa8fe9ff180-d_640?region=us', title: 'Skillinduce' },
+        { image: 'assets/UI%20UX/wireframes/myv%20vapes.jpg', title: 'UX Wireframe' },
+      ];
+
+      // Build stage + perspective wrapper
+      const stage = document.createElement('div');
+      stage.className = 'dw-stage';
+      stage.style.perspective = CONFIG.perspective + 'px';
+      container.appendChild(stage);
+
+      // The wall (tilted plane)
+      const wall = document.createElement('div');
+      wall.className = 'dw-wall';
+      wall.style.cssText = [
+        '--dw-gap:' + CONFIG.gap + 'px',
+        '--dw-radius:' + CONFIG.radius + 'px',
+        'transform: rotateX(' + CONFIG.tilt + 'deg) rotateY(' + CONFIG.turn + 'deg) translateZ(-' + CONFIG.depth + 'px)',
+        'width: ' + (CONFIG.columns * (CONFIG.tileW + CONFIG.gap) + CONFIG.gap) + 'px',
+      ].join(';');
+      stage.appendChild(wall);
+
+      // Fade gradient overlay (edge dissolve)
+      const fadeEl = document.createElement('div');
+      fadeEl.className = 'dw-fade';
+      const f = CONFIG.fade * 100;
+      fadeEl.style.background = [
+        'linear-gradient(to right,  ' + CONFIG.overlayColor + ' 0%, transparent ' + f/2 + '%, transparent ' + (100-f/2) + '%, ' + CONFIG.overlayColor + ' 100%)',
+        'linear-gradient(to bottom, ' + CONFIG.overlayColor + ' 0%, transparent ' + f/2 + '%, transparent ' + (100-f/2) + '%, ' + CONFIG.overlayColor + ' 100%)',
+      ].join(', ');
+      container.appendChild(fadeEl);
+
+      // Per-column state
+      const tracks = [];
+      const offsets = [];
+      const speeds = [];
+      const dirs = [];
+
+      for (let c = 0; c < CONFIG.columns; c++) {
+        const col = document.createElement('div');
+        col.className = 'dw-col';
+        col.style.width = CONFIG.tileW + 'px';
+        wall.appendChild(col);
+
+        const track = document.createElement('div');
+        track.className = 'dw-track';
+        col.appendChild(track);
+
+        // Fill track with enough tiles to fill 3× the visible height (for seamless loop)
+        const visibleH = window.innerHeight * 3;
+        const tileStep = CONFIG.tileH + CONFIG.gap;
+        const tilesNeeded = Math.ceil(visibleH / tileStep) + 4;
+
+        for (let t = 0; t < tilesNeeded; t++) {
+          const item = ITEMS[(c * 3 + t) % ITEMS.length];
+          const tile = document.createElement('div');
+          tile.className = 'dw-tile';
+          tile.style.cssText = 'width:' + CONFIG.tileW + 'px;height:' + CONFIG.tileH + 'px;';
+
+          const img = document.createElement('img');
+          img.src = item.image;
+          img.alt = item.title || '';
+          img.loading = 'lazy';
+          img.decoding = 'async';
+          tile.appendChild(img);
+
+          // Dim overlay
+          const ov = document.createElement('div');
+          ov.className = 'dw-overlay';
+          ov.style.backgroundColor = CONFIG.overlayColor;
+          ov.style.opacity = CONFIG.dim;
+          tile.appendChild(ov);
+
+          // Hover lift + brighten
+          tile.addEventListener('mouseenter', () => {
+            tile.style.transform = 'translateZ(' + CONFIG.lift + 'px) scale(1.04)';
+            tile.style.opacity = '1';
+            ov.style.opacity = '0';
+            tile.style.zIndex = '5';
+          });
+          tile.addEventListener('mouseleave', () => {
+            tile.style.transform = '';
+            tile.style.opacity = '';
+            ov.style.opacity = CONFIG.dim;
+            tile.style.zIndex = '';
+          });
+
+          track.appendChild(tile);
+        }
+
+        tracks.push(track);
+
+        // Alternate direction per column
+        const colDir = CONFIG.direction === 'up' ? (c % 2 === 0 ? -1 : 1) : (c % 2 === 0 ? 1 : -1);
+        dirs.push(colDir);
+
+        // Varied speed
+        const variation = 1 + (Math.random() * 2 - 1) * CONFIG.variance;
+        speeds.push(CONFIG.speed * variation);
+
+        // Stagger start position
+        offsets.push(Math.random() * CONFIG.tileH * 3);
+      }
+
+      // Parallax pointer tracking
+      let ptrX = 0, ptrY = 0, dampX = 0, dampY = 0;
+      container.addEventListener('mousemove', (e) => {
+        const r = container.getBoundingClientRect();
+        ptrX = (e.clientX - r.left) / r.width - 0.5;
+        ptrY = (e.clientY - r.top)  / r.height - 0.5;
+      });
+      container.addEventListener('mouseleave', () => { ptrX = 0; ptrY = 0; });
+
+      // Animation loop
+      let last = null;
+      function tick(now) {
+        if (!last) last = now;
+        const dt = Math.min((now - last) / 1000, 0.05);
+        last = now;
+
+        // Damped parallax
+        dampX += (ptrX - dampX) * 0.06;
+        dampY += (ptrY - dampY) * 0.06;
+
+        const extraRotX = dampY * CONFIG.parallax * 10;
+        const extraRotY = dampX * CONFIG.parallax * 10;
+        wall.style.transform =
+          'rotateX(' + (CONFIG.tilt + extraRotX) + 'deg) ' +
+          'rotateY(' + (CONFIG.turn + extraRotY) + 'deg) ' +
+          'translateZ(-' + CONFIG.depth + 'px)';
+
+        for (let c = 0; c < CONFIG.columns; c++) {
+          offsets[c] += dirs[c] * speeds[c] * dt;
+          const tileStep = CONFIG.tileH + CONFIG.gap;
+          const totalH = tracks[c].childElementCount * tileStep;
+          // Wrap offset for seamless loop
+          if (offsets[c] > totalH / 2) offsets[c] -= totalH / 2;
+          if (offsets[c] < -totalH / 2) offsets[c] += totalH / 2;
+          tracks[c].style.transform = 'translate3d(0,' + offsets[c] + 'px,0)';
+        }
+
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    })();
+
   </script>
 
 </body>
