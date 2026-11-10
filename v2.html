@@ -1082,21 +1082,19 @@
         </p>
 
         <!-- Direct contact -->
-        <div class="space-y-3">
-          <a href="mailto:suryakrishnachanakya@gmail.com"
-             class="flex items-center gap-2 font-mono text-sm text-[#F2EFE9] hover:text-[var(--accent)] transition-colors group">
-            <span class="w-6 h-6 rounded-full bg-[#232328] group-hover:bg-[var(--accent)] group-hover:text-[#0E0E10] flex items-center justify-center text-xs transition-all">✉</span>
-            suryakrishnachanakya@gmail.com
+        <div>
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=suryakrishnachanakya@gmail.com"
+             target="_blank" rel="noopener noreferrer"
+             class="inline-flex items-center gap-2.5 font-mono text-sm text-[#F2EFE9] hover:text-[var(--accent)] transition-colors group">
+            <span class="w-7 h-7 rounded-full bg-[#232328] group-hover:bg-[var(--accent)] group-hover:text-[#0E0E10] flex items-center justify-center text-xs transition-all">✉</span>
+            <span>suryakrishnachanakya@gmail.com</span>
+            <span class="text-xs text-[var(--accent)] opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">↗</span>
           </a>
-          <button onclick="copyEmailV2()"
-                  class="font-mono text-xs px-5 py-2.5 rounded-full border border-[#232328] hover:border-[var(--accent)] text-[#8E8D94] hover:text-[#F2EFE9] bg-[#151518]/60 transition-all">
-            COPY EMAIL
-          </button>
         </div>
 
         <!-- Social Links Strip -->
         <div class="pt-6 border-t border-[#232328]/60 flex flex-wrap gap-6 font-mono text-xs text-[#8E8D94]">
-          <a href="mailto:suryakrishnachanakya@gmail.com" class="hover:text-[var(--accent)] transition-colors">EMAIL</a>
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=suryakrishnachanakya@gmail.com" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--accent)] transition-colors">GMAIL ↗</a>
           <a href="https://www.behance.net" target="_blank" rel="noopener" class="hover:text-[var(--accent)] transition-colors">BEHANCE ↗</a>
           <a href="#" class="hover:text-[var(--accent)] transition-colors">LINKEDIN ↗</a>
           <a href="#" class="hover:text-[var(--accent)] transition-colors">INSTAGRAM ↗</a>
@@ -1350,14 +1348,6 @@
       setThemeAccent(savedAccent);
     }
 
-    function copyEmailV2() {
-      navigator.clipboard.writeText('suryakrishnachanakya@gmail.com').then(() => {
-        const btn = document.querySelector('[onclick="copyEmailV2()"]');
-        if (btn) { btn.innerText = 'COPIED ✓'; setTimeout(() => btn.innerText = 'COPY EMAIL', 2200); }
-      });
-    }
-    
-
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeVideoModal();
@@ -1382,7 +1372,8 @@
         '\n\nMessage:\n' + msg +
         '\n\n— Sent via portfolio contact form'
       );
-      window.location.href = 'mailto:suryakrishnachanakya@gmail.com?subject=' + subject + '&body=' + body;
+      const gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=suryakrishnachanakya@gmail.com&su=' + subject + '&body=' + body;
+      window.open(gmailUrl, '_blank');
       document.getElementById('form-sent-msg').classList.remove('hidden');
       setTimeout(() => document.getElementById('form-sent-msg').classList.add('hidden'), 5000);
     }
