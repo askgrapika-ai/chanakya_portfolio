@@ -1059,7 +1059,7 @@
   <!-- ======================================================== -->
 
   <!-- Video Modal -->
-  <div id="video-modal" class="fixed inset-0 z-50 bg-[#0E0E10]/95 backdrop-blur-md hidden flex flex-col items-center justify-center p-4">
+  <div id="video-modal" class="fixed inset-0 z-50 bg-[#0E0E10]/95 backdrop-blur-md flex flex-col items-center justify-center p-4" style="display:none">
     <div class="w-full max-w-5xl flex justify-between items-center pb-4 text-[#F2EFE9] font-mono text-xs">
       <span id="video-modal-title" class="font-bold text-[var(--accent)]">VIDEO STREAM</span>
       <button onclick="closeVideoModal()" class="text-[#8E8D94] hover:text-[#F2EFE9] px-3 py-1.5 border border-[#232328] rounded-full">✕ CLOSE (ESC)</button>
@@ -1070,7 +1070,7 @@
   </div>
 
   <!-- Image Modal -->
-  <div id="image-modal" class="fixed inset-0 z-50 bg-[#0E0E10]/95 backdrop-blur-md hidden flex flex-col items-center justify-center p-4">
+  <div id="image-modal" class="fixed inset-0 z-50 bg-[#0E0E10]/95 backdrop-blur-md flex flex-col items-center justify-center p-4" style="display:none">
     <div class="w-full max-w-5xl flex justify-between items-center pb-4 text-[#F2EFE9] font-mono text-xs">
       <span id="image-modal-title" class="font-bold text-[var(--accent)]">FULL RESOLUTION ARTWORK</span>
       <button onclick="closeImageModal()" class="text-[#8E8D94] hover:text-[#F2EFE9] px-3 py-1.5 border border-[#232328] rounded-full">✕ CLOSE (ESC)</button>
@@ -1081,7 +1081,7 @@
   </div>
 
   <!-- Behance Embed Modal -->
-  <div id="behance-modal" class="fixed inset-0 z-50 bg-[#0E0E10]/95 backdrop-blur-md hidden flex flex-col items-center justify-center p-4">
+  <div id="behance-modal" class="fixed inset-0 z-50 bg-[#0E0E10]/95 backdrop-blur-md flex flex-col items-center justify-center p-4" style="display:none">
     <div class="w-full max-w-5xl flex justify-between items-center pb-4 text-[#F2EFE9] font-mono text-xs">
       <span id="behance-modal-title" class="font-bold text-[var(--accent)]">BEHANCE PROJECT EMBED</span>
       <button onclick="closeBehanceModal()" class="text-[#8E8D94] hover:text-[#F2EFE9] px-3 py-1.5 border border-[#232328] rounded-full">✕ CLOSE (ESC)</button>
@@ -1172,13 +1172,13 @@
       const match = videoSrc.match(/(?:vimeo\.com\/|video\/)(\d+)/);
       const videoId = match ? match[1] : videoSrc;
       vimeoIframe.src = `https://player.vimeo.com/video/${videoId}?autoplay=1&color=ccff00&title=0&byline=0&portrait=0`;
-      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
     }
 
     function closeVideoModal() {
       const modal = document.getElementById('video-modal');
       const vimeoIframe = document.getElementById('modal-vimeo-iframe');
-      modal.classList.add('hidden');
+      modal.style.display = 'none';
       if (vimeoIframe) vimeoIframe.src = '';
     }
 
@@ -1186,12 +1186,12 @@
       const modal = document.getElementById('image-modal');
       document.getElementById('image-modal-title').innerText = title;
       document.getElementById('modal-image-element').src = imgSrc;
-      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
     }
 
     function closeImageModal() {
       const modal = document.getElementById('image-modal');
-      modal.classList.add('hidden');
+      modal.style.display = 'none';
       document.getElementById('modal-image-element').src = '';
     }
 
@@ -1199,7 +1199,7 @@
       const modal = document.getElementById('behance-modal');
       document.getElementById('behance-modal-title').innerText = title;
       document.getElementById('modal-behance-iframe').src = behanceSrc;
-      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
     }
 
     function closeBehanceModal() {
