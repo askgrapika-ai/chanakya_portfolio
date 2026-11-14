@@ -669,35 +669,35 @@
       </p>
     </div>
 
-    <!-- 4 High-Impact Mixed Discipline Cards -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- 4 Compact Curated Featured Cards (4-Column Balanced Grid) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
 
       <!-- Featured 01: Shiv Tandav (AI Film) -->
-      <div class="rounded-3xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden transition-all duration-500 group flex flex-col justify-between">
+      <div class="rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group flex flex-col justify-between">
         <div class="relative aspect-video overflow-hidden bg-black cursor-pointer" onclick="openVideoModal('https://player.vimeo.com/video/1216900813', 'Shiv Tandav — The Eternal Force (Full AI Film)')" data-cursor="PLAY">
-          <img src="https://i.vimeocdn.com/video/2188450696-bd35b8644b77f05b560998bc77af4487d9a5f9d4a25ef5f3dab96e617b0ee021-d_640?region=us" alt="Shiv Tandav" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <img src="https://i.vimeocdn.com/video/2188450696-bd35b8644b77f05b560998bc77af4487d9a5f9d4a25ef5f3dab96e617b0ee021-d_640?region=us" alt="Shiv Tandav" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
           <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors flex items-center justify-center">
-            <span class="w-16 h-16 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-xl shadow-2xl group-hover:scale-110 transition-transform">▶</span>
+            <span class="w-11 h-11 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-sm shadow-xl group-hover:scale-110 transition-transform">▶</span>
           </div>
-          <span class="absolute top-4 left-4 font-mono text-[10px] tracking-wider px-3 py-1 rounded-full bg-[#0E0E10]/90 text-[var(--accent)] border border-[#232328]">
-            AI FILMMAKING · FEATURED HERO
+          <span class="absolute top-2.5 left-2.5 font-mono text-[9px] tracking-wider px-2 py-0.5 rounded-full bg-[#0E0E10]/90 text-[var(--accent)] border border-[#232328]">
+            AI CINEMA
           </span>
         </div>
-        <div class="p-8 space-y-4">
-          <div class="flex justify-between items-start">
-            <div>
-              <h3 class="text-2xl sm:text-3xl font-display font-bold text-[#F2EFE9]">Shiv Tandav</h3>
-              <p class="font-mono text-xs text-[#8E8D94] mt-1">THE ETERNAL FORCE · CINEMATIC AI SHORT</p>
+        <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-baseline gap-2">
+              <h3 class="text-lg font-display font-bold text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors">Shiv Tandav</h3>
+              <span class="font-mono text-[10px] text-[#8E8D94]">2026</span>
             </div>
-            <span class="font-mono text-xs text-[#8E8D94]">2026</span>
+            <p class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">The Eternal Force · AI Short</p>
+            <p class="text-xs text-[#8E8D94] font-light leading-relaxed line-clamp-2">
+              Cosmic AI film exploring primordial energy with specialized trajectory camera prompting.
+            </p>
           </div>
-          <p class="text-sm text-[#8E8D94] font-light leading-relaxed">
-            Cosmic AI film exploring primordial energy and devotion. Crafted through specialized trajectory camera prompting, procedural motion synthesis, and atmospheric master grading.
-          </p>
-          <div class="pt-4 border-t border-[#232328] flex items-center justify-between">
-            <span class="font-mono text-xs text-[#8E8D94]">Veo 3.1 · Midjourney · Topazlabs</span>
-            <button onclick="openVideoModal('https://player.vimeo.com/video/1216900813', 'Shiv Tandav — The Eternal Force')" class="font-mono text-xs font-bold text-[var(--accent)] hover:underline flex items-center gap-1.5">
-              <span>WATCH WITH AUDIO</span>
+          <div class="pt-3 border-t border-[#232328] flex items-center justify-between text-xs">
+            <span class="font-mono text-[10px] text-[#8E8D94]">Veo 3.1 · Midjourney</span>
+            <button onclick="openVideoModal('https://player.vimeo.com/video/1216900813', 'Shiv Tandav — The Eternal Force')" class="font-mono text-[11px] font-bold text-[var(--accent)] hover:underline flex items-center gap-1">
+              <span>WATCH</span>
               <span>→</span>
             </button>
           </div>
@@ -705,31 +705,28 @@
       </div>
 
       <!-- Featured 02: NEXORA (Game Design) -->
-      <div class="rounded-3xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden transition-all duration-500 group flex flex-col justify-between">
+      <div class="rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group flex flex-col justify-between">
         <div class="relative aspect-video overflow-hidden bg-black cursor-pointer" onclick="openImageModal('assets/UI%20UX/game%20UI/NEXORA.png', 'NEXORA — Futuristic Racing UI & Cockpit HUD')" data-cursor="VIEW">
-          <img src="assets/UI%20UX/game%20UI/NEXORA.png" alt="NEXORA Game UI" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-transparent to-transparent flex items-end p-6">
-            <span class="font-mono text-xs text-[#F2EFE9] opacity-0 group-hover:opacity-100 transition-opacity">CLICK TO VIEW FULL RESOLUTION HUD ↗</span>
-          </div>
-          <span class="absolute top-4 left-4 font-mono text-[10px] tracking-wider px-3 py-1 rounded-full bg-[#0E0E10]/90 text-[var(--accent)] border border-[#232328]">
-            GAME DESIGN · DIEGETIC HUD
+          <img src="assets/UI%20UX/game%20UI/NEXORA.png" alt="NEXORA Game UI" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-2.5 left-2.5 font-mono text-[9px] tracking-wider px-2 py-0.5 rounded-full bg-[#0E0E10]/90 text-[var(--accent)] border border-[#232328]">
+            GAME HUD
           </span>
         </div>
-        <div class="p-8 space-y-4">
-          <div class="flex justify-between items-start">
-            <div>
-              <h3 class="text-2xl sm:text-3xl font-display font-bold text-[#F2EFE9]">NEXORA</h3>
-              <p class="font-mono text-xs text-[#8E8D94] mt-1">FUTURISTIC RACING TELEMETRY &amp; COCKPIT</p>
+        <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-baseline gap-2">
+              <h3 class="text-lg font-display font-bold text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors">NEXORA</h3>
+              <span class="font-mono text-[10px] text-[#8E8D94]">3D / HUD</span>
             </div>
-            <span class="font-mono text-xs text-[#8E8D94]">3D / HUD</span>
+            <p class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Futuristic Racing Cockpit</p>
+            <p class="text-xs text-[#8E8D94] font-light leading-relaxed line-clamp-2">
+              In-cockpit diegetic telemetry instruments, spatial speedometer, and cybernetic indicators.
+            </p>
           </div>
-          <p class="text-sm text-[#8E8D94] font-light leading-relaxed">
-            In-cockpit diegetic telemetry instruments, spatial speedometer architecture, cybernetic warning indicators, and sci-fi vehicular user experience.
-          </p>
-          <div class="pt-4 border-t border-[#232328] flex items-center justify-between">
-            <span class="font-mono text-xs text-[#8E8D94]">Figma · Blender · UI Tokens</span>
-            <button onclick="openImageModal('assets/UI%20UX/game%20UI/NEXORA.png', 'NEXORA — Futuristic Racing UI')" class="font-mono text-xs font-bold text-[var(--accent)] hover:underline flex items-center gap-1.5">
-              <span>INSPECT HUD DETAILS</span>
+          <div class="pt-3 border-t border-[#232328] flex items-center justify-between text-xs">
+            <span class="font-mono text-[10px] text-[#8E8D94]">Figma · Blender</span>
+            <button onclick="openImageModal('assets/UI%20UX/game%20UI/NEXORA.png', 'NEXORA — Futuristic Racing UI')" class="font-mono text-[11px] font-bold text-[var(--accent)] hover:underline flex items-center gap-1">
+              <span>INSPECT</span>
               <span>→</span>
             </button>
           </div>
@@ -737,31 +734,31 @@
       </div>
 
       <!-- Featured 03: CleanGem (Video Editing & Spec Commercial) -->
-      <div class="rounded-3xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden transition-all duration-500 group flex flex-col justify-between">
+      <div class="rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group flex flex-col justify-between">
         <div class="relative aspect-video overflow-hidden bg-black cursor-pointer" onclick="openVideoModal('https://player.vimeo.com/video/1242827116', 'CleanGem Glass Cleaner — Commercial Spec Ad')" data-cursor="PLAY">
-          <img src="https://i.vimeocdn.com/video/2221187389-b72cc4e3c53833c58524899d82e77760b053b155594b8ddd8e65925eae7d99f5-d_640?region=us" alt="CleanGem Commercial" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <img src="https://i.vimeocdn.com/video/2221187389-b72cc4e3c53833c58524899d82e77760b053b155594b8ddd8e65925eae7d99f5-d_640?region=us" alt="CleanGem Commercial" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
           <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors flex items-center justify-center">
-            <span class="w-16 h-16 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-xl shadow-2xl group-hover:scale-110 transition-transform">▶</span>
+            <span class="w-11 h-11 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-sm shadow-xl group-hover:scale-110 transition-transform">▶</span>
           </div>
-          <span class="absolute top-4 left-4 font-mono text-[10px] tracking-wider px-3 py-1 rounded-full bg-[#0E0E10]/90 text-[var(--accent)] border border-[#232328]">
-            VIDEO EDITING · COMMERCIAL SPEC
+          <span class="absolute top-2.5 left-2.5 font-mono text-[9px] tracking-wider px-2 py-0.5 rounded-full bg-[#0E0E10]/90 text-[var(--accent)] border border-[#232328]">
+            SPEC AD
           </span>
         </div>
-        <div class="p-8 space-y-4">
-          <div class="flex justify-between items-start">
-            <div>
-              <h3 class="text-2xl sm:text-3xl font-display font-bold text-[#F2EFE9]">CleanGem Glass Cleaner</h3>
-              <p class="font-mono text-xs text-[#8E8D94] mt-1">PRODUCT SPEC COMMERCIAL &amp; SOUND DESIGN</p>
+        <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-baseline gap-2">
+              <h3 class="text-lg font-display font-bold text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors">CleanGem</h3>
+              <span class="font-mono text-[10px] text-[#8E8D94]">COMMERCIAL</span>
             </div>
-            <span class="font-mono text-xs text-[#8E8D94]">SPEC AD</span>
+            <p class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Product Spec &amp; Sound Design</p>
+            <p class="text-xs text-[#8E8D94] font-light leading-relaxed line-clamp-2">
+              Luxury commercial edit featuring macro fluid simulations, caustics, and kinetic cutting.
+            </p>
           </div>
-          <p class="text-sm text-[#8E8D94] font-light leading-relaxed">
-            High-end luxury commercial edit featuring procedural macro fluid simulations, caustic refraction highlights, snappily cut to punchy sound design.
-          </p>
-          <div class="pt-4 border-t border-[#232328] flex items-center justify-between">
-            <span class="font-mono text-xs text-[#8E8D94]">Premiere Pro · Runway Gen-3 · After Effects</span>
-            <button onclick="openVideoModal('https://player.vimeo.com/video/1242827116', 'CleanGem Glass Cleaner')" class="font-mono text-xs font-bold text-[var(--accent)] hover:underline flex items-center gap-1.5">
-              <span>PLAY COMMERCIAL</span>
+          <div class="pt-3 border-t border-[#232328] flex items-center justify-between text-xs">
+            <span class="font-mono text-[10px] text-[#8E8D94]">Premiere · Runway</span>
+            <button onclick="openVideoModal('https://player.vimeo.com/video/1242827116', 'CleanGem Glass Cleaner')" class="font-mono text-[11px] font-bold text-[var(--accent)] hover:underline flex items-center gap-1">
+              <span>PLAY</span>
               <span>→</span>
             </button>
           </div>
@@ -769,31 +766,28 @@
       </div>
 
       <!-- Featured 04: ScriptSight (UI/UX Design System) -->
-      <div class="rounded-3xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden transition-all duration-500 group flex flex-col justify-between">
+      <div class="rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group flex flex-col justify-between">
         <div class="relative aspect-video overflow-hidden bg-black cursor-pointer" onclick="openBehanceModal('https://www.behance.net/embed/project/252154409?ilo0=1', 'ScriptSight — Screenplay Intelligence SaaS')" data-cursor="VIEW">
-          <img src="assets/UI%20UX/web%20UI/ScriptSight%20-%20Landing%20Page.jpg" alt="ScriptSight Landing Page" loading="lazy" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700">
-          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-transparent to-transparent flex items-end p-6">
-            <span class="font-mono text-xs text-[#F2EFE9] opacity-0 group-hover:opacity-100 transition-opacity">VIEW INTERACTIVE BEHANCE EMBED ↗</span>
-          </div>
-          <span class="absolute top-4 left-4 font-mono text-[10px] tracking-wider px-3 py-1 rounded-full bg-[#0E0E10]/90 text-[var(--accent)] border border-[#232328]">
-            UI / UX DESIGN · SAAS PLATFORM
+          <img src="assets/UI%20UX/web%20UI/ScriptSight%20-%20Landing%20Page.jpg" alt="ScriptSight Landing Page" loading="lazy" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-2.5 left-2.5 font-mono text-[9px] tracking-wider px-2 py-0.5 rounded-full bg-[#0E0E10]/90 text-[var(--accent)] border border-[#232328]">
+            UI / UX SAAS
           </span>
         </div>
-        <div class="p-8 space-y-4">
-          <div class="flex justify-between items-start">
-            <div>
-              <h3 class="text-2xl sm:text-3xl font-display font-bold text-[#F2EFE9]">ScriptSight</h3>
-              <p class="font-mono text-xs text-[#8E8D94] mt-1">AI SCREENPLAY ANALYSIS &amp; SAAS LANDING SYSTEM</p>
+        <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-baseline gap-2">
+              <h3 class="text-lg font-display font-bold text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors">ScriptSight</h3>
+              <span class="font-mono text-[10px] text-[#8E8D94]">CASE STUDY</span>
             </div>
-            <span class="font-mono text-xs text-[#8E8D94]">CASE STUDY</span>
+            <p class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Screenplay SaaS Intelligence</p>
+            <p class="text-xs text-[#8E8D94] font-light leading-relaxed line-clamp-2">
+              Full-stack SaaS product design: user telemetry dashboards and high-conversion landing layout.
+            </p>
           </div>
-          <p class="text-sm text-[#8E8D94] font-light leading-relaxed">
-            Full-stack product design case study: user personas, screenplay telemetry breakdowns, and a 20,000px high-conversion landing page framework.
-          </p>
-          <div class="pt-4 border-t border-[#232328] flex items-center justify-between">
-            <span class="font-mono text-xs text-[#8E8D94]">Figma · Design Tokens · Wireframing</span>
-            <button onclick="openBehanceModal('https://www.behance.net/embed/project/252154409?ilo0=1', 'ScriptSight')" class="font-mono text-xs font-bold text-[var(--accent)] hover:underline flex items-center gap-1.5">
-              <span>EXPLORE CASE STUDY</span>
+          <div class="pt-3 border-t border-[#232328] flex items-center justify-between text-xs">
+            <span class="font-mono text-[10px] text-[#8E8D94]">Figma · Design Tokens</span>
+            <button onclick="openBehanceModal('https://www.behance.net/embed/project/252154409?ilo0=1', 'ScriptSight')" class="font-mono text-[11px] font-bold text-[var(--accent)] hover:underline flex items-center gap-1">
+              <span>EXPLORE</span>
               <span>→</span>
             </button>
           </div>
