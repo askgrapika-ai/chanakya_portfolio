@@ -1,0 +1,2655 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chanakya Akondi — Portfolio v2</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Syne (Display) + Plus Jakarta Sans (Body) + JetBrains Mono (Tech) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0E0E10',
+            paper: '#F2EFE9',
+            accent: 'var(--accent, #CCFF00)', // Electric Lime default
+            surface: '#151518',
+            surfaceBorder: '#232328',
+            mutedText: '#8E8D94'
+          },
+          fontFamily: {
+            display: ['Syne', 'sans-serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --accent: #CCFF00; /* Electric Lime */
+      --bg: #0E0E10;
+      --paper: #F2EFE9;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--paper);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      selection-background-color: var(--accent);
+      selection-color: #0E0E10;
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: #0E0E10;
+    }
+
+    /* Custom Cursor */
+    .custom-cursor {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.25s ease, height 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, transform 0.08s ease-out;
+      will-change: transform, width, height;
+    }
+
+    /* Expanding Panels Mechanics */
+    .expand-panel {
+      flex: 1;
+      transition: flex 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 1024px) {
+      .expand-container:hover .expand-panel {
+        flex: 0.85;
+        opacity: 0.7;
+      }
+      .expand-container .expand-panel:hover {
+        flex: 3.4;
+        opacity: 1;
+      }
+    }
+
+    /* Rotated Text for Desktop Closed State */
+    @media (min-width: 1024px) {
+      .panel-vertical-title {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        transition: opacity 0.3s ease, transform 0.4s ease;
+      }
+      .expand-panel:hover .panel-vertical-title {
+        opacity: 0;
+        pointer-events: none;
+        transform: rotate(180deg) translateY(20px);
+      }
+      .panel-expanded-content {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.45s 0.15s ease, transform 0.45s 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+        pointer-events: none;
+      }
+      .expand-panel:hover .panel-expanded-content {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+    }
+
+    /* Soft Scroll Fade */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-on-scroll.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+
+
+    /* ---- Workflow 3D Flip Cards & Slow Moving Row Track ---- */
+    @keyframes workflow-drift {
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+      100% {
+        transform: translate3d(-50%, 0, 0);
+      }
+    }
+
+    .workflow-track-wrapper {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      padding: 20px 0 30px 0;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%);
+      mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%);
+    }
+
+    .workflow-track {
+      display: flex;
+      gap: 24px;
+      width: max-content;
+      animation: workflow-drift 50s linear infinite;
+      will-change: transform;
+    }
+
+    .workflow-track-wrapper:hover .workflow-track {
+      animation-play-state: paused;
+    }
+
+    .workflow-flip-card {
+      width: 280px;
+      height: 280px;
+      perspective: 1200px;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    @media (min-width: 640px) {
+      .workflow-flip-card {
+        width: 300px;
+        height: 300px;
+      }
+    }
+
+    .workflow-flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+      transform-style: preserve-3d;
+      transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+      box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.7);
+    }
+
+    .workflow-flip-card:hover .workflow-flip-inner {
+      transform: rotateY(180deg) scale(1.02);
+      box-shadow: 0 24px 50px -10px rgba(0, 0, 0, 0.9), 0 0 35px rgba(204, 255, 0, 0.16);
+    }
+
+    .workflow-flip-front,
+    .workflow-flip-back {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      overflow: hidden;
+    }
+
+    /* FRONT FACE: Center text of Stage Number matching card visual style */
+    .workflow-flip-front {
+      background: radial-gradient(circle at 50% 25%, #1d1d22 0%, #151518 70%, #0E0E10 100%);
+      border: 1px solid #232328;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 20px;
+      text-align: center;
+      transition: border-color 0.35s ease;
+    }
+
+    .workflow-flip-card:hover .workflow-flip-front {
+      border-color: var(--accent);
+    }
+
+    /* BACK FACE: Flips 180deg to reveal image */
+    .workflow-flip-back {
+      transform: rotateY(180deg);
+      background: #0E0E10;
+      border: 1px solid var(--accent);
+    }
+
+    .workflow-flip-back img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+
+    /* ---- DriftWall Vanilla JS Component CSS ---- */
+    .dw-root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .dw-stage {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .dw-wall {
+      display: flex;
+      gap: var(--dw-gap, 14px);
+      transform-style: preserve-3d;
+    }
+    .dw-col {
+      display: flex;
+      flex-direction: column;
+      gap: var(--dw-gap, 14px);
+      flex-shrink: 0;
+    }
+    .dw-track {
+      display: flex;
+      flex-direction: column;
+      gap: var(--dw-gap, 14px);
+      will-change: transform;
+    }
+    .dw-tile {
+      flex-shrink: 0;
+      border-radius: var(--dw-radius, 10px);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.35s ease;
+    }
+    .dw-tile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+    }
+    .dw-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      transition: background-color 0.35s ease;
+    }
+    .dw-fade {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
+    /* Hide default scrollbar but keep functional */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0E0E10;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #232328;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
+    }
+  </style>
+</head>
+<body class="bg-[#0E0E10] text-[#F2EFE9] antialiased">
+
+  <!-- Custom Cursor Element -->
+  <div id="cursor" class="custom-cursor hidden md:flex items-center justify-center rounded-full border border-[#F2EFE9]/40 bg-transparent w-8 h-8 text-[9px] font-mono font-bold tracking-widest text-[#0E0E10] uppercase"></div>
+
+  <!-- ======================================================== -->
+  <!-- 01. MINIMAL TOP BAR                                      -->
+  <!-- ======================================================== -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-[#0E0E10]/85 backdrop-blur-md border-b border-[#232328]/60 transition-all duration-300">
+    <div class="max-w-[1800px] mx-auto px-6 sm:px-12 h-20 flex items-center justify-between">
+      
+      <!-- Brand / Name -->
+      <a href="index.html" class="flex items-center gap-3 group">
+        <span class="font-display font-extrabold text-lg sm:text-xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors">
+          CHANAKYA AKONDI
+        </span>
+        <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+      </a>
+
+      <!-- Quick Nav -->
+      <nav class="hidden md:flex items-center gap-8 font-mono text-xs tracking-wider uppercase text-[#8E8D94]">
+        <a href="#panels" class="hover:text-[var(--accent)] transition-colors">01 DISCIPLINES</a>
+        <a href="#featured" class="hover:text-[var(--accent)] transition-colors">02 FEATURED</a>
+        <a href="#about" class="hover:text-[var(--accent)] transition-colors">03 ABOUT</a>
+        <a href="#workflow" class="hover:text-[var(--accent)] transition-colors">04 WORKFLOW</a>
+        <a href="#work-archive" class="hover:text-[var(--accent)] transition-colors">05 ARCHIVE</a>
+        <a href="#contact" class="hover:text-[var(--accent)] transition-colors">06 CONTACT</a>
+      </nav>
+
+      <!-- Right Actions -->
+      <div class="flex items-center gap-3">
+
+
+        <!-- Accent Swatch Switcher (Lime / Orange / Violet) -->
+        <div class="hidden lg:flex items-center gap-1.5 px-2 py-1 rounded-full bg-[#151518] border border-[#232328]">
+          <button onclick="setThemeAccent('#CCFF00')" title="Electric Lime" class="w-3.5 h-3.5 rounded-full bg-[#CCFF00] hover:scale-125 transition-transform"></button>
+          <button onclick="setThemeAccent('#FF5500')" title="Soft Orange" class="w-3.5 h-3.5 rounded-full bg-[#FF5500] hover:scale-125 transition-transform"></button>
+          <button onclick="setThemeAccent('#B066FF')" title="Violet" class="w-3.5 h-3.5 rounded-full bg-[#B066FF] hover:scale-125 transition-transform"></button>
+        </div>
+
+        <!-- Contact CTA -->
+        <a href="#contact" class="font-mono text-xs font-bold px-5 py-2.5 rounded-full bg-[var(--accent)] text-[#0E0E10] hover:opacity-90 transition-transform active:scale-95">
+          LET'S TALK
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ======================================================== -->
+  <!-- 02. HERO: GENEROUS EMPTY SPACE & STATEMENT               -->
+  <!-- ======================================================== -->
+  <section class="min-h-[82vh] flex flex-col justify-between pt-36 pb-16 px-6 sm:px-12 max-w-[1800px] mx-auto relative">
+    
+    <!-- Top Overline / Coordinates -->
+    <div class="flex flex-wrap items-center justify-between gap-4 font-mono text-xs text-[#8E8D94] pt-4">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-[var(--accent)] animate-pulse"></span>
+        <span class="text-[#F2EFE9]">AVAILABLE FOR SELECT PROJECTS &amp; COMMISSIONS</span>
+      </div>
+      <div class="tracking-widest">
+        HYDERABAD, INDIA · PORTFOLIO V2.0
+      </div>
+    </div>
+
+    <!-- Massive Editorial Headline -->
+    <div class="my-auto py-12 space-y-8 max-w-6xl">
+      <h1 class="text-5xl sm:text-7xl lg:text-9xl font-display font-extrabold tracking-tight leading-[0.95] text-[#F2EFE9]">
+        CHANAKYA<br>
+        <span class="text-[#8E8D94] hover:text-[var(--accent)] transition-colors duration-500">AKONDI.</span>
+      </h1>
+
+      <p class="text-lg sm:text-2xl text-[#8E8D94] max-w-3xl font-light leading-relaxed">
+        AI Creative Designer &amp; Visual Storyteller. Directing artificial intelligence, cinematic motion, spatial game worlds, and interactive systems.
+      </p>
+    </div>
+
+    <!-- Bottom Scroll Cue -->
+    <div class="flex items-center justify-between border-t border-[#232328] pt-8 font-mono text-xs text-[#8E8D94]">
+      <div class="flex items-center gap-3">
+        <span class="animate-bounce text-[var(--accent)]">↓</span>
+        <span>SCROLL TO EXPLORE 5 DISCIPLINES</span>
+      </div>
+      <div class="hidden sm:block text-[11px] tracking-wider text-[#8E8D94]">
+        HOVER PANELS TO EXPAND · CLICK TO OPEN
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- 03. THE CORE IDEA: FIVE EXPANDING PANELS                -->
+  <!-- ======================================================== -->
+  <section id="panels" class="py-12 px-4 sm:px-8 max-w-[1880px] mx-auto">
+    
+    <!-- Section Title Ribbon -->
+    <div class="flex flex-col sm:flex-row justify-between sm:items-end gap-3 pb-8 px-2 border-b border-[#232328]">
+      <div>
+        <span class="font-mono text-xs text-[var(--accent)] tracking-widest uppercase">DISCIPLINE DIRECTORY</span>
+        <h2 class="text-2xl sm:text-4xl font-display font-extrabold text-[#F2EFE9]">FIVE CREATIVE WORLDS</h2>
+      </div>
+      <span class="font-mono text-xs text-[#8E8D94]">
+        Hover to preview · Click to filter work archive
+      </span>
+    </div>
+
+    <!-- 5 Tall Side-by-Side Panels (Desktop: Flex Row, Mobile: Stacked) -->
+    <div class="expand-container flex flex-col lg:flex-row w-full h-auto lg:h-[80vh] min-h-[640px] gap-2 lg:gap-3 pt-6">
+
+      <!-- ================= PANEL 01: AI FILMMAKING & DESIGN ================= -->
+      <div onclick="scrollToDiscipline('ai-film')" data-cursor="EXPLORE" class="expand-panel rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] cursor-pointer group">
+        
+        <!-- Background Media Preview -->
+        <div class="absolute inset-0 z-0">
+          <img src="https://i.vimeocdn.com/video/2188450696-bd35b8644b77f05b560998bc77af4487d9a5f9d4a25ef5f3dab96e617b0ee021-d_640?region=us" alt="Shiv Tandav AI Film" class="w-full h-full object-cover filter brightness-50 group-hover:brightness-90 group-hover:scale-105 transition-all duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-[#0E0E10]/40 to-transparent"></div>
+        </div>
+
+        <!-- Panel Foreground Content -->
+        <div class="relative z-10 h-full p-6 sm:p-8 flex flex-col justify-between">
+          
+          <!-- Top Row: Number & Project Count -->
+          <div class="flex justify-between items-start font-mono">
+            <span class="text-2xl sm:text-4xl font-display font-extrabold text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors">01</span>
+            <span class="text-[10px] tracking-wider px-3 py-1 rounded-full bg-[#0E0E10]/80 border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] transition-colors">
+              12 PROJECTS
+            </span>
+          </div>
+
+          <!-- Desktop Collapsed Vertical Title -->
+          <div class="hidden lg:flex my-auto items-center justify-center pointer-events-none">
+            <span class="panel-vertical-title font-display font-bold text-xl tracking-wider text-[#F2EFE9]/80 uppercase">
+              AI FILMMAKING &amp; DESIGN
+            </span>
+          </div>
+
+          <!-- Expanded Content Revealed on Hover -->
+          <div class="panel-expanded-content space-y-4">
+            <span class="inline-block font-mono text-[11px] text-[var(--accent)] tracking-widest uppercase">
+              PROCEDURAL CINEMATICS &amp; PROMPT ART
+            </span>
+            <h3 class="text-3xl sm:text-5xl font-display font-extrabold text-[#F2EFE9] leading-tight">
+              AI Filmmaking &amp; Design
+            </h3>
+            <p class="text-sm text-[#8E8D94] max-w-md font-light leading-relaxed line-clamp-3">
+              Directing cosmic visual short films, procedural camera trajectories, and generative world design through Veo, Midjourney, and Runway.
+            </p>
+            <div class="pt-2 flex items-center gap-3 font-mono text-xs font-bold text-[var(--accent)]">
+              <span>EXPLORE FILMS &amp; AI WORK</span>
+              <span class="group-hover:translate-x-1 transition-transform">→</span>
+            </div>
+          </div>
+
+          <!-- Mobile Only Bottom Title Strip -->
+          <div class="lg:hidden pt-4">
+            <h3 class="text-xl font-display font-bold text-[#F2EFE9]">AI Filmmaking &amp; Design</h3>
+            <p class="text-xs text-[#8E8D94] mt-1 font-mono">12 Projects · Veo, Midjourney, Runway</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ================= PANEL 02: GRAPHIC DESIGN ================= -->
+      <div onclick="scrollToDiscipline('graphic-design')" data-cursor="EXPLORE" class="expand-panel rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] cursor-pointer group">
+        
+        <!-- Background Media Preview -->
+        <div class="absolute inset-0 z-0">
+          <img src="../assets/Graphic%20Design/Posters/bhavodvegam%20poster%202.1.jpg" alt="Graphic Design Posters" class="w-full h-full object-cover filter brightness-50 group-hover:brightness-90 group-hover:scale-105 transition-all duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-[#0E0E10]/40 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 h-full p-6 sm:p-8 flex flex-col justify-between">
+          <div class="flex justify-between items-start font-mono">
+            <span class="text-2xl sm:text-4xl font-display font-extrabold text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors">02</span>
+            <span class="text-[10px] tracking-wider px-3 py-1 rounded-full bg-[#0E0E10]/80 border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] transition-colors">
+              18 PROJECTS
+            </span>
+          </div>
+
+          <div class="hidden lg:flex my-auto items-center justify-center pointer-events-none">
+            <span class="panel-vertical-title font-display font-bold text-xl tracking-wider text-[#F2EFE9]/80 uppercase">
+              GRAPHIC DESIGN
+            </span>
+          </div>
+
+          <div class="panel-expanded-content space-y-4">
+            <span class="inline-block font-mono text-[11px] text-[var(--accent)] tracking-widest uppercase">
+              POSTERS &amp; VISUAL IDENTITY
+            </span>
+            <h3 class="text-3xl sm:text-5xl font-display font-extrabold text-[#F2EFE9] leading-tight">
+              Graphic Design
+            </h3>
+            <p class="text-sm text-[#8E8D94] max-w-md font-light leading-relaxed line-clamp-3">
+              Theatrical mass-media posters, YouTube high-CTR thumbnails, brand identities, and editorial print work crafted at ASK Grapika.
+            </p>
+            <div class="pt-2 flex items-center gap-3 font-mono text-xs font-bold text-[var(--accent)]">
+              <span>EXPLORE GRAPHIC POSTERS</span>
+              <span class="group-hover:translate-x-1 transition-transform">→</span>
+            </div>
+          </div>
+
+          <div class="lg:hidden pt-4">
+            <h3 class="text-xl font-display font-bold text-[#F2EFE9]">Graphic Design</h3>
+            <p class="text-xs text-[#8E8D94] mt-1 font-mono">18 Projects · Posters, Identity &amp; Print</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= PANEL 03: UI/UX DESIGN ================= -->
+      <div onclick="scrollToDiscipline('ui-ux')" data-cursor="EXPLORE" class="expand-panel rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] cursor-pointer group">
+        
+        <!-- Background Media Preview -->
+        <div class="absolute inset-0 z-0">
+          <img src="../assets/UI%20UX/web%20UI/ScriptSight%20-%20Landing%20Page.jpg" alt="UI/UX Design" class="w-full h-full object-cover object-top filter brightness-50 group-hover:brightness-90 group-hover:scale-105 transition-all duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-[#0E0E10]/40 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 h-full p-6 sm:p-8 flex flex-col justify-between">
+          <div class="flex justify-between items-start font-mono">
+            <span class="text-2xl sm:text-4xl font-display font-extrabold text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors">03</span>
+            <span class="text-[10px] tracking-wider px-3 py-1 rounded-full bg-[#0E0E10]/80 border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] transition-colors">
+              10 PROJECTS
+            </span>
+          </div>
+
+          <div class="hidden lg:flex my-auto items-center justify-center pointer-events-none">
+            <span class="panel-vertical-title font-display font-bold text-xl tracking-wider text-[#F2EFE9]/80 uppercase">
+              UI / UX DESIGN
+            </span>
+          </div>
+
+          <div class="panel-expanded-content space-y-4">
+            <span class="inline-block font-mono text-[11px] text-[var(--accent)] tracking-widest uppercase">
+              PRODUCT SYSTEMS &amp; SAAS
+            </span>
+            <h3 class="text-3xl sm:text-5xl font-display font-extrabold text-[#F2EFE9] leading-tight">
+              UI / UX Design
+            </h3>
+            <p class="text-sm text-[#8E8D94] max-w-md font-light leading-relaxed line-clamp-3">
+              Design thinking, structured wireframing, component design systems, and responsive web/mobile applications like ScriptSight and Bhakthi Bandhan.
+            </p>
+            <div class="pt-2 flex items-center gap-3 font-mono text-xs font-bold text-[var(--accent)]">
+              <span>EXPLORE CASE STUDIES</span>
+              <span class="group-hover:translate-x-1 transition-transform">→</span>
+            </div>
+          </div>
+
+          <div class="lg:hidden pt-4">
+            <h3 class="text-xl font-display font-bold text-[#F2EFE9]">UI / UX Design</h3>
+            <p class="text-xs text-[#8E8D94] mt-1 font-mono">10 Projects · Web &amp; Mobile Systems</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= PANEL 04: GAME DESIGN ================= -->
+      <div onclick="scrollToDiscipline('game-design')" data-cursor="EXPLORE" class="expand-panel rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] cursor-pointer group">
+        
+        <!-- Background Media Preview -->
+        <div class="absolute inset-0 z-0">
+          <img src="../assets/UI%20UX/game%20UI/NEXORA.png" alt="NEXORA Game UI" class="w-full h-full object-cover filter brightness-50 group-hover:brightness-90 group-hover:scale-105 transition-all duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-[#0E0E10]/40 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 h-full p-6 sm:p-8 flex flex-col justify-between">
+          <div class="flex justify-between items-start font-mono">
+            <span class="text-2xl sm:text-4xl font-display font-extrabold text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors">04</span>
+            <span class="text-[10px] tracking-wider px-3 py-1 rounded-full bg-[#0E0E10]/80 border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] transition-colors">
+              8 PROJECTS
+            </span>
+          </div>
+
+          <div class="hidden lg:flex my-auto items-center justify-center pointer-events-none">
+            <span class="panel-vertical-title font-display font-bold text-xl tracking-wider text-[#F2EFE9]/80 uppercase">
+              GAME DESIGN
+            </span>
+          </div>
+
+          <div class="panel-expanded-content space-y-4">
+            <span class="inline-block font-mono text-[11px] text-[var(--accent)] tracking-widest uppercase">
+              DIEGETIC HUDS &amp; 3D WORLDS
+            </span>
+            <h3 class="text-3xl sm:text-5xl font-display font-extrabold text-[#F2EFE9] leading-tight">
+              Game Design
+            </h3>
+            <p class="text-sm text-[#8E8D94] max-w-md font-light leading-relaxed line-clamp-3">
+              Futuristic vehicle cockpits, Spider-Man diegetic telemetry HUDs, procedural volumetric landscapes, and 3D environment architecture.
+            </p>
+            <div class="pt-2 flex items-center gap-3 font-mono text-xs font-bold text-[var(--accent)]">
+              <span>EXPLORE GAME HUDS &amp; 3D</span>
+              <span class="group-hover:translate-x-1 transition-transform">→</span>
+            </div>
+          </div>
+
+          <div class="lg:hidden pt-4">
+            <h3 class="text-xl font-display font-bold text-[#F2EFE9]">Game Design</h3>
+            <p class="text-xs text-[#8E8D94] mt-1 font-mono">8 Projects · HUDs, 3D Worlds &amp; Assets</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= PANEL 05: VIDEO EDITING ================= -->
+      <div onclick="scrollToDiscipline('video-editing')" data-cursor="EXPLORE" class="expand-panel rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] cursor-pointer group">
+        
+        <!-- Background Media Preview -->
+        <div class="absolute inset-0 z-0">
+          <img src="https://i.vimeocdn.com/video/2221187389-b72cc4e3c53833c58524899d82e77760b053b155594b8ddd8e65925eae7d99f5-d_640?region=us" alt="CleanGem Video Editing" class="w-full h-full object-cover filter brightness-50 group-hover:brightness-90 group-hover:scale-105 transition-all duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-[#0E0E10]/40 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 h-full p-6 sm:p-8 flex flex-col justify-between">
+          <div class="flex justify-between items-start font-mono">
+            <span class="text-2xl sm:text-4xl font-display font-extrabold text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors">05</span>
+            <span class="text-[10px] tracking-wider px-3 py-1 rounded-full bg-[#0E0E10]/80 border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] transition-colors">
+              8 PROJECTS
+            </span>
+          </div>
+
+          <div class="hidden lg:flex my-auto items-center justify-center pointer-events-none">
+            <span class="panel-vertical-title font-display font-bold text-xl tracking-wider text-[#F2EFE9]/80 uppercase">
+              VIDEO EDITING
+            </span>
+          </div>
+
+          <div class="panel-expanded-content space-y-4">
+            <span class="inline-block font-mono text-[11px] text-[var(--accent)] tracking-widest uppercase">
+              COMMERCIAL SPECS &amp; TEASERS
+            </span>
+            <h3 class="text-3xl sm:text-5xl font-display font-extrabold text-[#F2EFE9] leading-tight">
+              Video Editing
+            </h3>
+            <p class="text-sm text-[#8E8D94] max-w-md font-light leading-relaxed line-clamp-3">
+              Commercial spec spots (CleanGem, Mystery Popups), title teasers (Silver Spoon), kinetic automotive teasers, and sound-synced Instagram reels.
+            </p>
+            <div class="pt-2 flex items-center gap-3 font-mono text-xs font-bold text-[var(--accent)]">
+              <span>EXPLORE VIDEO COMMERCIALS</span>
+              <span class="group-hover:translate-x-1 transition-transform">→</span>
+            </div>
+          </div>
+
+          <div class="lg:hidden pt-4">
+            <h3 class="text-xl font-display font-bold text-[#F2EFE9]">Video Editing</h3>
+            <p class="text-xs text-[#8E8D94] mt-1 font-mono">8 Projects · Teasers, Reels &amp; Ads</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- 04. FEATURED WORK: 4 CROSS-DISCIPLINE HIGHLIGHTS         -->
+  <!-- ======================================================== -->
+  <section id="featured" class="py-24 px-6 sm:px-12 max-w-[1800px] mx-auto border-t border-[#232328]">
+    
+    <div class="flex flex-col sm:flex-row justify-between sm:items-end gap-4 pb-12">
+      <div>
+        <span class="font-mono text-xs text-[var(--accent)] tracking-widest uppercase">CURATED SELECTION</span>
+        <h2 class="text-3xl sm:text-6xl font-display font-extrabold text-[#F2EFE9] tracking-tight mt-1">FEATURED WORK</h2>
+      </div>
+      <p class="text-[#8E8D94] text-sm max-w-md font-light">
+        A snapshot across generative cinema, diegetic gaming interfaces, commercial motion, and SaaS architecture.
+      </p>
+    </div>
+
+    <!-- 4 Compact Curated Featured Cards (4-Column Balanced Grid) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+      <!-- Featured 01: Shiv Tandav (AI Film) -->
+      <div class="rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group flex flex-col justify-between">
+        <div class="relative aspect-video overflow-hidden bg-black cursor-pointer" onclick="openVideoModal('https://player.vimeo.com/video/1216900813', 'Shiv Tandav — The Eternal Force (Full AI Film)')" data-cursor="PLAY">
+          <img src="https://i.vimeocdn.com/video/2188450696-bd35b8644b77f05b560998bc77af4487d9a5f9d4a25ef5f3dab96e617b0ee021-d_640?region=us" alt="Shiv Tandav" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors flex items-center justify-center">
+            <span class="w-11 h-11 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-sm shadow-xl group-hover:scale-110 transition-transform">▶</span>
+          </div>
+          <span class="absolute top-2.5 left-2.5 font-mono text-[9px] tracking-wider px-2 py-0.5 rounded-full bg-[#0E0E10]/90 text-[var(--accent)] border border-[#232328]">
+            AI CINEMA
+          </span>
+        </div>
+        <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-baseline gap-2">
+              <h3 class="text-lg font-display font-bold text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors">Shiv Tandav</h3>
+              <span class="font-mono text-[10px] text-[#8E8D94]">2026</span>
+            </div>
+            <p class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">The Eternal Force · AI Short</p>
+            <p class="text-xs text-[#8E8D94] font-light leading-relaxed line-clamp-2">
+              Cosmic AI film exploring primordial energy with specialized trajectory camera prompting.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-[#232328] flex items-center justify-between text-xs">
+            <span class="font-mono text-[10px] text-[#8E8D94]">Veo 3.1 · Midjourney</span>
+            <button onclick="openVideoModal('https://player.vimeo.com/video/1216900813', 'Shiv Tandav — The Eternal Force')" class="font-mono text-[11px] font-bold text-[var(--accent)] hover:underline flex items-center gap-1">
+              <span>WATCH</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured 02: NEXORA (Game Design) -->
+      <div class="rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group flex flex-col justify-between">
+        <div class="relative aspect-video overflow-hidden bg-black cursor-pointer" onclick="openImageModal('../assets/UI%20UX/game%20UI/NEXORA.png', 'NEXORA — Futuristic Racing UI & Cockpit HUD')" data-cursor="VIEW">
+          <img src="../assets/UI%20UX/game%20UI/NEXORA.png" alt="NEXORA Game UI" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-2.5 left-2.5 font-mono text-[9px] tracking-wider px-2 py-0.5 rounded-full bg-[#0E0E10]/90 text-[var(--accent)] border border-[#232328]">
+            GAME HUD
+          </span>
+        </div>
+        <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-baseline gap-2">
+              <h3 class="text-lg font-display font-bold text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors">NEXORA</h3>
+              <span class="font-mono text-[10px] text-[#8E8D94]">3D / HUD</span>
+            </div>
+            <p class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Futuristic Racing Cockpit</p>
+            <p class="text-xs text-[#8E8D94] font-light leading-relaxed line-clamp-2">
+              In-cockpit diegetic telemetry instruments, spatial speedometer, and cybernetic indicators.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-[#232328] flex items-center justify-between text-xs">
+            <span class="font-mono text-[10px] text-[#8E8D94]">Figma · Blender</span>
+            <button onclick="openImageModal('../assets/UI%20UX/game%20UI/NEXORA.png', 'NEXORA — Futuristic Racing UI')" class="font-mono text-[11px] font-bold text-[var(--accent)] hover:underline flex items-center gap-1">
+              <span>INSPECT</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured 03: CleanGem (Video Editing & Spec Commercial) -->
+      <div class="rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group flex flex-col justify-between">
+        <div class="relative aspect-video overflow-hidden bg-black cursor-pointer" onclick="openVideoModal('https://player.vimeo.com/video/1242827116', 'CleanGem Glass Cleaner — Commercial Spec Ad')" data-cursor="PLAY">
+          <img src="https://i.vimeocdn.com/video/2221187389-b72cc4e3c53833c58524899d82e77760b053b155594b8ddd8e65925eae7d99f5-d_640?region=us" alt="CleanGem Commercial" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors flex items-center justify-center">
+            <span class="w-11 h-11 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-sm shadow-xl group-hover:scale-110 transition-transform">▶</span>
+          </div>
+          <span class="absolute top-2.5 left-2.5 font-mono text-[9px] tracking-wider px-2 py-0.5 rounded-full bg-[#0E0E10]/90 text-[var(--accent)] border border-[#232328]">
+            SPEC AD
+          </span>
+        </div>
+        <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-baseline gap-2">
+              <h3 class="text-lg font-display font-bold text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors">CleanGem</h3>
+              <span class="font-mono text-[10px] text-[#8E8D94]">COMMERCIAL</span>
+            </div>
+            <p class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Product Spec &amp; Sound Design</p>
+            <p class="text-xs text-[#8E8D94] font-light leading-relaxed line-clamp-2">
+              Luxury commercial edit featuring macro fluid simulations, caustics, and kinetic cutting.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-[#232328] flex items-center justify-between text-xs">
+            <span class="font-mono text-[10px] text-[#8E8D94]">Premiere · Runway</span>
+            <button onclick="openVideoModal('https://player.vimeo.com/video/1242827116', 'CleanGem Glass Cleaner')" class="font-mono text-[11px] font-bold text-[var(--accent)] hover:underline flex items-center gap-1">
+              <span>PLAY</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured 04: ScriptSight (UI/UX Design System) -->
+      <div class="rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group flex flex-col justify-between">
+        <div class="relative aspect-video overflow-hidden bg-black cursor-pointer" onclick="openBehanceModal('https://www.behance.net/embed/project/252154409?ilo0=1', 'ScriptSight — Screenplay Intelligence SaaS')" data-cursor="VIEW">
+          <img src="../assets/UI%20UX/web%20UI/ScriptSight%20-%20Landing%20Page.jpg" alt="ScriptSight Landing Page" loading="lazy" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-2.5 left-2.5 font-mono text-[9px] tracking-wider px-2 py-0.5 rounded-full bg-[#0E0E10]/90 text-[var(--accent)] border border-[#232328]">
+            UI / UX SAAS
+          </span>
+        </div>
+        <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-baseline gap-2">
+              <h3 class="text-lg font-display font-bold text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors">ScriptSight</h3>
+              <span class="font-mono text-[10px] text-[#8E8D94]">CASE STUDY</span>
+            </div>
+            <p class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Screenplay SaaS Intelligence</p>
+            <p class="text-xs text-[#8E8D94] font-light leading-relaxed line-clamp-2">
+              Full-stack SaaS product design: user telemetry dashboards and high-conversion landing layout.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-[#232328] flex items-center justify-between text-xs">
+            <span class="font-mono text-[10px] text-[#8E8D94]">Figma · Design Tokens</span>
+            <button onclick="openBehanceModal('https://www.behance.net/embed/project/252154409?ilo0=1', 'ScriptSight')" class="font-mono text-[11px] font-bold text-[var(--accent)] hover:underline flex items-center gap-1">
+              <span>EXPLORE</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+      <!-- ======================================================== -->
+  <!-- 04. PRODUCTION WORKFLOW — 3D FLIP CARDS (SINGLE SLOW ROW) -->
+  <!-- ======================================================== -->
+  <section id="workflow" class="py-24 px-6 sm:px-12 max-w-[1800px] mx-auto border-t border-[#232328] overflow-hidden">
+    
+    <!-- Section Header (Left-Aligned, Clean, NO right hint text) -->
+    <div class="pb-10 text-left space-y-3">
+      <div class="inline-flex items-center gap-2 font-mono text-xs text-[var(--accent)] tracking-widest uppercase">
+        <span class="w-2 h-2 rounded-full bg-[var(--accent)] animate-pulse"></span>
+        <span>END-TO-END PIPELINE</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl lg:text-6xl font-display font-extrabold text-[#F2EFE9] tracking-tight leading-none">
+        PRODUCTION WORKFLOW
+      </h2>
+      <p class="text-[#8E8D94] text-sm sm:text-base font-light max-w-2xl leading-relaxed">
+        An 8-stage cyclical framework from ideation and prompt architecture through neural generation, compositing, motion, and final master grading. Hover over any stage card to flip and reveal the visual artwork.
+      </p>
+    </div>
+
+    <!-- Single Row Slow-Moving Track with 3D Flip Cards -->
+    <div class="workflow-track-wrapper">
+      <div class="workflow-track">
+        <!-- Set 1 (Stages 01 - 08) -->
+        <!-- Workflow Card Stage 01 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 01
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  01 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  01
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    Creative Brief & Vision
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Conceptual Architecture
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="../assets/workflow/1.png"
+                alt="Production Workflow Stage 01 - Creative Brief & Vision"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 01
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">Creative Brief & Vision</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 02 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 02
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  02 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  02
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    Prompt & Style Tokens
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Latent Space Direction
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="../assets/workflow/2.png"
+                alt="Production Workflow Stage 02 - Prompt & Style Tokens"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 02
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">Prompt & Style Tokens</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 03 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 03
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  03 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  03
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    AI Visual Synthesis
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Multi-Pass Generation
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="../assets/workflow/3.png"
+                alt="Production Workflow Stage 03 - AI Visual Synthesis"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 03
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">AI Visual Synthesis</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 04 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 04
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  04 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  04
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    Directional Curation
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Cohesion & Selection
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="../assets/workflow/4.png"
+                alt="Production Workflow Stage 04 - Directional Curation"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 04
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">Directional Curation</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 05 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 05
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  05 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  05
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    High-Res Upscaling
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Latent Refinement
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="../assets/workflow/5.png"
+                alt="Production Workflow Stage 05 - High-Res Upscaling"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 05
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">High-Res Upscaling</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 06 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 06
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  06 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  06
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    VFX & Compositing
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Photoshop Assembly
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="../assets/workflow/6.png"
+                alt="Production Workflow Stage 06 - VFX & Compositing"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 06
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">VFX & Compositing</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 07 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 07
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  07 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  07
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    Quality Check
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Review & Standards
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="../assets/workflow/7.png"
+                alt="Production Workflow Stage 07 - Quality Check"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 07
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">Quality Check</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 08 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 08
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  08 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  08
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    Final Delivery
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Master Assets & Handover
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="../assets/workflow/8.png"
+                alt="Production Workflow Stage 08 - Final Delivery"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 08
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">Final Delivery</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Set 2 (Seamless Infinite Clone 01 - 08) -->
+        <!-- Workflow Card Stage 01 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 01
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  01 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  01
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    Creative Brief & Vision
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Conceptual Architecture
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="../assets/workflow/1.png"
+                alt="Production Workflow Stage 01 - Creative Brief & Vision"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 01
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">Creative Brief & Vision</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 02 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 02
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  02 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  02
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    Prompt & Style Tokens
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Latent Space Direction
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="../assets/workflow/2.png"
+                alt="Production Workflow Stage 02 - Prompt & Style Tokens"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 02
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">Prompt & Style Tokens</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 03 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 03
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  03 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  03
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    AI Visual Synthesis
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Multi-Pass Generation
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="../assets/workflow/3.png"
+                alt="Production Workflow Stage 03 - AI Visual Synthesis"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 03
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">AI Visual Synthesis</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 04 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 04
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  04 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  04
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    Directional Curation
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Cohesion & Selection
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="../assets/workflow/4.png"
+                alt="Production Workflow Stage 04 - Directional Curation"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 04
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">Directional Curation</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 05 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 05
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  05 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  05
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    High-Res Upscaling
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Latent Refinement
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="../assets/workflow/5.png"
+                alt="Production Workflow Stage 05 - High-Res Upscaling"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 05
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">High-Res Upscaling</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 06 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 06
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  06 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  06
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    VFX & Compositing
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Photoshop Assembly
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="../assets/workflow/6.png"
+                alt="Production Workflow Stage 06 - VFX & Compositing"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 06
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">VFX & Compositing</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 07 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 07
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  07 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  07
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    Quality Check
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Review & Standards
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="../assets/workflow/7.png"
+                alt="Production Workflow Stage 07 - Quality Check"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 07
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">Quality Check</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 08 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 08
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  08 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  08
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    Final Delivery
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Master Assets & Handover
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="../assets/workflow/8.png"
+                alt="Production Workflow Stage 08 - Final Delivery"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 08
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">Final Delivery</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- 05. DISCIPLINE WORK EXPLORER (6-8 Projects Per Discipline)-->
+  <!-- ======================================================== -->
+  <section id="work-archive" class="py-24 px-6 sm:px-12 max-w-[1800px] mx-auto border-t border-[#232328]">
+    
+    <div class="flex flex-col sm:flex-row justify-between sm:items-end gap-6 pb-12">
+      <div>
+        <span class="font-mono text-xs text-[var(--accent)] tracking-widest uppercase">SECTION SPECIFIC ARCHIVE</span>
+        <h2 class="text-3xl sm:text-6xl font-display font-extrabold text-[#F2EFE9] tracking-tight mt-1">DISCIPLINE WORK</h2>
+      </div>
+
+      <!-- Filter Buttons matching the 5 Disciplines -->
+      <div class="flex flex-wrap gap-2 font-mono text-xs">
+        <button onclick="filterV2Work('all')" id="v2btn-all" class="v2-filter-btn px-4 py-2 rounded-full bg-[var(--accent)] text-[#0E0E10] font-bold transition-all">ALL (38+)</button>
+        <button onclick="filterV2Work('ai-film')" id="v2btn-ai-film" class="v2-filter-btn px-4 py-2 rounded-full bg-[#151518] text-[#8E8D94] hover:text-[#F2EFE9] border border-[#232328] transition-all">AI FILM (12)</button>
+        <button onclick="filterV2Work('graphic-design')" id="v2btn-graphic-design" class="v2-filter-btn px-4 py-2 rounded-full bg-[#151518] text-[#8E8D94] hover:text-[#F2EFE9] border border-[#232328] transition-all">GRAPHIC (8)</button>
+        <button onclick="filterV2Work('ui-ux')" id="v2btn-ui-ux" class="v2-filter-btn px-4 py-2 rounded-full bg-[#151518] text-[#8E8D94] hover:text-[#F2EFE9] border border-[#232328] transition-all">UI / UX (6)</button>
+        <button onclick="filterV2Work('game-design')" id="v2btn-game-design" class="v2-filter-btn px-4 py-2 rounded-full bg-[#151518] text-[#8E8D94] hover:text-[#F2EFE9] border border-[#232328] transition-all">GAME DESIGN (6)</button>
+        <button onclick="filterV2Work('video-editing')" id="v2btn-video-editing" class="v2-filter-btn px-4 py-2 rounded-full bg-[#151518] text-[#8E8D94] hover:text-[#F2EFE9] border border-[#232328] transition-all">VIDEO EDITING (6)</button>
+      </div>
+    </div>
+
+    <!-- The Tailored Projects Grid -->
+    <div id="v2-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
+
+      <!-- AI FILM 01: Shiv Tandav -->
+      <div class="v2-card v2-ai-film rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openVideoModal('https://player.vimeo.com/video/1216900813', 'Shiv Tandav — The Eternal Force')" data-cursor="PLAY">
+          <img src="https://i.vimeocdn.com/video/2188450696-bd35b8644b77f05b560998bc77af4487d9a5f9d4a25ef5f3dab96e617b0ee021-d_640?region=us" alt="Shiv Tandav" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">AI CINEMA</span>
+          <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-transparent">
+            <span class="w-10 h-10 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-sm shadow-xl">▶</span>
+          </div>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Shiv Tandav</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Behind the scenes: Prompt camera trajectory, cosmological style tokens, multi-pass motion upscale.</p>
+          <button onclick="openVideoModal('https://player.vimeo.com/video/1216900813', 'Shiv Tandav')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">PLAY WITH AUDIO →</button>
+        </div>
+      </div>
+
+      <!-- AI FILM 02: Alone -->
+      <div class="v2-card v2-ai-film rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openVideoModal('https://player.vimeo.com/video/1216900814', 'Alone — AI Narrative Short Film')" data-cursor="PLAY">
+          <img src="https://i.vimeocdn.com/video/2188451076-55bbb65a640487d60e1115d0ea1daa5bd486c6d91b80b80908e34ef091e9d018-d_640?region=us" alt="Alone" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">AI SHORT FILM</span>
+          <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-transparent">
+            <span class="w-10 h-10 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-sm shadow-xl">▶</span>
+          </div>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Alone</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Behind the scenes: Emotional pacing, surreal isolation landscapes, generative ambient soundscapes.</p>
+          <button onclick="openVideoModal('https://player.vimeo.com/video/1216900814', 'Alone')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">PLAY FILM →</button>
+        </div>
+      </div>
+
+      <!-- AI FILM 03: Annadanam -->
+      <div class="v2-card v2-ai-film rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openVideoModal('https://player.vimeo.com/video/1242818468', 'Annadanam — Cultural AI Film')" data-cursor="PLAY">
+          <img src="https://i.vimeocdn.com/video/2221175698-afafddd15c24a45cfe60e9b7c9f60d066a96e15ff6662f3147ec9217d9241ab1-d_640?region=us" alt="Annadanam" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">HERITAGE AI</span>
+          <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-transparent">
+            <span class="w-10 h-10 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-sm shadow-xl">▶</span>
+          </div>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Annadanam</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Behind the scenes: Traditional Indian sacred offering portrayed through photorealistic generative cinematography.</p>
+          <button onclick="openVideoModal('https://player.vimeo.com/video/1242818468', 'Annadanam')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">PLAY FILM →</button>
+        </div>
+      </div>
+
+
+
+      <!-- GRAPHIC 01: Bhavodvegam Poster -->
+      <div class="v2-card v2-graphic-design rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-80 bg-black cursor-pointer overflow-hidden" onclick="openImageModal('../assets/Graphic%20Design/Posters/bhavodvegam%20poster%202.1.jpg', 'Bhavodvegam Theatrical Poster')" data-cursor="VIEW">
+          <img src="../assets/Graphic%20Design/Posters/bhavodvegam%20poster%202.1.jpg" alt="Poster" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">THEATRICAL POSTER</span>
+        </div>
+        <div class="p-6 space-y-2">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Bhavodvegam Poster</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Theatrical mass-media cinematic poster with custom typography and dramatic lighting.</p>
+          <button onclick="openImageModal('../assets/Graphic%20Design/Posters/bhavodvegam%20poster%202.1.jpg', 'Bhavodvegam')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-1">FULLSCREEN ZOOM ↗</button>
+        </div>
+      </div>
+
+      <!-- GRAPHIC 02: Dasu Vegi Poster -->
+      <div class="v2-card v2-graphic-design rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-80 bg-black cursor-pointer overflow-hidden" onclick="openImageModal('../assets/Graphic%20Design/Posters/8%20x%2012%20dasu%20vegi%202.jpg', 'Dasu Vegi Event Poster')" data-cursor="VIEW">
+          <img src="../assets/Graphic%20Design/Posters/8%20x%2012%20dasu%20vegi%202.jpg" alt="Poster" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">EVENT POSTER</span>
+        </div>
+        <div class="p-6 space-y-2">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Dasu Vegi Visual</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">High-contrast portrait composition with layered typography and color theory.</p>
+          <button onclick="openImageModal('../assets/Graphic%20Design/Posters/8%20x%2012%20dasu%20vegi%202.jpg', 'Dasu Vegi')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-1">FULLSCREEN ZOOM ↗</button>
+        </div>
+      </div>
+
+      <!-- GRAPHIC 03: Tammu Birthday CDP -->
+      <div class="v2-card v2-graphic-design rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-80 bg-black cursor-pointer overflow-hidden" onclick="openImageModal('../assets/Graphic%20Design/Posters/tammu%20bday.jpg', 'Celebrity Birthday Poster')" data-cursor="VIEW">
+          <img src="../assets/Graphic%20Design/Posters/tammu%20bday.jpg" alt="Poster" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">MASS POSTER</span>
+        </div>
+        <div class="p-6 space-y-2">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Hero Theatrical CDP</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Festival celebratory poster, multi-source lighting, and dynamic brush typography.</p>
+          <button onclick="openImageModal('../assets/Graphic%20Design/Posters/tammu%20bday.jpg', 'Hero Theatrical')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-1">FULLSCREEN ZOOM ↗</button>
+        </div>
+      </div>
+
+      <!-- UI/UX 01: ScriptSight -->
+      <div class="v2-card v2-ui-ux rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openBehanceModal('https://www.behance.net/embed/project/252154409?ilo0=1', 'ScriptSight')" data-cursor="VIEW">
+          <img src="../assets/UI%20UX/web%20UI/ScriptSight%20-%20Landing%20Page.jpg" alt="ScriptSight" loading="lazy" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">CASE STUDY · SAAS</span>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">ScriptSight Case Study</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Problem: Complex script metrics overwhelm writers. Process: Modular telemetry HUDs. Outcome: High conversion SaaS layout.</p>
+          <button onclick="openBehanceModal('https://www.behance.net/embed/project/252154409?ilo0=1', 'ScriptSight')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">VIEW BEHANCE EMBED ↗</button>
+        </div>
+      </div>
+
+      <!-- UI/UX 02: Bhakthi Bandhan -->
+      <div class="v2-card v2-ui-ux rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openImageModal('../assets/UI%20UX/web%20UI/bhakti%20bandhan.png', 'Bhakthi Bandhan Devotional Web UI')" data-cursor="VIEW">
+          <img src="../assets/UI%20UX/web%20UI/bhakti%20bandhan.png" alt="Bhakthi Bandhan" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">CASE STUDY · WEB</span>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Bhakthi Bandhan</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Problem: Traditional temple activities lack modern accessibility. Solution: Sacred aesthetic tokens with digital event calendars.</p>
+          <button onclick="openImageModal('../assets/UI%20UX/web%20UI/bhakti%20bandhan.png', 'Bhakthi Bandhan')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">VIEW SCREENS ↗</button>
+        </div>
+      </div>
+
+      <!-- UI/UX 03: Wireframes & Architecture -->
+      <div class="v2-card v2-ui-ux rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openBehanceModal('https://www.behance.net/embed/project/252154175?ilo0=1', 'Wireframing & UX Architecture')" data-cursor="VIEW">
+          <img src="../assets/UI%20UX/wireframes/myv%20vapes.jpg" alt="Wireframing" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">UX ARCHITECTURE</span>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">UX Wireframes &amp; Blueprints</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Information architecture, user flows, and low-fidelity prototyping before high-fidelity visual design.</p>
+          <button onclick="openBehanceModal('https://www.behance.net/embed/project/252154175?ilo0=1', 'Wireframing')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">VIEW BEHANCE EMBED ↗</button>
+        </div>
+      </div>
+
+      <!-- GAME 01: NEXORA -->
+      <div class="v2-card v2-game-design rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openImageModal('../assets/UI%20UX/game%20UI/NEXORA.png', 'NEXORA — Cockpit HUD')" data-cursor="VIEW">
+          <img src="../assets/UI%20UX/game%20UI/NEXORA.png" alt="NEXORA" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">GAME HUD</span>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">NEXORA Cockpit HUD</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Concept: Futuristic anti-grav racer. Mechanics: Real-time battery depletion &amp; G-force telemetry.</p>
+          <button onclick="openImageModal('../assets/UI%20UX/game%20UI/NEXORA.png', 'NEXORA HUD')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">INSPECT HUD ↗</button>
+        </div>
+      </div>
+
+      <!-- GAME 02: Spider-Man Suit & HUD -->
+      <div class="v2-card v2-game-design rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openBehanceModal('https://www.behance.net/embed/project/255055209?ilo0=1', 'Spider-Man HUD & Game UI')" data-cursor="VIEW">
+          <img src="../assets/UI%20UX/game%20UI/spiderman.png" alt="Spider-Man Game UI" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">GAME UI</span>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Spider-Man Suit &amp; HUD</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Concept: Augmented reality visor telemetry for web-shooters, threat scanning, and agility tracking.</p>
+          <button onclick="openBehanceModal('https://www.behance.net/embed/project/255055209?ilo0=1', 'Spider-Man UI')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">VIEW BEHANCE EMBED ↗</button>
+        </div>
+      </div>
+
+      <!-- GAME 03: The Lost Temple (3D Envi) -->
+      <div class="v2-card v2-game-design rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openImageModal('../assets/UI%20UX/game%20UI/the%20lost%20temple.jpg', 'The Lost Temple 3D Level Design')" data-cursor="VIEW">
+          <img src="../assets/UI%20UX/game%20UI/the%20lost%20temple.jpg" alt="Lost Temple" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">3D LEVEL DESIGN</span>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">The Lost Temple</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Concept: Ancient forgotten citadel environment with waterfall cascades and volumetric lighting.</p>
+          <button onclick="openImageModal('../assets/UI%20UX/game%20UI/the%20lost%20temple.jpg', 'The Lost Temple')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">FULLSCREEN VIEW ↗</button>
+        </div>
+      </div>
+
+      <!-- GAME 04: AI Game Env Loops -->
+      <div class="v2-card v2-game-design rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openVideoModal('https://player.vimeo.com/video/1243143041', 'AI Game Environment Loop 2')" data-cursor="PLAY">
+          <img src="https://i.vimeocdn.com/video/2221585370-e66b0977b75bad339d23bc84f86c15e9a2e67675d46f0a7d3e47e48e0bcf7b0e-d_640?region=us" alt="AI Game Env Loop 2" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">3D ENVI LOOP</span>
+          <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-transparent">
+            <span class="w-10 h-10 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-sm shadow-xl">▶</span>
+          </div>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Procedural 3D Environment Pass</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Volumetric light rays, procedural terrain meshes, dynamic skybox lighting loops.</p>
+          <button onclick="openVideoModal('https://player.vimeo.com/video/1243143041', 'AI Game Env Loop 2')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">PLAY LOOP →</button>
+        </div>
+      </div>
+
+      <!-- VIDEO EDITING 01: CleanGem -->
+      <div class="v2-card v2-video-editing rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openVideoModal('https://player.vimeo.com/video/1242827116', 'CleanGem Commercial')" data-cursor="PLAY">
+          <img src="https://i.vimeocdn.com/video/2221187389-b72cc4e3c53833c58524899d82e77760b053b155594b8ddd8e65925eae7d99f5-d_640?region=us" alt="CleanGem" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">COMMERCIAL</span>
+          <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-transparent">
+            <span class="w-10 h-10 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-sm shadow-xl">▶</span>
+          </div>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">CleanGem Glass Cleaner</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Commercial spec edit, fluid physics simulations, luxury color correction and SFX.</p>
+          <button onclick="openVideoModal('https://player.vimeo.com/video/1242827116', 'CleanGem')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">PLAY WITH AUDIO →</button>
+        </div>
+      </div>
+
+      <!-- VIDEO EDITING 02: Silver Spoon -->
+      <div class="v2-card v2-video-editing rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openVideoModal('https://player.vimeo.com/video/1242826703', 'Silver Spoon Title Teaser VO')" data-cursor="PLAY">
+          <img src="https://i.vimeocdn.com/video/2221188155-37eb415a3694295eac277c8d13bb9efe2d38453e7ede951b297c6fceb4e5e175-d_640?region=us" alt="Silver Spoon" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">TITLE TEASER</span>
+          <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-transparent">
+            <span class="w-10 h-10 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-sm shadow-xl">▶</span>
+          </div>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Silver Spoon</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Theatrical teaser cut, dark neo-noir typography, dramatic title voiceover sync.</p>
+          <button onclick="openVideoModal('https://player.vimeo.com/video/1242826703', 'Silver Spoon')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">PLAY TEASER →</button>
+        </div>
+      </div>
+
+      <!-- VIDEO EDITING 03: Skillinduce Reel -->
+      <div class="v2-card v2-video-editing rounded-2xl bg-[#151518] border border-[#232328] hover:border-[var(--accent)] overflow-hidden flex flex-col justify-between group">
+        <div class="relative h-60 bg-black cursor-pointer overflow-hidden" onclick="openVideoModal('https://player.vimeo.com/video/1242823795', 'Skillinduce Social Reel Edit')" data-cursor="PLAY">
+          <img src="https://i.vimeocdn.com/video/2221179597-5e12a503fd612f0ec49ecc14384ed0817c0b8cbe60e042ec6bab1aa8fe9ff180-d_640?region=us" alt="Skillinduce Reel" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 font-mono text-[9px] px-2.5 py-0.5 rounded bg-[#0E0E10] border border-[#232328] text-[var(--accent)]">INSTAGRAM REEL</span>
+          <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-transparent">
+            <span class="w-10 h-10 rounded-full bg-[var(--accent)] text-[#0E0E10] flex items-center justify-center font-bold text-sm shadow-xl">▶</span>
+          </div>
+        </div>
+        <div class="p-6 space-y-3">
+          <h4 class="font-display font-bold text-lg text-[#F2EFE9]">Skillinduce Reel Edit</h4>
+          <p class="font-mono text-xs text-[#8E8D94]">Short-form vertical video edit with fast kinetic captions and micro-animations.</p>
+          <button onclick="openVideoModal('https://player.vimeo.com/video/1242823795', 'Skillinduce Reel')" class="font-mono text-xs text-[var(--accent)] hover:underline pt-2">PLAY REEL →</button>
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- 06. ABOUT: SHORT INTRO & THIN SKILLS STRIP               -->
+  <!-- ======================================================== -->
+  <section id="about" class="py-24 px-6 sm:px-12 max-w-[1800px] mx-auto border-t border-[#232328]">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Portrait Photo of Chanakya -->
+      <div class="lg:col-span-5 relative group">
+        <div class="rounded-3xl overflow-hidden border border-[#232328] bg-[#151518] max-w-md mx-auto relative">
+          <img src="../me.jpg" alt="Chanakya Akondi" loading="lazy" class="w-full h-[520px] object-cover object-top filter grayscale contrast-110 group-hover:grayscale-0 transition-all duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-transparent to-transparent"></div>
+          <div class="absolute bottom-6 left-6 right-6 flex justify-between items-end font-mono text-xs">
+            <div>
+              <div class="font-display font-bold text-base text-[#F2EFE9]">CHANAKYA AKONDI</div>
+              <div class="text-[var(--accent)] text-[11px]">AI Creative Designer</div>
+            </div>
+            <span class="text-[#8E8D94] bg-[#0E0E10]/90 px-3 py-1 rounded-full border border-[#232328]">1+ YRS EXP</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Narrative & Journey -->
+      <div class="lg:col-span-7 space-y-8">
+        <div>
+          <span class="font-mono text-xs text-[var(--accent)] tracking-widest uppercase">ABOUT THE CREATOR</span>
+          <h2 class="text-3xl sm:text-6xl font-display font-extrabold text-[#F2EFE9] tracking-tight mt-1">
+            BRIDGING CLASSICAL CRAFT &amp; AI DIRECTION.
+          </h2>
+        </div>
+
+        <div class="space-y-4 text-base text-[#8E8D94] font-light leading-relaxed max-w-2xl">
+          <p>
+            I'm <strong class="text-[#F2EFE9] font-medium">Chanakya Akondi</strong>, an AI Creative Designer, Filmmaker, and Visual Storyteller. My creative philosophy sits at the convergence of technical curiosity and bold art direction.
+          </p>
+          <p>
+            From launching my studio <strong class="text-[#F2EFE9] font-medium">ASK Grapika</strong> in 2022 to creating commercial spec films, completing an intensive UI/UX design internship, and directing cutting-edge AI cinematics at <strong class="text-[#F2EFE9] font-medium">People Media Factory</strong> — I treat every medium as an immersive universe waiting to be realized.
+          </p>
+        </div>
+
+        <!-- Thin Skills Strip (Restrained, No Clutter) -->
+        <div class="space-y-3 pt-4 border-t border-[#232328]">
+          <span class="font-mono text-[11px] text-[#8E8D94] uppercase tracking-wider block">PRODUCTION TOOLKIT:</span>
+          <div class="flex flex-wrap gap-2 font-mono text-xs text-[#F2EFE9]">
+            <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] hover:border-[var(--accent)] transition-colors">Blender</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] hover:border-[var(--accent)] transition-colors">Midjourney</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] hover:border-[var(--accent)] transition-colors">Veo 3.1</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] hover:border-[var(--accent)] transition-colors">Runway ML</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] hover:border-[var(--accent)] transition-colors">Premiere Pro</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] hover:border-[var(--accent)] transition-colors">Figma</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] hover:border-[var(--accent)] transition-colors">Photoshop</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] hover:border-[var(--accent)] transition-colors">Tripo AI</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] hover:border-[var(--accent)] transition-colors">Meshy AI</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] hover:border-[var(--accent)] transition-colors">Layer AI</span>
+          </div>
+        </div>
+
+        <!-- Career Milestones Ribbon -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 font-mono text-xs">
+          <div class="p-4 rounded-xl bg-[#151518] border border-[#232328]">
+            <div class="text-[var(--accent)] font-bold">2022 — PRESENT</div>
+            <div class="text-[#F2EFE9] font-bold mt-1">ASK Grapika</div>
+            <div class="text-[11px] text-[#8E8D94] mt-0.5">Founder &amp; Designer</div>
+          </div>
+          <div class="p-4 rounded-xl bg-[#151518] border border-[#232328]">
+            <div class="text-[var(--accent)] font-bold">6 MONTHS</div>
+            <div class="text-[#F2EFE9] font-bold mt-1">UI / UX Internship</div>
+            <div class="text-[11px] text-[#8E8D94] mt-0.5">Product &amp; Systems</div>
+          </div>
+          <div class="p-4 rounded-xl bg-[#151518] border border-[#232328]">
+            <div class="text-[var(--accent)] font-bold">2025 — 2026</div>
+            <div class="text-[#F2EFE9] font-bold mt-1">People Media Factory</div>
+            <div class="text-[11px] text-[#8E8D94] mt-0.5">AI Film &amp; Content</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- 07. CONTACT: DRIFTWALL BG + LEFT TEXT + RIGHT FORM      -->
+  <!-- ======================================================== -->
+  <section id="contact" class="relative min-h-screen border-t border-[#232328] overflow-hidden">
+
+    <!-- DriftWall Background -->
+    <div id="contact-driftwall" class="dw-root" aria-hidden="true"></div>
+
+    <!-- Gradient overlay so text stays readable -->
+    <div class="absolute inset-0 z-10 pointer-events-none"
+         style="background: linear-gradient(to right, rgba(14,14,16,0.97) 0%, rgba(14,14,16,0.82) 45%, rgba(14,14,16,0.55) 100%)">
+    </div>
+
+    <!-- Main content (above overlay) -->
+    <div class="relative z-20 max-w-[1800px] mx-auto px-6 sm:px-12 py-24 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center min-h-screen">
+
+      <!-- LEFT: Text (left-aligned) -->
+      <div class="space-y-8 text-left">
+        <span class="font-mono text-xs text-[var(--accent)] tracking-widest uppercase">READY TO COLLABORATE?</span>
+
+        <h2 class="text-5xl sm:text-7xl font-display font-extrabold text-[#F2EFE9] leading-none tracking-tight">
+          LET'S MAKE<br>
+          <span class="text-[var(--accent)]">SOMETHING GREAT.</span>
+        </h2>
+
+        <p class="text-[#8E8D94] text-base font-light leading-relaxed max-w-md">
+          Whether it's an AI film, a game UI concept, a commercial brand spot, or digital product architecture — let's build something unforgettable.
+        </p>
+
+        <!-- Direct contact -->
+        <div>
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=suryakrishnachanakya@gmail.com"
+             target="_blank" rel="noopener noreferrer"
+             class="inline-flex items-center gap-2.5 font-mono text-sm text-[#F2EFE9] hover:text-[var(--accent)] transition-colors group">
+            <span class="w-7 h-7 rounded-full bg-[#232328] group-hover:bg-[var(--accent)] group-hover:text-[#0E0E10] flex items-center justify-center text-xs transition-all">✉</span>
+            <span>suryakrishnachanakya@gmail.com</span>
+            <span class="text-xs text-[var(--accent)] opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">↗</span>
+          </a>
+        </div>
+
+        <!-- Social Links Strip -->
+        <div class="pt-6 border-t border-[#232328]/60 flex flex-wrap gap-6 font-mono text-xs text-[#8E8D94]">
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=suryakrishnachanakya@gmail.com" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--accent)] transition-colors">GMAIL ↗</a>
+          <a href="https://www.behance.net" target="_blank" rel="noopener" class="hover:text-[var(--accent)] transition-colors">BEHANCE ↗</a>
+          <a href="#" class="hover:text-[var(--accent)] transition-colors">LINKEDIN ↗</a>
+          <a href="#" class="hover:text-[var(--accent)] transition-colors">INSTAGRAM ↗</a>
+          <a href="#" class="hover:text-[var(--accent)] transition-colors">YOUTUBE ↗</a>
+        </div>
+      </div>
+
+      <!-- RIGHT: Contact Form -->
+      <div class="bg-[#151518]/80 backdrop-blur-sm rounded-3xl p-8 sm:p-10 border border-[#232328] space-y-5">
+        <h3 class="font-display font-bold text-xl text-[#F2EFE9]">Start a Project</h3>
+        <form id="contact-form" onsubmit="submitContactForm(event)" class="space-y-4">
+
+          <!-- Name -->
+          <div>
+            <label class="block font-mono text-[10px] text-[#8E8D94] tracking-widest uppercase mb-1.5">Your Name</label>
+            <input
+              type="text" name="name" required
+              placeholder="e.g. Ravi Kumar"
+              class="w-full bg-[#0E0E10] border border-[#232328] rounded-xl px-4 py-3 font-sans text-sm text-[#F2EFE9] placeholder-[#4a4a52] focus:outline-none focus:border-[var(--accent)] transition-colors"
+            >
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label class="block font-mono text-[10px] text-[#8E8D94] tracking-widest uppercase mb-1.5">Your Email</label>
+            <input
+              type="email" name="email" required
+              placeholder="you@example.com"
+              class="w-full bg-[#0E0E10] border border-[#232328] rounded-xl px-4 py-3 font-sans text-sm text-[#F2EFE9] placeholder-[#4a4a52] focus:outline-none focus:border-[var(--accent)] transition-colors"
+            >
+          </div>
+
+          <!-- Project Type -->
+          <div>
+            <label class="block font-mono text-[10px] text-[#8E8D94] tracking-widest uppercase mb-1.5">Project Type</label>
+            <select
+              name="project_type"
+              class="w-full bg-[#0E0E10] border border-[#232328] rounded-xl px-4 py-3 font-sans text-sm text-[#F2EFE9] focus:outline-none focus:border-[var(--accent)] transition-colors appearance-none"
+            >
+              <option value="" disabled selected>Select a discipline…</option>
+              <option value="AI Film">AI Film / Cinematic</option>
+              <option value="Graphic Design">Graphic Design / Poster</option>
+              <option value="UI/UX">UI / UX Design</option>
+              <option value="Game Design">Game Design / 3D Env</option>
+              <option value="Video Editing">Video Editing / Reel</option>
+              <option value="Other">Other / Collaboration</option>
+            </select>
+          </div>
+
+          <!-- Message -->
+          <div>
+            <label class="block font-mono text-[10px] text-[#8E8D94] tracking-widest uppercase mb-1.5">Your Message</label>
+            <textarea
+              name="message" rows="4" required
+              placeholder="Tell me about your project, timeline, and goals…"
+              class="w-full bg-[#0E0E10] border border-[#232328] rounded-xl px-4 py-3 font-sans text-sm text-[#F2EFE9] placeholder-[#4a4a52] focus:outline-none focus:border-[var(--accent)] transition-colors resize-none"
+            ></textarea>
+          </div>
+
+          <!-- Submit -->
+          <button
+            type="submit"
+            class="w-full font-mono text-sm font-bold py-4 rounded-xl bg-[var(--accent)] text-[#0E0E10] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-[var(--accent)]/20"
+          >
+            SEND MESSAGE →
+          </button>
+
+        </form>
+
+        <p id="form-sent-msg" class="hidden font-mono text-xs text-[var(--accent)] text-center pt-2">
+          ✓ Message sent! I'll get back to you soon.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- 08. MINIMAL FOOTER                                       -->
+  <!-- ======================================================== -->
+  <footer class="py-8 px-6 sm:px-12 border-t border-[#232328] bg-[#0E0E10] text-[#8E8D94] font-mono text-xs flex flex-col sm:flex-row justify-between items-center gap-4">
+    <div>
+      <span class="text-[#F2EFE9] font-bold">CHANAKYA AKONDI</span> · PORTFOLIO V2
+    </div>
+    <div class="flex items-center gap-4">
+      <span>© 2026 ALL RIGHTS RESERVED</span>
+    </div>
+  </footer>
+
+  <!-- ======================================================== -->
+  <!-- MODALS: VIMEO PLAYER, IMAGE ZOOM, BEHANCE EMBED          -->
+  <!-- ======================================================== -->
+
+  <!-- Video Modal -->
+  <div id="video-modal" class="fixed inset-0 z-50 bg-[#0E0E10]/95 backdrop-blur-md flex flex-col items-center justify-center p-4 cursor-pointer" style="display:none" onclick="if(event.target === this) closeVideoModal()">
+    <div class="w-full max-w-5xl flex justify-between items-center pb-4 text-[#F2EFE9] font-mono text-xs">
+      <span id="video-modal-title" class="font-bold text-[var(--accent)]">VIDEO STREAM</span>
+      <button onclick="closeVideoModal()" class="text-[#8E8D94] hover:text-[#F2EFE9] px-3 py-1.5 border border-[#232328] rounded-full">✕ CLOSE (ESC)</button>
+    </div>
+    <div class="w-full max-w-5xl bg-black rounded-2xl overflow-hidden border border-[#232328] aspect-video relative">
+      <iframe id="modal-vimeo-iframe" class="w-full h-full" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- Image Modal -->
+  <div id="image-modal" class="fixed inset-0 z-50 bg-[#0E0E10]/95 backdrop-blur-md flex flex-col items-center justify-center p-4 cursor-pointer" style="display:none" onclick="if(event.target === this) closeImageModal()">
+    <div class="w-full max-w-5xl flex justify-between items-center pb-4 text-[#F2EFE9] font-mono text-xs">
+      <span id="image-modal-title" class="font-bold text-[var(--accent)]">FULL RESOLUTION ARTWORK</span>
+      <button onclick="closeImageModal()" class="text-[#8E8D94] hover:text-[#F2EFE9] px-3 py-1.5 border border-[#232328] rounded-full">✕ CLOSE (ESC)</button>
+    </div>
+    <div class="max-w-5xl max-h-[85vh] overflow-hidden rounded-2xl border border-[#232328] bg-black">
+      <img id="modal-image-element" src="" alt="Detail" class="w-full h-full object-contain max-h-[85vh]">
+    </div>
+  </div>
+
+  <!-- Behance Embed Modal -->
+  <div id="behance-modal" class="fixed inset-0 z-50 bg-[#0E0E10]/95 backdrop-blur-md flex flex-col items-center justify-center p-4 cursor-pointer" style="display:none" onclick="if(event.target === this) closeBehanceModal()">
+    <div class="w-full max-w-5xl flex justify-between items-center pb-4 text-[#F2EFE9] font-mono text-xs">
+      <span id="behance-modal-title" class="font-bold text-[var(--accent)]">BEHANCE PROJECT EMBED</span>
+      <button onclick="closeBehanceModal()" class="text-[#8E8D94] hover:text-[#F2EFE9] px-3 py-1.5 border border-[#232328] rounded-full">✕ CLOSE (ESC)</button>
+    </div>
+    <div class="w-full max-w-5xl h-[80vh] bg-black rounded-2xl overflow-hidden border border-[#232328]">
+      <iframe id="modal-behance-iframe" src="" class="w-full h-full" frameborder="0" allowfullscreen lazyload allow="clipboard-write"></iframe>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- INTERACTIONS JAVASCRIPT LOGIC                            -->
+  <!-- ======================================================== -->
+  <script>
+    // 1. Dynamic Cursor Interaction
+    const cursor = document.getElementById('cursor');
+    let mouseX = 0, mouseY = 0;
+    let cursorX = 0, cursorY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function updateCursor() {
+      cursorX += (mouseX - cursorX) * 0.2;
+      cursorY += (mouseY - cursorY) * 0.2;
+      if (cursor) {
+        cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
+      }
+      requestAnimationFrame(updateCursor);
+    }
+    updateCursor();
+
+    // Contextual Cursor badges
+    document.querySelectorAll('[data-cursor]').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        const text = el.getAttribute('data-cursor');
+        cursor.innerText = text;
+        cursor.classList.remove('w-8', 'h-8', 'border-[#F2EFE9]/40', 'bg-transparent');
+        cursor.classList.add('w-20', 'h-20', 'bg-[var(--accent)]', 'text-[#0E0E10]', 'border-transparent', 'font-black');
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.innerText = '';
+        cursor.classList.add('w-8', 'h-8', 'border-[#F2EFE9]/40', 'bg-transparent');
+        cursor.classList.remove('w-20', 'h-20', 'bg-[var(--accent)]', 'text-[#0E0E10]', 'border-transparent', 'font-black');
+      });
+    });
+
+    // 2. Scroll to Discipline from Expanding Panels
+    function scrollToDiscipline(disciplineKey) {
+      filterV2Work(disciplineKey);
+      const target = document.getElementById('work-archive');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // 3. Filter Discipline Work Archive
+    function filterV2Work(category) {
+      document.querySelectorAll('.v2-filter-btn').forEach(btn => {
+        btn.classList.remove('bg-[var(--accent)]', 'text-[#0E0E10]', 'font-bold');
+        btn.classList.add('bg-[#151518]', 'text-[#8E8D94]', 'border-[#232328]');
+      });
+
+      const activeBtn = document.getElementById('v2btn-' + category);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-[var(--accent)]', 'text-[#0E0E10]', 'font-bold');
+        activeBtn.classList.remove('bg-[#151518]', 'text-[#8E8D94]');
+      }
+
+      const cards = document.querySelectorAll('.v2-card');
+      cards.forEach(card => {
+        if (category === 'all' || card.classList.contains('v2-' + category)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // 4. Modals (Vimeo, Image, Behance)
+    function openVideoModal(videoSrc, title) {
+      const modal = document.getElementById('video-modal');
+      const vimeoIframe = document.getElementById('modal-vimeo-iframe');
+      const titleEl = document.getElementById('video-modal-title');
+      titleEl.innerText = title;
+
+      const match = videoSrc.match(/(?:vimeo\.com\/|video\/)(\d+)/);
+      const videoId = match ? match[1] : videoSrc;
+      vimeoIframe.src = `https://player.vimeo.com/video/${videoId}?autoplay=1&color=ccff00&title=0&byline=0&portrait=0`;
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeVideoModal() {
+      const modal = document.getElementById('video-modal');
+      const vimeoIframe = document.getElementById('modal-vimeo-iframe');
+      modal.style.display = 'none';
+      if (vimeoIframe) vimeoIframe.src = '';
+      document.body.style.overflow = '';
+    }
+
+    function openImageModal(imgSrc, title) {
+      const modal = document.getElementById('image-modal');
+      document.getElementById('image-modal-title').innerText = title;
+      document.getElementById('modal-image-element').src = imgSrc;
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeImageModal() {
+      const modal = document.getElementById('image-modal');
+      modal.style.display = 'none';
+      document.getElementById('modal-image-element').src = '';
+      document.body.style.overflow = '';
+    }
+
+    function openBehanceModal(behanceSrc, title) {
+      const modal = document.getElementById('behance-modal');
+      document.getElementById('behance-modal-title').innerText = title;
+      document.getElementById('modal-behance-iframe').src = behanceSrc;
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeBehanceModal() {
+      const modal = document.getElementById('behance-modal');
+      modal.style.display = 'none';
+      document.getElementById('modal-behance-iframe').src = '';
+      document.body.style.overflow = '';
+    }
+
+    // 5. One-click Accent Switcher
+    function setThemeAccent(hexColor) {
+      document.documentElement.style.setProperty('--accent', hexColor);
+      localStorage.setItem('chanakya_accent', hexColor);
+    }
+    const savedAccent = localStorage.getItem('chanakya_accent');
+    if (savedAccent) {
+      setThemeAccent(savedAccent);
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeVideoModal();
+        closeImageModal();
+        closeBehanceModal();
+      }
+    });
+  
+    // ---- Contact Form Submit ----
+    function submitContactForm(e) {
+      e.preventDefault();
+      const form = e.target;
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const type = form.project_type.value || 'General';
+      const msg = form.message.value.trim();
+      const subject = encodeURIComponent('[Portfolio Inquiry] ' + type + ' — ' + name);
+      const body = encodeURIComponent(
+        'Hi Chanakya,\n\nName: ' + name +
+        '\nEmail: ' + email +
+        '\nProject Type: ' + type +
+        '\n\nMessage:\n' + msg +
+        '\n\n— Sent via portfolio contact form'
+      );
+      const gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=suryakrishnachanakya@gmail.com&su=' + subject + '&body=' + body;
+      window.open(gmailUrl, '_blank');
+      document.getElementById('form-sent-msg').classList.remove('hidden');
+      setTimeout(() => document.getElementById('form-sent-msg').classList.add('hidden'), 5000);
+    }
+
+    // ---- DriftWall Vanilla JS ----
+    (function initDriftWall() {
+      const container = document.getElementById('contact-driftwall');
+      if (!container) return;
+
+      const CONFIG = {
+        columns: 5,
+        tileW: 190,
+        tileH: 126,
+        gap: 14,
+        radius: 10,
+        tilt: 12,      // rotateX degrees
+        turn: -10,     // rotateY degrees
+        perspective: 1100,
+        depth: 100,
+        speed: 30,     // px/s base
+        direction: 'up',
+        variance: 0.42,
+        parallax: 0.45,
+        lift: 50,
+        fade: 0.65,
+        dim: 0.45,
+        overlayColor: '#0E0E10',
+      };
+
+      const ITEMS = [
+        { image: 'https://i.vimeocdn.com/video/2188450696-bd35b8644b77f05b560998bc77af4487d9a5f9d4a25ef5f3dab96e617b0ee021-d_640?region=us', title: 'Shiv Tandav' },
+        { image: 'https://i.vimeocdn.com/video/2188451076-55bbb65a640487d60e1115d0ea1daa5bd486c6d91b80b80908e34ef091e9d018-d_640?region=us', title: 'Alone' },
+        { image: '../assets/UI%20UX/game%20UI/NEXORA.png', title: 'NEXORA HUD' },
+        { image: '../assets/UI%20UX/web%20UI/ScriptSight%20-%20Landing%20Page.jpg', title: 'ScriptSight' },
+        { image: '../assets/Graphic%20Design/Posters/bhavodvegam%20poster%202.1.jpg', title: 'Bhavodvegam' },
+        { image: 'https://i.vimeocdn.com/video/2221187389-b72cc4e3c53833c58524899d82e77760b053b155594b8ddd8e65925eae7d99f5-d_640?region=us', title: 'CleanGem' },
+        { image: '../assets/UI%20UX/game%20UI/spiderman.png', title: 'Spider-Man' },
+        { image: 'https://i.vimeocdn.com/video/2221175698-afafddd15c24a45cfe60e9b7c9f60d066a96e15ff6662f3147ec9217d9241ab1-d_640?region=us', title: 'Annadanam' },
+        { image: '../assets/UI%20UX/game%20UI/the%20lost%20temple.jpg', title: 'Lost Temple' },
+        { image: 'https://i.vimeocdn.com/video/2221188155-37eb415a3694295eac277c8d13bb9efe2d38453e7ede951b297c6fceb4e5e175-d_640?region=us', title: 'Silver Spoon' },
+        { image: '../assets/Graphic%20Design/Posters/8%20x%2012%20dasu%20vegi%202.jpg', title: 'Dasu Vegi' },
+        { image: 'https://i.vimeocdn.com/video/2221585370-e66b0977b75bad339d23bc84f86c15e9a2e67675d46f0a7d3e47e48e0bcf7b0e-d_640?region=us', title: 'AI Game Env' },
+        { image: '../assets/UI%20UX/web%20UI/bhakti%20bandhan.png', title: 'Bhakthi Bandhan' },
+        { image: 'https://i.vimeocdn.com/video/2221179597-5e12a503fd612f0ec49ecc14384ed0817c0b8cbe60e042ec6bab1aa8fe9ff180-d_640?region=us', title: 'Skillinduce' },
+        { image: '../assets/UI%20UX/wireframes/myv%20vapes.jpg', title: 'UX Wireframe' },
+      ];
+
+      // Build stage + perspective wrapper
+      const stage = document.createElement('div');
+      stage.className = 'dw-stage';
+      stage.style.perspective = CONFIG.perspective + 'px';
+      container.appendChild(stage);
+
+      // The wall (tilted plane)
+      const wall = document.createElement('div');
+      wall.className = 'dw-wall';
+      wall.style.cssText = [
+        '--dw-gap:' + CONFIG.gap + 'px',
+        '--dw-radius:' + CONFIG.radius + 'px',
+        'transform: rotateX(' + CONFIG.tilt + 'deg) rotateY(' + CONFIG.turn + 'deg) translateZ(-' + CONFIG.depth + 'px)',
+        'width: ' + (CONFIG.columns * (CONFIG.tileW + CONFIG.gap) + CONFIG.gap) + 'px',
+      ].join(';');
+      stage.appendChild(wall);
+
+      // Fade gradient overlay (edge dissolve)
+      const fadeEl = document.createElement('div');
+      fadeEl.className = 'dw-fade';
+      const f = CONFIG.fade * 100;
+      fadeEl.style.background = [
+        'linear-gradient(to right,  ' + CONFIG.overlayColor + ' 0%, transparent ' + f/2 + '%, transparent ' + (100-f/2) + '%, ' + CONFIG.overlayColor + ' 100%)',
+        'linear-gradient(to bottom, ' + CONFIG.overlayColor + ' 0%, transparent ' + f/2 + '%, transparent ' + (100-f/2) + '%, ' + CONFIG.overlayColor + ' 100%)',
+      ].join(', ');
+      container.appendChild(fadeEl);
+
+      // Per-column state
+      const tracks = [];
+      const offsets = [];
+      const speeds = [];
+      const dirs = [];
+
+      for (let c = 0; c < CONFIG.columns; c++) {
+        const col = document.createElement('div');
+        col.className = 'dw-col';
+        col.style.width = CONFIG.tileW + 'px';
+        wall.appendChild(col);
+
+        const track = document.createElement('div');
+        track.className = 'dw-track';
+        col.appendChild(track);
+
+        // Fill track with enough tiles to fill 3× the visible height (for seamless loop)
+        const visibleH = window.innerHeight * 3;
+        const tileStep = CONFIG.tileH + CONFIG.gap;
+        const tilesNeeded = Math.ceil(visibleH / tileStep) + 4;
+
+        for (let t = 0; t < tilesNeeded; t++) {
+          const item = ITEMS[(c * 3 + t) % ITEMS.length];
+          const tile = document.createElement('div');
+          tile.className = 'dw-tile';
+          tile.style.cssText = 'width:' + CONFIG.tileW + 'px;height:' + CONFIG.tileH + 'px;';
+
+          const img = document.createElement('img');
+          img.src = item.image;
+          img.alt = item.title || '';
+          img.loading = 'lazy';
+          img.decoding = 'async';
+          tile.appendChild(img);
+
+          // Dim overlay
+          const ov = document.createElement('div');
+          ov.className = 'dw-overlay';
+          ov.style.backgroundColor = CONFIG.overlayColor;
+          ov.style.opacity = CONFIG.dim;
+          tile.appendChild(ov);
+
+          // Hover lift + brighten
+          tile.addEventListener('mouseenter', () => {
+            tile.style.transform = 'translateZ(' + CONFIG.lift + 'px) scale(1.04)';
+            tile.style.opacity = '1';
+            ov.style.opacity = '0';
+            tile.style.zIndex = '5';
+          });
+          tile.addEventListener('mouseleave', () => {
+            tile.style.transform = '';
+            tile.style.opacity = '';
+            ov.style.opacity = CONFIG.dim;
+            tile.style.zIndex = '';
+          });
+
+          track.appendChild(tile);
+        }
+
+        tracks.push(track);
+
+        // Alternate direction per column
+        const colDir = CONFIG.direction === 'up' ? (c % 2 === 0 ? -1 : 1) : (c % 2 === 0 ? 1 : -1);
+        dirs.push(colDir);
+
+        // Varied speed
+        const variation = 1 + (Math.random() * 2 - 1) * CONFIG.variance;
+        speeds.push(CONFIG.speed * variation);
+
+        // Stagger start position
+        offsets.push(Math.random() * CONFIG.tileH * 3);
+      }
+
+      // Parallax pointer tracking
+      let ptrX = 0, ptrY = 0, dampX = 0, dampY = 0;
+      container.addEventListener('mousemove', (e) => {
+        const r = container.getBoundingClientRect();
+        ptrX = (e.clientX - r.left) / r.width - 0.5;
+        ptrY = (e.clientY - r.top)  / r.height - 0.5;
+      });
+      container.addEventListener('mouseleave', () => { ptrX = 0; ptrY = 0; });
+
+      // Animation loop
+      let last = null;
+      function tick(now) {
+        if (!last) last = now;
+        const dt = Math.min((now - last) / 1000, 0.05);
+        last = now;
+
+        // Damped parallax
+        dampX += (ptrX - dampX) * 0.06;
+        dampY += (ptrY - dampY) * 0.06;
+
+        const extraRotX = dampY * CONFIG.parallax * 10;
+        const extraRotY = dampX * CONFIG.parallax * 10;
+        wall.style.transform =
+          'rotateX(' + (CONFIG.tilt + extraRotX) + 'deg) ' +
+          'rotateY(' + (CONFIG.turn + extraRotY) + 'deg) ' +
+          'translateZ(-' + CONFIG.depth + 'px)';
+
+        for (let c = 0; c < CONFIG.columns; c++) {
+          offsets[c] += dirs[c] * speeds[c] * dt;
+          const tileStep = CONFIG.tileH + CONFIG.gap;
+          const totalH = tracks[c].childElementCount * tileStep;
+          // Wrap offset for seamless loop
+          if (offsets[c] > totalH / 2) offsets[c] -= totalH / 2;
+          if (offsets[c] < -totalH / 2) offsets[c] += totalH / 2;
+          tracks[c].style.transform = 'translate3d(0,' + offsets[c] + 'px,0)';
+        }
+
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    })();
+
+
+    // ========================================================
+    </script>
+
+</body>
+</html>
