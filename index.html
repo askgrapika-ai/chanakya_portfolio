@@ -803,10 +803,10 @@
   <!-- ======================================================== -->
   <!-- IMAGE DETAIL LIGHTBOX MODAL                              -->
   <!-- ======================================================== -->
-  <div id="image-modal" class="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center p-4" style="display:none">
+  <div id="image-modal" class="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center p-4 cursor-pointer" style="display:none" onclick="if(event.target === this) closeImageModal()">
     <div class="w-full max-w-5xl flex justify-between items-center pb-4 text-white font-mono text-xs">
       <span id="image-modal-title" class="font-bold text-brand-purple text-sm">FULL RESOLUTION INFOGRAPHIC</span>
-      <button onclick="closeImageModal()" class="text-slate-400 hover:text-white px-3 py-1.5 border border-white/20 rounded-full">âœ• CLOSE (ESC)</button>
+      <button onclick="closeImageModal()" class="text-slate-400 hover:text-white px-3 py-1.5 border border-white/20 rounded-full">✕ CLOSE (ESC)</button>
     </div>
     <div class="max-w-5xl max-h-[85vh] overflow-hidden rounded-2xl border border-[#1F2633] bg-black">
       <img loading="lazy" decoding="async" id="modal-image-element" src="" alt="Detail" class="w-full h-full object-contain max-h-[85vh]">
@@ -816,10 +816,10 @@
   <!-- ======================================================== -->
   <!-- VIDEO LIGHTBOX MODAL (Direct MP4 & Vimeo Stream Support) -->
   <!-- ======================================================== -->
-  <div id="video-modal" class="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center p-4" style="display:none">
+  <div id="video-modal" class="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center p-4 cursor-pointer" style="display:none" onclick="if(event.target === this) closeVideoModal()">
     <div class="w-full max-w-5xl flex justify-between items-center pb-4 text-white font-mono text-xs">
       <span id="video-modal-title" class="font-bold text-brand-orange">VIDEO PLAYER</span>
-      <button onclick="closeVideoModal()" class="text-slate-400 hover:text-white px-3 py-1 border border-white/20 rounded-full">âœ• CLOSE (ESC)</button>
+      <button onclick="closeVideoModal()" class="text-slate-400 hover:text-white px-3 py-1 border border-white/20 rounded-full">✕ CLOSE (ESC)</button>
     </div>
     <div class="w-full max-w-5xl bg-black rounded-2xl overflow-hidden border border-[#1F2633] aspect-video relative">
       <video id="modal-video-element" class="w-full h-full" controls autoplay preload="auto">
@@ -857,6 +857,7 @@
       }
 
       modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
     }
 
     function closeVideoModal() {
@@ -869,6 +870,7 @@
       videoEl.src = '';
       if (vimeoIframe) vimeoIframe.src = '';
       if (vimeoContainer) vimeoContainer.style.display = 'none';
+      document.body.style.overflow = '';
     }
 
     function openImageModal(imgSrc, title) {
@@ -876,12 +878,14 @@
       document.getElementById('image-modal-title').innerText = title;
       document.getElementById('modal-image-element').src = imgSrc;
       modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
     }
 
     function closeImageModal() {
       const modal = document.getElementById('image-modal');
       modal.style.display = 'none';
       document.getElementById('modal-image-element').src = '';
+      document.body.style.overflow = '';
     }
 
     window.addEventListener('keydown', (e) => {

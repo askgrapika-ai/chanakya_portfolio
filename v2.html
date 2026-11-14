@@ -2268,7 +2268,7 @@
   <!-- ======================================================== -->
 
   <!-- Video Modal -->
-  <div id="video-modal" class="fixed inset-0 z-50 bg-[#0E0E10]/95 backdrop-blur-md flex flex-col items-center justify-center p-4" style="display:none">
+  <div id="video-modal" class="fixed inset-0 z-50 bg-[#0E0E10]/95 backdrop-blur-md flex flex-col items-center justify-center p-4 cursor-pointer" style="display:none" onclick="if(event.target === this) closeVideoModal()">
     <div class="w-full max-w-5xl flex justify-between items-center pb-4 text-[#F2EFE9] font-mono text-xs">
       <span id="video-modal-title" class="font-bold text-[var(--accent)]">VIDEO STREAM</span>
       <button onclick="closeVideoModal()" class="text-[#8E8D94] hover:text-[#F2EFE9] px-3 py-1.5 border border-[#232328] rounded-full">✕ CLOSE (ESC)</button>
@@ -2279,7 +2279,7 @@
   </div>
 
   <!-- Image Modal -->
-  <div id="image-modal" class="fixed inset-0 z-50 bg-[#0E0E10]/95 backdrop-blur-md flex flex-col items-center justify-center p-4" style="display:none">
+  <div id="image-modal" class="fixed inset-0 z-50 bg-[#0E0E10]/95 backdrop-blur-md flex flex-col items-center justify-center p-4 cursor-pointer" style="display:none" onclick="if(event.target === this) closeImageModal()">
     <div class="w-full max-w-5xl flex justify-between items-center pb-4 text-[#F2EFE9] font-mono text-xs">
       <span id="image-modal-title" class="font-bold text-[var(--accent)]">FULL RESOLUTION ARTWORK</span>
       <button onclick="closeImageModal()" class="text-[#8E8D94] hover:text-[#F2EFE9] px-3 py-1.5 border border-[#232328] rounded-full">✕ CLOSE (ESC)</button>
@@ -2290,7 +2290,7 @@
   </div>
 
   <!-- Behance Embed Modal -->
-  <div id="behance-modal" class="fixed inset-0 z-50 bg-[#0E0E10]/95 backdrop-blur-md flex flex-col items-center justify-center p-4" style="display:none">
+  <div id="behance-modal" class="fixed inset-0 z-50 bg-[#0E0E10]/95 backdrop-blur-md flex flex-col items-center justify-center p-4 cursor-pointer" style="display:none" onclick="if(event.target === this) closeBehanceModal()">
     <div class="w-full max-w-5xl flex justify-between items-center pb-4 text-[#F2EFE9] font-mono text-xs">
       <span id="behance-modal-title" class="font-bold text-[var(--accent)]">BEHANCE PROJECT EMBED</span>
       <button onclick="closeBehanceModal()" class="text-[#8E8D94] hover:text-[#F2EFE9] px-3 py-1.5 border border-[#232328] rounded-full">✕ CLOSE (ESC)</button>
@@ -2382,6 +2382,7 @@
       const videoId = match ? match[1] : videoSrc;
       vimeoIframe.src = `https://player.vimeo.com/video/${videoId}?autoplay=1&color=ccff00&title=0&byline=0&portrait=0`;
       modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
     }
 
     function closeVideoModal() {
@@ -2389,6 +2390,7 @@
       const vimeoIframe = document.getElementById('modal-vimeo-iframe');
       modal.style.display = 'none';
       if (vimeoIframe) vimeoIframe.src = '';
+      document.body.style.overflow = '';
     }
 
     function openImageModal(imgSrc, title) {
@@ -2396,12 +2398,14 @@
       document.getElementById('image-modal-title').innerText = title;
       document.getElementById('modal-image-element').src = imgSrc;
       modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
     }
 
     function closeImageModal() {
       const modal = document.getElementById('image-modal');
       modal.style.display = 'none';
       document.getElementById('modal-image-element').src = '';
+      document.body.style.overflow = '';
     }
 
     function openBehanceModal(behanceSrc, title) {
@@ -2409,12 +2413,14 @@
       document.getElementById('behance-modal-title').innerText = title;
       document.getElementById('modal-behance-iframe').src = behanceSrc;
       modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
     }
 
     function closeBehanceModal() {
       const modal = document.getElementById('behance-modal');
-      modal.classList.add('hidden');
+      modal.style.display = 'none';
       document.getElementById('modal-behance-iframe').src = '';
+      document.body.style.overflow = '';
     }
 
     // 5. One-click Accent Switcher
