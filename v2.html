@@ -125,265 +125,84 @@
 
 
 
-    /* ---- CircularCarousel Component CSS ---- */
-    .circular-carousel {
-      --cc-fade: #0E0E10;
-      --cc-radius: 14px;
-      --cc-inner: 0.4;
-      position: relative;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      outline: none;
-      touch-action: pan-y;
-      user-select: none;
-      -webkit-user-select: none;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .circular-carousel[data-axis='x'] {
-      touch-action: pan-x;
-    }
-
-    .circular-carousel[data-draggable] {
-      cursor: grab;
-    }
-
-    .circular-carousel[data-dragging] {
-      cursor: grabbing;
-    }
-
-    .circular-carousel:focus-visible {
-      box-shadow: inset 0 0 0 2px rgba(204, 255, 0, 0.4);
-    }
-
-    .circular-carousel__view {
-      position: absolute;
-      inset: 0;
-    }
-
-    .circular-carousel[data-shape='wheel'] .circular-carousel__view {
-      -webkit-mask-image: linear-gradient(to bottom, transparent, #000000 18%, #000000 82%, transparent);
-      mask-image: linear-gradient(to bottom, transparent, #000000 18%, #000000 82%, transparent);
-    }
-
-    .circular-carousel[data-shape='panorama'] .circular-carousel__view {
-      -webkit-mask-image: linear-gradient(to right, transparent, #000000 12%, #000000 88%, transparent);
-      mask-image: linear-gradient(to right, transparent, #000000 12%, #000000 88%, transparent);
-    }
-
-    .circular-carousel__stage {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.45s ease;
-    }
-
-    .circular-carousel[data-ready] .circular-carousel__stage {
-      opacity: 1;
-    }
-
-    .circular-carousel__camera,
-    .circular-carousel__ring,
-    .circular-carousel__card {
-      width: 0;
-      height: 0;
-      transform-style: preserve-3d;
-    }
-
-    .circular-carousel__camera {
+    /* ---- Disintegrating Gallery Cards CSS ---- */
+    .disintegrate-grid {
+      display: grid;
       position: relative;
     }
-
-    .circular-carousel__ring,
-    .circular-carousel__card {
-      position: absolute;
-      left: 0;
-      top: 0;
-    }
-
-    .circular-carousel__tile {
-      position: absolute;
-      outline: 1px solid transparent;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-    }
-
-    .circular-carousel__frame {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
+    .disintegrate-card {
+      position: relative;
+      border-radius: 18px;
+      background: #141417;
+      border: 1px solid #232328;
       overflow: hidden;
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.35s ease,
+                  box-shadow 0.45s ease;
+      cursor: pointer;
     }
-
-    .circular-carousel__photo {
-      position: absolute;
-      display: block;
-      max-width: none;
-      object-fit: cover;
-      pointer-events: none;
-      user-select: none;
-      -webkit-user-drag: none;
-    }
-
-    .circular-carousel__photo--leaving {
-      animation: circular-carousel-leave 700ms cubic-bezier(0.33, 1, 0.68, 1) both;
-    }
-
-    .circular-carousel__shade,
-    .circular-carousel__inner {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    .circular-carousel__shade {
-      background: var(--cc-fade);
-      opacity: var(--cc-depth, 0);
-    }
-
-    .circular-carousel__inner {
-      background: #000000;
-      opacity: var(--cc-inner);
-    }
-
-    .circular-carousel__caption {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      padding: 0 16px;
-      color: inherit;
-      text-align: center;
-      pointer-events: none;
-      animation: circular-carousel-reveal 900ms ease both;
+    .disintegrate-card:hover {
+      transform: translateY(-8px) scale(1.015);
+      border-color: var(--accent);
+      box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.85),
+                  0 0 35px -5px rgba(204, 255, 0, 0.15);
       z-index: 10;
     }
-
-    .circular-carousel__title {
-      display: flex;
-      max-width: 100%;
-      flex-direction: column;
-      align-items: center;
-      font-family: 'Syne', sans-serif;
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 1.35;
-      color: #F2EFE9;
-      letter-spacing: 0.02em;
-    }
-
-    .circular-carousel__title-main {
-      display: block;
-      animation: circular-carousel-title 520ms cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    .circular-carousel__subtitle {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--accent);
-      opacity: 0.85;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .circular-carousel__count {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      font-variant-numeric: tabular-nums;
-      line-height: 1;
-      color: #8E8D94;
-    }
-
-    .circular-carousel__slash {
-      opacity: 0.6;
-    }
-
-    .circular-carousel__digits {
-      display: inline-flex;
-      color: #F2EFE9;
-    }
-
-    .circular-carousel__digit {
-      display: inline-block;
-      height: 1em;
-      overflow: hidden;
-    }
-
-    .circular-carousel__reel {
-      display: flex;
-      flex-direction: column;
-      transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    .circular-carousel__reel > span {
-      height: 1em;
-      line-height: 1em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .circular-carousel__live {
+    .disintegrate-card::before {
+      content: '';
       position: absolute;
-      width: 1px;
-      height: 1px;
+      inset: 0;
+      pointer-events: none;
+      border-radius: inherit;
+      background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(204, 255, 0, 0.08), transparent 40%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: 3;
+    }
+    .disintegrate-card:hover::before {
+      opacity: 1;
+    }
+    .disintegrate-card .card-glow-edge {
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(204, 255, 0, 0.25) 0%, transparent 40%, transparent 60%, rgba(204, 255, 0, 0.15) 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: 4;
+    }
+    .disintegrate-card:hover .card-glow-edge {
+      opacity: 1;
+    }
+    .disintegrate-img-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
       overflow: hidden;
-      clip: rect(0 0 0 0);
-      white-space: nowrap;
+      background: #0E0E10;
     }
-
-    @keyframes circular-carousel-title {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .disintegrate-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), filter 0.45s ease;
+      filter: brightness(0.92) contrast(1.02);
     }
-
-    @keyframes circular-carousel-leave {
-      from {
-        opacity: 1;
-      }
-      to {
-        opacity: 0;
-      }
+    .disintegrate-card:hover .disintegrate-img-wrap img {
+      transform: scale(1.05);
+      filter: brightness(1) contrast(1.05);
     }
-
-    @keyframes circular-carousel-reveal {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
+    .disintegrate-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(to top, rgba(20,20,23,0.95) 0%, rgba(20,20,23,0.3) 35%, transparent 60%);
+      transition: opacity 0.35s ease;
     }
-
-    @media (prefers-reduced-motion: reduce) {
-      .circular-carousel__stage,
-      .circular-carousel__reel {
-        transition: none;
-      }
-
-      .circular-carousel__caption,
-      .circular-carousel__title {
-        animation: none;
-      }
+    .disintegrate-card:hover .disintegrate-overlay {
+      opacity: 0.4;
     }
 
     /* ---- DriftWall Vanilla JS Component CSS ---- */
@@ -960,12 +779,13 @@
 
   </section>
 
-  <!-- ======================================================== -->
-  <!-- 04. PRODUCTION WORKFLOW — 3D CIRCULAR CAROUSEL            -->
+    <!-- ======================================================== -->
+  <!-- 04. PRODUCTION WORKFLOW — DISINTEGRATING GALLERY CARDS   -->
   <!-- ======================================================== -->
   <section id="workflow" class="py-24 px-6 sm:px-12 max-w-[1800px] mx-auto border-t border-[#232328]">
+    
     <!-- Section Header (Left-Aligned, Neat & Clean) -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-14">
       <div class="space-y-3 text-left">
         <div class="inline-flex items-center gap-2 font-mono text-xs text-[var(--accent)] tracking-widest uppercase">
           <span class="w-2 h-2 rounded-full bg-[var(--accent)] animate-pulse"></span>
@@ -975,25 +795,377 @@
           PRODUCTION WORKFLOW
         </h2>
         <p class="text-[#8E8D94] text-sm sm:text-base font-light max-w-2xl leading-relaxed">
-          An 8-stage cyclical framework from ideation and prompt architecture through neural generation, compositing, motion, and final master grading. Drag to spin the 3D cylinder or click any phase to inspect.
+          An 8-stage cyclical framework from ideation and prompt architecture through neural generation, compositing, motion, and final master grading. Click any artifact card to zoom in full resolution.
         </p>
       </div>
 
-      <!-- Control / Interaction Hints -->
-      <div class="flex flex-wrap items-center gap-2.5 font-mono text-xs text-[#8E8D94]">
-        <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] flex items-center gap-1.5 text-[#F2EFE9]">
-          <span class="text-[var(--accent)]">↻</span> DRAG / SWIPE TO ROTATE
+      <!-- Gallery Meta Badges -->
+      <div class="flex flex-wrap items-center gap-2.5 font-mono text-xs">
+        <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] text-[#F2EFE9] flex items-center gap-2">
+          <span class="text-[var(--accent)]">●</span> 8 SEQUENTIAL PHASES
         </span>
         <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] text-[#8E8D94]">
-          CLICK CARD TO FOCUS &amp; ZOOM
+          CLICK CARD FOR FULLSCREEN MODAL
         </span>
       </div>
     </div>
 
-    <!-- Circular Carousel Container -->
-    <div class="w-full h-[580px] sm:h-[640px] relative rounded-3xl bg-[#121215]/50 border border-[#232328] overflow-hidden shadow-2xl">
-      <div id="workflow-carousel" class="w-full h-full"></div>
+    <!-- Disintegrating Staggered Gallery Grid -->
+    <div class="disintegrate-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pb-6">
+      <!-- Workflow Stage 01 -->
+      <div
+        class="disintegrate-card group "
+        onclick="openImageModal('assets/workflow/1.png', 'Production Workflow — Stage 01 · Creative Brief & Vision')"
+        data-cursor="ZOOM"
+      >
+        <div class="card-glow-edge"></div>
+
+        <!-- Artwork Container (1:1 Square) -->
+        <div class="disintegrate-img-wrap">
+          <img
+            src="assets/workflow/1.png"
+            alt="Production Workflow Stage 01 - Creative Brief & Vision"
+            loading="lazy"
+            decoding="async"
+          >
+          <div class="disintegrate-overlay"></div>
+
+          <!-- Stage Kicker Floating Badges -->
+          <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10 pointer-events-none">
+            <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] flex items-center gap-1.5 shadow-lg">
+              <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+              STAGE 01
+            </span>
+            <span class="font-mono text-[10px] font-medium px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] group-hover:border-[var(--accent)] transition-colors shadow-lg">
+              EXPAND ↗
+            </span>
+          </div>
+        </div>
+
+        <!-- Card Caption & Metadata Strip -->
+        <div class="p-5 border-t border-[#232328]/60 bg-[#141417] flex items-center justify-between gap-3">
+          <div class="space-y-1">
+            <div class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Phase 01 · Conceptual Architecture</div>
+            <h4 class="font-display font-bold text-base text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors leading-snug">
+              Creative Brief & Vision
+            </h4>
+          </div>
+          <span class="w-8 h-8 rounded-full bg-[#1e1e23] border border-[#2a2a30] group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[#0E0E10] text-[#8E8D94] flex items-center justify-center font-mono text-xs transition-all duration-300 flex-shrink-0">
+            ↗
+          </span>
+        </div>
+      </div>
+
+      <!-- Workflow Stage 02 -->
+      <div
+        class="disintegrate-card group lg:translate-y-6"
+        onclick="openImageModal('assets/workflow/2.png', 'Production Workflow — Stage 02 · Prompt & Style Tokens')"
+        data-cursor="ZOOM"
+      >
+        <div class="card-glow-edge"></div>
+
+        <!-- Artwork Container (1:1 Square) -->
+        <div class="disintegrate-img-wrap">
+          <img
+            src="assets/workflow/2.png"
+            alt="Production Workflow Stage 02 - Prompt & Style Tokens"
+            loading="lazy"
+            decoding="async"
+          >
+          <div class="disintegrate-overlay"></div>
+
+          <!-- Stage Kicker Floating Badges -->
+          <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10 pointer-events-none">
+            <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] flex items-center gap-1.5 shadow-lg">
+              <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+              STAGE 02
+            </span>
+            <span class="font-mono text-[10px] font-medium px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] group-hover:border-[var(--accent)] transition-colors shadow-lg">
+              EXPAND ↗
+            </span>
+          </div>
+        </div>
+
+        <!-- Card Caption & Metadata Strip -->
+        <div class="p-5 border-t border-[#232328]/60 bg-[#141417] flex items-center justify-between gap-3">
+          <div class="space-y-1">
+            <div class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Phase 02 · Latent Space Direction</div>
+            <h4 class="font-display font-bold text-base text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors leading-snug">
+              Prompt & Style Tokens
+            </h4>
+          </div>
+          <span class="w-8 h-8 rounded-full bg-[#1e1e23] border border-[#2a2a30] group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[#0E0E10] text-[#8E8D94] flex items-center justify-center font-mono text-xs transition-all duration-300 flex-shrink-0">
+            ↗
+          </span>
+        </div>
+      </div>
+
+      <!-- Workflow Stage 03 -->
+      <div
+        class="disintegrate-card group lg:-translate-y-3"
+        onclick="openImageModal('assets/workflow/3.png', 'Production Workflow — Stage 03 · AI Visual Synthesis')"
+        data-cursor="ZOOM"
+      >
+        <div class="card-glow-edge"></div>
+
+        <!-- Artwork Container (1:1 Square) -->
+        <div class="disintegrate-img-wrap">
+          <img
+            src="assets/workflow/3.png"
+            alt="Production Workflow Stage 03 - AI Visual Synthesis"
+            loading="lazy"
+            decoding="async"
+          >
+          <div class="disintegrate-overlay"></div>
+
+          <!-- Stage Kicker Floating Badges -->
+          <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10 pointer-events-none">
+            <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] flex items-center gap-1.5 shadow-lg">
+              <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+              STAGE 03
+            </span>
+            <span class="font-mono text-[10px] font-medium px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] group-hover:border-[var(--accent)] transition-colors shadow-lg">
+              EXPAND ↗
+            </span>
+          </div>
+        </div>
+
+        <!-- Card Caption & Metadata Strip -->
+        <div class="p-5 border-t border-[#232328]/60 bg-[#141417] flex items-center justify-between gap-3">
+          <div class="space-y-1">
+            <div class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Phase 03 · Multi-Pass Generation</div>
+            <h4 class="font-display font-bold text-base text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors leading-snug">
+              AI Visual Synthesis
+            </h4>
+          </div>
+          <span class="w-8 h-8 rounded-full bg-[#1e1e23] border border-[#2a2a30] group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[#0E0E10] text-[#8E8D94] flex items-center justify-center font-mono text-xs transition-all duration-300 flex-shrink-0">
+            ↗
+          </span>
+        </div>
+      </div>
+
+      <!-- Workflow Stage 04 -->
+      <div
+        class="disintegrate-card group lg:translate-y-8"
+        onclick="openImageModal('assets/workflow/4.png', 'Production Workflow — Stage 04 · Directional Curation')"
+        data-cursor="ZOOM"
+      >
+        <div class="card-glow-edge"></div>
+
+        <!-- Artwork Container (1:1 Square) -->
+        <div class="disintegrate-img-wrap">
+          <img
+            src="assets/workflow/4.png"
+            alt="Production Workflow Stage 04 - Directional Curation"
+            loading="lazy"
+            decoding="async"
+          >
+          <div class="disintegrate-overlay"></div>
+
+          <!-- Stage Kicker Floating Badges -->
+          <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10 pointer-events-none">
+            <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] flex items-center gap-1.5 shadow-lg">
+              <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+              STAGE 04
+            </span>
+            <span class="font-mono text-[10px] font-medium px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] group-hover:border-[var(--accent)] transition-colors shadow-lg">
+              EXPAND ↗
+            </span>
+          </div>
+        </div>
+
+        <!-- Card Caption & Metadata Strip -->
+        <div class="p-5 border-t border-[#232328]/60 bg-[#141417] flex items-center justify-between gap-3">
+          <div class="space-y-1">
+            <div class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Phase 04 · Cohesion & Selection</div>
+            <h4 class="font-display font-bold text-base text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors leading-snug">
+              Directional Curation
+            </h4>
+          </div>
+          <span class="w-8 h-8 rounded-full bg-[#1e1e23] border border-[#2a2a30] group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[#0E0E10] text-[#8E8D94] flex items-center justify-center font-mono text-xs transition-all duration-300 flex-shrink-0">
+            ↗
+          </span>
+        </div>
+      </div>
+
+      <!-- Workflow Stage 05 -->
+      <div
+        class="disintegrate-card group "
+        onclick="openImageModal('assets/workflow/5.png', 'Production Workflow — Stage 05 · High-Res Upscaling')"
+        data-cursor="ZOOM"
+      >
+        <div class="card-glow-edge"></div>
+
+        <!-- Artwork Container (1:1 Square) -->
+        <div class="disintegrate-img-wrap">
+          <img
+            src="assets/workflow/5.png"
+            alt="Production Workflow Stage 05 - High-Res Upscaling"
+            loading="lazy"
+            decoding="async"
+          >
+          <div class="disintegrate-overlay"></div>
+
+          <!-- Stage Kicker Floating Badges -->
+          <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10 pointer-events-none">
+            <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] flex items-center gap-1.5 shadow-lg">
+              <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+              STAGE 05
+            </span>
+            <span class="font-mono text-[10px] font-medium px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] group-hover:border-[var(--accent)] transition-colors shadow-lg">
+              EXPAND ↗
+            </span>
+          </div>
+        </div>
+
+        <!-- Card Caption & Metadata Strip -->
+        <div class="p-5 border-t border-[#232328]/60 bg-[#141417] flex items-center justify-between gap-3">
+          <div class="space-y-1">
+            <div class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Phase 05 · Latent Refinement</div>
+            <h4 class="font-display font-bold text-base text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors leading-snug">
+              High-Res Upscaling
+            </h4>
+          </div>
+          <span class="w-8 h-8 rounded-full bg-[#1e1e23] border border-[#2a2a30] group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[#0E0E10] text-[#8E8D94] flex items-center justify-center font-mono text-xs transition-all duration-300 flex-shrink-0">
+            ↗
+          </span>
+        </div>
+      </div>
+
+      <!-- Workflow Stage 06 -->
+      <div
+        class="disintegrate-card group lg:translate-y-6"
+        onclick="openImageModal('assets/workflow/6.png', 'Production Workflow — Stage 06 · VFX & Compositing')"
+        data-cursor="ZOOM"
+      >
+        <div class="card-glow-edge"></div>
+
+        <!-- Artwork Container (1:1 Square) -->
+        <div class="disintegrate-img-wrap">
+          <img
+            src="assets/workflow/6.png"
+            alt="Production Workflow Stage 06 - VFX & Compositing"
+            loading="lazy"
+            decoding="async"
+          >
+          <div class="disintegrate-overlay"></div>
+
+          <!-- Stage Kicker Floating Badges -->
+          <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10 pointer-events-none">
+            <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] flex items-center gap-1.5 shadow-lg">
+              <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+              STAGE 06
+            </span>
+            <span class="font-mono text-[10px] font-medium px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] group-hover:border-[var(--accent)] transition-colors shadow-lg">
+              EXPAND ↗
+            </span>
+          </div>
+        </div>
+
+        <!-- Card Caption & Metadata Strip -->
+        <div class="p-5 border-t border-[#232328]/60 bg-[#141417] flex items-center justify-between gap-3">
+          <div class="space-y-1">
+            <div class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Phase 06 · Photoshop Assembly</div>
+            <h4 class="font-display font-bold text-base text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors leading-snug">
+              VFX & Compositing
+            </h4>
+          </div>
+          <span class="w-8 h-8 rounded-full bg-[#1e1e23] border border-[#2a2a30] group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[#0E0E10] text-[#8E8D94] flex items-center justify-center font-mono text-xs transition-all duration-300 flex-shrink-0">
+            ↗
+          </span>
+        </div>
+      </div>
+
+      <!-- Workflow Stage 07 -->
+      <div
+        class="disintegrate-card group lg:-translate-y-3"
+        onclick="openImageModal('assets/workflow/7.png', 'Production Workflow — Stage 07 · Motion & Dynamics')"
+        data-cursor="ZOOM"
+      >
+        <div class="card-glow-edge"></div>
+
+        <!-- Artwork Container (1:1 Square) -->
+        <div class="disintegrate-img-wrap">
+          <img
+            src="assets/workflow/7.png"
+            alt="Production Workflow Stage 07 - Motion & Dynamics"
+            loading="lazy"
+            decoding="async"
+          >
+          <div class="disintegrate-overlay"></div>
+
+          <!-- Stage Kicker Floating Badges -->
+          <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10 pointer-events-none">
+            <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] flex items-center gap-1.5 shadow-lg">
+              <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+              STAGE 07
+            </span>
+            <span class="font-mono text-[10px] font-medium px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] group-hover:border-[var(--accent)] transition-colors shadow-lg">
+              EXPAND ↗
+            </span>
+          </div>
+        </div>
+
+        <!-- Card Caption & Metadata Strip -->
+        <div class="p-5 border-t border-[#232328]/60 bg-[#141417] flex items-center justify-between gap-3">
+          <div class="space-y-1">
+            <div class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Phase 07 · Video Synthesis Pass</div>
+            <h4 class="font-display font-bold text-base text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors leading-snug">
+              Motion & Dynamics
+            </h4>
+          </div>
+          <span class="w-8 h-8 rounded-full bg-[#1e1e23] border border-[#2a2a30] group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[#0E0E10] text-[#8E8D94] flex items-center justify-center font-mono text-xs transition-all duration-300 flex-shrink-0">
+            ↗
+          </span>
+        </div>
+      </div>
+
+      <!-- Workflow Stage 08 -->
+      <div
+        class="disintegrate-card group lg:translate-y-8"
+        onclick="openImageModal('assets/workflow/8.png', 'Production Workflow — Stage 08 · Master Grade & Delivery')"
+        data-cursor="ZOOM"
+      >
+        <div class="card-glow-edge"></div>
+
+        <!-- Artwork Container (1:1 Square) -->
+        <div class="disintegrate-img-wrap">
+          <img
+            src="assets/workflow/8.png"
+            alt="Production Workflow Stage 08 - Master Grade & Delivery"
+            loading="lazy"
+            decoding="async"
+          >
+          <div class="disintegrate-overlay"></div>
+
+          <!-- Stage Kicker Floating Badges -->
+          <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10 pointer-events-none">
+            <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] flex items-center gap-1.5 shadow-lg">
+              <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+              STAGE 08
+            </span>
+            <span class="font-mono text-[10px] font-medium px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] group-hover:border-[var(--accent)] transition-colors shadow-lg">
+              EXPAND ↗
+            </span>
+          </div>
+        </div>
+
+        <!-- Card Caption & Metadata Strip -->
+        <div class="p-5 border-t border-[#232328]/60 bg-[#141417] flex items-center justify-between gap-3">
+          <div class="space-y-1">
+            <div class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Phase 08 · Color & Final Polish</div>
+            <h4 class="font-display font-bold text-base text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors leading-snug">
+              Master Grade & Delivery
+            </h4>
+          </div>
+          <span class="w-8 h-8 rounded-full bg-[#1e1e23] border border-[#2a2a30] group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[#0E0E10] text-[#8E8D94] flex items-center justify-center font-mono text-xs transition-all duration-300 flex-shrink-0">
+            ↗
+          </span>
+        </div>
+      </div>
+
     </div>
+
   </section>
 
   <!-- ======================================================== -->
@@ -1850,669 +2022,16 @@
 
 
     // ========================================================
-    // CIRCULAR CAROUSEL (VANILLA JS IMPLEMENTATION)
-    // ========================================================
-    (function initCircularCarousel() {
-      const container = document.getElementById('workflow-carousel');
-      if (!container) return;
-
-      const items = [
-        { src: 'assets/workflow/1.png', alt: 'Workflow Stage 01', title: 'Phase 01', subtitle: 'Creative Production' },
-        { src: 'assets/workflow/2.png', alt: 'Workflow Stage 02', title: 'Phase 02', subtitle: 'Creative Production' },
-        { src: 'assets/workflow/3.png', alt: 'Workflow Stage 03', title: 'Phase 03', subtitle: 'Creative Production' },
-        { src: 'assets/workflow/4.png', alt: 'Workflow Stage 04', title: 'Phase 04', subtitle: 'Creative Production' },
-        { src: 'assets/workflow/5.png', alt: 'Workflow Stage 05', title: 'Phase 05', subtitle: 'Creative Production' },
-        { src: 'assets/workflow/6.png', alt: 'Workflow Stage 06', title: 'Phase 06', subtitle: 'Creative Production' },
-        { src: 'assets/workflow/7.png', alt: 'Workflow Stage 07', title: 'Phase 07', subtitle: 'Creative Production' },
-        { src: 'assets/workflow/8.png', alt: 'Workflow Stage 08', title: 'Phase 08', subtitle: 'Creative Production' },
-      ];
-
-      const PRESETS = {
-        cylinder: {
-          axis: 'y',
-          tilt: -5,
-          perspective: 2500,
-          curve: 1,
-          spread: 1,
-          inward: false,
-          billboard: false,
-          backfaces: true,
-          window: 0
-        }
-      };
-
-      const INTRO_LENGTH = { assemble: 1500, rise: 1400, spin: 1800, none: 0 };
-      const TILES = 8;
-      const OVERLAP = 2.5;
-      const DRAG_THRESHOLD = 5;
-      const SPRING = 118;
-      const SETTLE_SPEED = 9;
-      const CAPTION_SPACE = 76;
-      const TO_RAD = Math.PI / 180;
-
-      const clamp = (val, min, max) => Math.min(max, Math.max(min, val));
-      const wrap = (degrees) => ((((degrees + 180) % 360) + 360) % 360) - 180;
-      const easeOut = (t) => 1 - Math.pow(1 - t, 4);
-      const easeOutQuint = (t) => 1 - Math.pow(1 - t, 5);
-
-      const rotateX = (p, degrees) => {
-        const r = degrees * TO_RAD;
-        const c = Math.cos(r);
-        const s = Math.sin(r);
-        return [p[0], p[1] * c - p[2] * s, p[1] * s + p[2] * c];
-      };
-
-      const rotateY = (p, degrees) => {
-        const r = degrees * TO_RAD;
-        const c = Math.cos(r);
-        const s = Math.sin(r);
-        return [p[0] * c + p[2] * s, p[1], -p[0] * s + p[2] * c];
-      };
-
-      const queryReduced = window.matchMedia?.('(prefers-reduced-motion: reduce)');
-      let reduced = queryReduced ? queryReduced.matches : false;
-
-      const count = items.length;
-      const shape = 'cylinder';
-      const layout = PRESETS[shape];
-      const axis = layout.axis;
-      const tiltValue = layout.tilt;
-      const curveValue = layout.billboard ? 0 : clamp(layout.curve, 0, 1);
-
-      const cardW = 260;
-      const aspectRatio = 1;
-      const cardH = cardW / clamp(aspectRatio, 0.2, 5);
-      const along = axis === 'x' ? cardH : cardW;
-      const gap = 25;
-      const step = 360 / count;
-
-      const n = Math.max(count, 3);
-      const pitch = (along + gap) * layout.spread;
-      const chord = pitch / (2 * Math.sin(Math.PI / n));
-      const arc = (n * pitch) / (2 * Math.PI);
-      const radius = Math.max(chord + (arc - chord) * curveValue, along * 0.6);
-
-      // Tiles computation
-      const totalTiles = curveValue > 0.001 ? TILES : 1;
-      const length = along / totalTiles;
-      const bend = curveValue > 0.001 ? radius / curveValue : 0;
-      const tiles = Array.from({ length: totalTiles }, (_, index) => {
-        const start = index * length - (index > 0 ? OVERLAP / 2 : 0);
-        const end = (index + 1) * length + (index < totalTiles - 1 ? OVERLAP / 2 : 0);
-        const center = (start + end) / 2 - along / 2;
-        const alpha = bend ? center / bend : 0;
-        const shift = bend ? bend * Math.sin(alpha) : center;
-        const sink = bend ? bend * (1 - Math.cos(alpha)) : 0;
-        const depth = layout.inward ? sink : -sink;
-        const turn = ((layout.inward ? -alpha : alpha) * 180) / Math.PI;
-        const move =
-          axis === 'x'
-            ? `translate3d(0px, ${shift}px, ${depth}px) rotateX(${-turn}deg)`
-            : `translate3d(${shift}px, 0px, ${depth}px) rotateY(${turn}deg)`;
-        return { index, total: totalTiles, start, end, size: end - start, move };
+    // Interactive Spotlight & Tilt on Disintegrating Cards
+    document.querySelectorAll('.disintegrate-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', x + 'px');
+        card.style.setProperty('--mouse-y', y + 'px');
       });
-
-      const settings = {
-        count,
-        step,
-        radius,
-        layout,
-        axis,
-        tilt: tiltValue,
-        perspective: layout.inward ? radius : layout.perspective,
-        cardW,
-        cardH,
-        intro: reduced ? 'none' : 'rise',
-        autoplay: reduced ? 'off' : 'drift',
-        speed: 13,
-        interval: 3,
-        draggable: true,
-        momentum: 0.6,
-        snap: true,
-        pauseOnHover: true,
-        parallax: reduced ? 0 : 0.3,
-        stretch: reduced ? 0 : 0.45,
-        depthFade: 0.55,
-        captions: true,
-        reduced
-      };
-
-      const state = {
-        angle: 0,
-        velocity: 0,
-        target: null,
-        dir: -1, // drift direction
-        press: null,
-        drag: false,
-        hover: false,
-        pointer: { inside: false, x: 0, y: 0 },
-        yaw: 0,
-        pitch: 0,
-        intro: null,
-        introDone: false,
-        holdUntil: 0,
-        stepAt: 0,
-        suppressClick: false,
-        wheelTimer: undefined,
-        fit: 1,
-        shift: 0,
-        drop: 0,
-        last: 0
-      };
-
-      // Create DOM elements
-      const root = document.createElement('div');
-      root.className = 'circular-carousel';
-      root.setAttribute('role', 'region');
-      root.setAttribute('aria-roledescription', 'carousel');
-      root.setAttribute('aria-label', 'AI Production Workflow Carousel');
-      root.setAttribute('tabindex', '0');
-      root.setAttribute('data-axis', axis);
-      root.setAttribute('data-shape', shape);
-      root.setAttribute('data-draggable', '');
-      root.style.setProperty('--cc-fade', '#0E0E10');
-      root.style.setProperty('--cc-radius', '14px');
-      root.style.setProperty('--cc-inner', '0.4');
-
-      const view = document.createElement('div');
-      view.className = 'circular-carousel__view';
-      root.appendChild(view);
-
-      const stage = document.createElement('div');
-      stage.className = 'circular-carousel__stage';
-      view.appendChild(stage);
-
-      const camera = document.createElement('div');
-      camera.className = 'circular-carousel__camera';
-      stage.appendChild(camera);
-
-      const ring = document.createElement('div');
-      ring.className = 'circular-carousel__ring';
-      camera.appendChild(ring);
-
-      const cardRefs = [];
-
-      function renderTile(item, tile, back) {
-        const strip = back ? tile.total - 1 - tile.index : tile.index;
-        const first = strip === 0;
-        const last = strip === tile.total - 1;
-        const r = 'var(--cc-radius)';
-        const frameRadius =
-          axis === 'x'
-            ? `${first ? r : 0} ${first ? r : 0} ${last ? r : 0} ${last ? r : 0}`
-            : `${first ? r : 0} ${last ? r : 0} ${last ? r : 0} ${first ? r : 0}`;
-        const offset = back ? along - tile.end : tile.start;
-        const size = tile.size;
-        const flip = axis === 'x' ? ' rotateX(180deg)' : ' rotateY(180deg)';
-
-        const tileEl = document.createElement('div');
-        tileEl.className = 'circular-carousel__tile';
-        tileEl.style.cssText =
-          axis === 'x'
-            ? `left:${-cardW / 2}px;top:${-size / 2}px;width:${cardW}px;height:${size}px;transform:${tile.move + (back ? flip : '')};`
-            : `left:${-size / 2}px;top:${-cardH / 2}px;width:${size}px;height:${cardH}px;transform:${tile.move + (back ? flip : '')};`;
-
-        const frame = document.createElement('div');
-        frame.className = 'circular-carousel__frame';
-        frame.style.height = (axis === 'x' ? size : cardH) + 'px';
-        frame.style.borderRadius = frameRadius;
-
-        const photo = document.createElement('img');
-        photo.className = 'circular-carousel__photo';
-        photo.src = item.src;
-        photo.alt = item.alt || '';
-        photo.draggable = false;
-        photo.decoding = 'async';
-        photo.style.cssText =
-          axis === 'x'
-            ? `left:0px;top:${-offset}px;width:${cardW}px;height:${cardH}px;`
-            : `left:${-offset}px;top:0px;width:${cardW}px;height:${cardH}px;`;
-        frame.appendChild(photo);
-
-        if (back) {
-          const inner = document.createElement('div');
-          inner.className = 'circular-carousel__inner';
-          frame.appendChild(inner);
-        }
-        const shade = document.createElement('div');
-        shade.className = 'circular-carousel__shade';
-        frame.appendChild(shade);
-
-        tileEl.appendChild(frame);
-        return tileEl;
-      }
-
-      items.forEach((item, index) => {
-        const card = document.createElement('div');
-        card.className = 'circular-carousel__card cursor-pointer';
-        card.setAttribute('data-cc-index', index);
-        card.setAttribute('role', 'group');
-        card.setAttribute('aria-roledescription', 'slide');
-        card.setAttribute('aria-label', `${item.title}, ${index + 1} of ${count}`);
-
-        tiles.forEach(tile => card.appendChild(renderTile(item, tile, false)));
-        if (layout.backfaces) {
-          tiles.forEach(tile => card.appendChild(renderTile(item, tile, true)));
-        }
-
-        ring.appendChild(card);
-        cardRefs.push(card);
-      });
-
-      // Captions
-      const captionEl = document.createElement('div');
-      captionEl.className = 'circular-carousel__caption';
-      captionEl.setAttribute('aria-hidden', 'true');
-      captionEl.innerHTML = `
-        <span class="circular-carousel__title">
-          <span class="circular-carousel__title-main" id="cc-active-title">${items[0].title}</span>
-          <span class="circular-carousel__subtitle" id="cc-active-subtitle">${items[0].subtitle}</span>
-        </span>
-        <span class="circular-carousel__count">
-          <span class="circular-carousel__digits">
-            <span class="circular-carousel__digit">
-              <span class="circular-carousel__reel" id="cc-reel-tens">
-                <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
-              </span>
-            </span>
-            <span class="circular-carousel__digit">
-              <span class="circular-carousel__reel" id="cc-reel-ones">
-                <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
-              </span>
-            </span>
-          </span>
-          <span class="circular-carousel__slash">/</span>
-          <span>0${count}</span>
-        </span>
-      `;
-      root.appendChild(captionEl);
-
-      container.appendChild(root);
-
-      let activeIndex = 0;
-      const titleMainEl = root.querySelector('#cc-active-title');
-      const subtitleEl = root.querySelector('#cc-active-subtitle');
-      const reelTens = root.querySelector('#cc-reel-tens');
-      const reelOnes = root.querySelector('#cc-reel-ones');
-
-      function updateActiveUI(idx) {
-        if (activeIndex === idx) return;
-        activeIndex = idx;
-        const current = items[idx] || items[0];
-        if (titleMainEl) {
-          titleMainEl.textContent = current.title;
-          titleMainEl.style.animation = 'none';
-          void titleMainEl.offsetWidth; // re-trigger animation
-          titleMainEl.style.animation = 'circular-carousel-title 520ms cubic-bezier(0.22, 1, 0.36, 1)';
-        }
-        if (subtitleEl) {
-          subtitleEl.textContent = current.subtitle;
-        }
-        const val = idx + 1;
-        const tens = Math.floor(val / 10);
-        const ones = val % 10;
-        if (reelTens) reelTens.style.transform = `translateY(-${tens * 10}%)`;
-        if (reelOnes) reelOnes.style.transform = `translateY(-${ones * 10}%)`;
-      }
-
-      // Responsive Measure
-      const measure = () => {
-        const rect = root.getBoundingClientRect();
-        if (!rect.width || !rect.height) return;
-        const room = settings.captions ? CAPTION_SPACE : 0;
-        const width = rect.width * 0.94;
-        const height = (rect.height - room) * 0.92;
-        const P = settings.perspective;
-        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-
-        const corners = [
-          [-settings.cardW / 2, -settings.cardH / 2],
-          [settings.cardW / 2, -settings.cardH / 2],
-          [-settings.cardW / 2, settings.cardH / 2],
-          [settings.cardW / 2, settings.cardH / 2]
-        ];
-        const limit = settings.layout.window ? settings.layout.window * settings.step : 180;
-        for (let a = -limit; a <= limit; a += limit / 24) {
-          for (const [cx, cy] of corners) {
-            let p;
-            if (settings.axis === 'x') {
-              p = rotateY(rotateX([cx, cy, settings.radius], -a), settings.tilt);
-            } else if (settings.layout.billboard) {
-              const c = rotateY([0, 0, settings.radius], a);
-              p = rotateX([c[0] + cx, cy, c[2]], settings.tilt);
-            } else {
-              p = rotateX(rotateY([cx, cy, settings.radius], a), settings.tilt);
-            }
-            p = [p[0], p[1], p[2] - settings.radius];
-            if (p[2] >= P * 0.95) continue;
-            const k = P / (P - p[2]);
-            minX = Math.min(minX, p[0] * k);
-            maxX = Math.max(maxX, p[0] * k);
-            minY = Math.min(minY, p[1] * k);
-            maxY = Math.max(maxY, p[1] * k);
-          }
-        }
-        const spanX = Math.max(maxX - minX, 1);
-        const spanY = Math.max(maxY - minY, 1);
-        const fit = Math.min(1, width / spanX, height / spanY);
-        state.fit = fit;
-        state.shift = -((minY + maxY) / 2) * fit - room / 2;
-        state.drop = (rect.height / fit) * 0.55 + settings.cardH;
-        stage.style.perspective = `${P}px`;
-        stage.style.transform = `translate3d(0, ${state.shift}px, 0) scale(${fit})`;
-      };
-
-      const introCard = (elapsed, landing) => {
-        if (!state.intro) return { radius: 1, lift: 0 };
-        const type = state.intro.type;
-        const reach = Math.abs(wrap(landing + state.angle));
-        if (type === 'rise') {
-          const delay = (reach / 180) * 480;
-          const p = easeOutQuint(clamp((elapsed - delay) / 900, 0, 1));
-          return { radius: 1, lift: (1 - p) * state.drop };
-        }
-        return { radius: 1, lift: 0 };
-      };
-
-      const nearest = (angle) => Math.round(angle / settings.step) * settings.step;
-
-      const advance = (s, dt, now) => {
-        if (!state.introDone && ready) {
-          if (!state.intro) {
-            if (s.intro === 'none') state.introDone = true;
-            else state.intro = { type: s.intro, start: now };
-          }
-          if (state.intro && now - state.intro.start >= INTRO_LENGTH[state.intro.type]) {
-            state.intro = null;
-            state.introDone = true;
-          }
-        }
-
-        const paused = (s.pauseOnHover && state.hover) || state.drag || now < state.holdUntil;
-        const cruise = s.autoplay === 'drift' && !paused && !state.intro ? s.speed * state.dir : 0;
-        let busy = Boolean(state.intro) || state.drag;
-
-        if (state.drag || state.intro) {
-          state.velocity = state.drag ? state.velocity : 0;
-        } else if (state.target !== null) {
-          let remaining = dt;
-          const damping = 2 * Math.sqrt(SPRING);
-          while (remaining > 0) {
-            const h = Math.min(remaining, 1 / 240);
-            const accel = SPRING * (state.target - state.angle) - damping * state.velocity;
-            state.velocity += accel * h;
-            state.angle += state.velocity * h;
-            remaining -= h;
-          }
-          if (Math.abs(state.target - state.angle) < 0.004 && Math.abs(state.velocity) < 0.03) {
-            state.angle = state.target;
-            state.velocity = 0;
-            state.target = null;
-          }
-          busy = true;
-        } else {
-          const tau = 0.18 + s.momentum * 1.5;
-          state.velocity += (cruise - state.velocity) * (1 - Math.exp(-dt / tau));
-          state.angle += state.velocity * dt;
-          if (cruise === 0 && s.snap && Math.abs(state.velocity) < SETTLE_SPEED) {
-            state.target = nearest(state.angle);
-          }
-          busy = busy || cruise !== 0 || Math.abs(state.velocity) > 0.01 || state.target !== null;
-        }
-
-        if (now < state.holdUntil) busy = true;
-
-        const ease = 1 - Math.exp(-dt / 0.35);
-        const aimYaw = state.pointer.inside ? state.pointer.x * s.parallax * 9 : 0;
-        const aimPitch = state.pointer.inside ? -state.pointer.y * s.parallax * 6 : 0;
-        state.yaw += (aimYaw - state.yaw) * ease;
-        state.pitch += (aimPitch - state.pitch) * ease;
-        if (Math.abs(aimYaw - state.yaw) > 0.01 || Math.abs(aimPitch - state.pitch) > 0.01) busy = true;
-
-        return busy;
-      };
-
-      const render = (s, now) => {
-        const elapsed = state.intro ? now - state.intro.start : 0;
-        const swell = 1 + s.stretch * 0.12 * Math.min(1, Math.abs(state.velocity) / 420);
-        const angle = state.angle;
-        const R = s.radius * swell;
-
-        camera.style.transform = `translate3d(0, 0, ${-R}px) rotateX(${s.tilt + state.pitch}deg) rotateY(${state.yaw}deg)`;
-        ring.style.transform = `rotateY(${angle}deg)`;
-
-        for (let index = 0; index < s.count; index++) {
-          const card = cardRefs[index];
-          if (!card) continue;
-          const base = index * s.step;
-          const mod = introCard(elapsed, base);
-          const r = R * mod.radius;
-          let transform = `rotateY(${base}deg) translateZ(${r}px)`;
-          if (mod.lift) transform += ` translateY(${mod.lift}px)`;
-          card.style.transform = transform;
-
-          const world = wrap(base + angle);
-          const facing = Math.cos(world * TO_RAD);
-          const fade = s.depthFade * Math.pow((1 - facing) / 2, 1.25);
-          card.style.setProperty('--cc-depth', fade.toFixed(3));
-        }
-
-        const currentActive = ((Math.round(-state.angle / s.step) % s.count) + s.count) % s.count || 0;
-        updateActiveUI(currentActive);
-      };
-
-      let raf = 0;
-      let visible = true;
-      let ready = false;
-
-      const frame = (now) => {
-        raf = 0;
-        const dt = state.last ? Math.min((now - state.last) / 1000, 0.05) : 1 / 60;
-        state.last = now;
-        const busy = advance(settings, dt, now);
-        render(settings, now);
-        if (busy && visible && !document.hidden) raf = requestAnimationFrame(frame);
-        else state.last = 0;
-      };
-
-      const wake = () => {
-        if (!raf && visible && !document.hidden) raf = requestAnimationFrame(frame);
-      };
-
-      // Pointer interactions
-      const focusIndex = (index) => {
-        let target = -index * settings.step;
-        target += 360 * Math.round((state.angle - target) / 360);
-        state.target = target;
-        state.holdUntil = performance.now() + 2800;
-        wake();
-      };
-
-      const updatePointer = (e) => {
-        const rect = root.getBoundingClientRect();
-        state.pointer.x = clamp(((e.clientX - rect.left) / rect.width) * 2 - 1, -1, 1);
-        state.pointer.y = clamp(((e.clientY - rect.top) / rect.height) * 2 - 1, -1, 1);
-      };
-
-      root.addEventListener('pointerdown', (e) => {
-        state.suppressClick = false;
-        if (e.button !== 0) return;
-        state.press = {
-          id: e.pointerId,
-          x: e.clientX,
-          y: e.clientY,
-          angle: state.angle,
-          moved: false,
-          origin: 0,
-          samples: [{ time: performance.now(), angle: state.angle }]
-        };
-      });
-
-      root.addEventListener('pointermove', (e) => {
-        if (e.pointerType === 'mouse') {
-          state.pointer.inside = true;
-          updatePointer(e);
-        }
-        const press = state.press;
-        if (!press || press.id !== e.pointerId) {
-          wake();
-          return;
-        }
-        const delta = e.clientX - press.x;
-        const cross = e.clientY - press.y;
-        if (!press.moved) {
-          if (Math.abs(delta) < DRAG_THRESHOLD) return;
-          if (Math.abs(cross) > Math.abs(delta) * 1.2 && e.pointerType !== 'mouse') {
-            state.press = null;
-            return;
-          }
-          press.moved = true;
-          press.origin = delta;
-          state.drag = true;
-          state.target = null;
-          state.velocity = 0;
-          root.setAttribute('data-dragging', '');
-          try { root.setPointerCapture(e.pointerId); } catch (_) {}
-        }
-        const perPixel = 180 / (Math.PI * settings.radius * state.fit);
-        state.angle = press.angle + (delta - press.origin) * perPixel;
-        const now = performance.now();
-        press.samples.push({ time: now, angle: state.angle });
-        while (press.samples.length > 2 && now - press.samples[0].time > 110) press.samples.shift();
-        wake();
-      });
-
-      const releasePointer = (e) => {
-        const press = state.press;
-        if (!press || press.id !== e.pointerId) return;
-        state.press = null;
-        if (!press.moved) return;
-        state.drag = false;
-        root.removeAttribute('data-dragging');
-        state.suppressClick = true;
-        const first = press.samples[0];
-        const last = press.samples[press.samples.length - 1];
-        const span = (last.time - first.time) / 1000;
-        const velocity = span > 0.008 ? clamp((last.angle - first.angle) / span, -1400, 1400) : 0;
-        state.velocity = velocity;
-        if (Math.abs(velocity) > 60) state.dir = Math.sign(velocity);
-        const coasting = settings.autoplay === 'drift' && !(settings.pauseOnHover && state.hover && e.pointerType === 'mouse');
-        if (settings.snap && !coasting) {
-          const tau = 0.18 + settings.momentum * 1.5;
-          state.target = Math.round((state.angle + velocity * tau * 0.55) / settings.step) * settings.step;
-        }
-        wake();
-      };
-
-      root.addEventListener('pointerup', releasePointer);
-      root.addEventListener('pointercancel', releasePointer);
-
-      root.addEventListener('pointerenter', (e) => {
-        if (e.pointerType !== 'mouse') return;
-        state.hover = true;
-        wake();
-      });
-
-      root.addEventListener('pointerleave', (e) => {
-        if (e.pointerType === 'mouse') {
-          state.hover = false;
-          state.pointer.inside = false;
-        }
-        wake();
-      });
-
-      root.addEventListener('click', (e) => {
-        if (state.suppressClick) {
-          state.suppressClick = false;
-          return;
-        }
-        const card = e.target.closest('[data-cc-index]');
-        if (!card) return;
-        const idx = Number(card.getAttribute('data-cc-index'));
-        if (idx === activeIndex) {
-          // Open high-res zoom modal for front card
-          if (typeof openImageModal === 'function') {
-            openImageModal(items[idx].src, `Production Workflow — ${items[idx].title}`);
-          }
-        } else {
-          focusIndex(idx);
-        }
-      });
-
-      root.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight') {
-          const base = state.target ?? Math.round(state.angle / settings.step) * settings.step;
-          state.target = base - settings.step;
-          state.holdUntil = performance.now() + 2800;
-          wake();
-          e.preventDefault();
-        } else if (e.key === 'ArrowLeft') {
-          const base = state.target ?? Math.round(state.angle / settings.step) * settings.step;
-          state.target = base + settings.step;
-          state.holdUntil = performance.now() + 2800;
-          wake();
-          e.preventDefault();
-        } else if (e.key === 'Enter' || e.key === ' ') {
-          if (typeof openImageModal === 'function') {
-            openImageModal(items[activeIndex].src, `Production Workflow — ${items[activeIndex].title}`);
-          }
-          e.preventDefault();
-        }
-      });
-
-      // Wheel
-      root.addEventListener('wheel', (e) => {
-        const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : 0;
-        if (!delta) return;
-        e.preventDefault();
-        const perPixel = 180 / (Math.PI * settings.radius * state.fit);
-        state.target = null;
-        state.angle -= delta * perPixel;
-        state.velocity = -delta * perPixel * 30;
-        state.holdUntil = performance.now() + 1600;
-        clearTimeout(state.wheelTimer);
-        state.wheelTimer = setTimeout(() => {
-          if (settings.snap) state.target = nearest(state.angle + state.velocity * 0.12);
-          wake();
-        }, 140);
-        wake();
-      }, { passive: false });
-
-      // Resize & Intersection
-      const ro = new ResizeObserver(() => {
-        measure();
-        wake();
-      });
-      ro.observe(root);
-
-      const io = new IntersectionObserver(([entry]) => {
-        visible = entry.isIntersecting;
-        if (visible) wake();
-        else {
-          cancelAnimationFrame(raf);
-          raf = 0;
-          state.last = 0;
-        }
-      });
-      io.observe(root);
-
-      // Preload images
-      const promises = items.map(it => new Promise(res => {
-        const img = new Image();
-        img.onload = () => res();
-        img.onerror = () => res();
-        img.src = it.src;
-      }));
-      const timeout = new Promise(res => setTimeout(res, 2400));
-      Promise.race([Promise.all(promises), timeout]).then(() => {
-        ready = true;
-        root.setAttribute('data-ready', '');
-        measure();
-        render(settings, performance.now());
-        wake();
-      });
-    })();
-
+    });
   </script>
 
 </body>
