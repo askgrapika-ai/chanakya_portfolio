@@ -125,84 +125,109 @@
 
 
 
-    /* ---- Disintegrating Gallery Cards CSS ---- */
-    .disintegrate-grid {
-      display: grid;
-      position: relative;
+    /* ---- Workflow 3D Flip Cards & Slow Moving Row Track ---- */
+    @keyframes workflow-drift {
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+      100% {
+        transform: translate3d(-50%, 0, 0);
+      }
     }
-    .disintegrate-card {
-      position: relative;
-      border-radius: 18px;
-      background: #141417;
-      border: 1px solid #232328;
+
+    .workflow-track-wrapper {
+      width: 100%;
       overflow: hidden;
-      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-                  border-color 0.35s ease,
-                  box-shadow 0.45s ease;
-      cursor: pointer;
+      position: relative;
+      padding: 20px 0 30px 0;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%);
+      mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%);
     }
-    .disintegrate-card:hover {
-      transform: translateY(-8px) scale(1.015);
-      border-color: var(--accent);
-      box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.85),
-                  0 0 35px -5px rgba(204, 255, 0, 0.15);
-      z-index: 10;
+
+    .workflow-track {
+      display: flex;
+      gap: 24px;
+      width: max-content;
+      animation: workflow-drift 50s linear infinite;
+      will-change: transform;
     }
-    .disintegrate-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      border-radius: inherit;
-      background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(204, 255, 0, 0.08), transparent 40%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      z-index: 3;
+
+    .workflow-track-wrapper:hover .workflow-track {
+      animation-play-state: paused;
     }
-    .disintegrate-card:hover::before {
-      opacity: 1;
+
+    .workflow-flip-card {
+      width: 280px;
+      height: 280px;
+      perspective: 1200px;
+      flex-shrink: 0;
+      user-select: none;
     }
-    .disintegrate-card .card-glow-edge {
-      position: absolute;
-      inset: -1px;
-      border-radius: inherit;
-      pointer-events: none;
-      background: linear-gradient(135deg, rgba(204, 255, 0, 0.25) 0%, transparent 40%, transparent 60%, rgba(204, 255, 0, 0.15) 100%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      z-index: 4;
+
+    @media (min-width: 640px) {
+      .workflow-flip-card {
+        width: 300px;
+        height: 300px;
+      }
     }
-    .disintegrate-card:hover .card-glow-edge {
-      opacity: 1;
-    }
-    .disintegrate-img-wrap {
+
+    .workflow-flip-inner {
       position: relative;
       width: 100%;
-      aspect-ratio: 1 / 1;
-      overflow: hidden;
-      background: #0E0E10;
+      height: 100%;
+      border-radius: 20px;
+      transform-style: preserve-3d;
+      transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+      box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.7);
     }
-    .disintegrate-img-wrap img {
+
+    .workflow-flip-card:hover .workflow-flip-inner {
+      transform: rotateY(180deg) scale(1.02);
+      box-shadow: 0 24px 50px -10px rgba(0, 0, 0, 0.9), 0 0 35px rgba(204, 255, 0, 0.16);
+    }
+
+    .workflow-flip-front,
+    .workflow-flip-back {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      overflow: hidden;
+    }
+
+    /* FRONT FACE: Center text of Stage Number matching card visual style */
+    .workflow-flip-front {
+      background: radial-gradient(circle at 50% 25%, #1d1d22 0%, #151518 70%, #0E0E10 100%);
+      border: 1px solid #232328;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 20px;
+      text-align: center;
+      transition: border-color 0.35s ease;
+    }
+
+    .workflow-flip-card:hover .workflow-flip-front {
+      border-color: var(--accent);
+    }
+
+    /* BACK FACE: Flips 180deg to reveal image */
+    .workflow-flip-back {
+      transform: rotateY(180deg);
+      background: #0E0E10;
+      border: 1px solid var(--accent);
+    }
+
+    .workflow-flip-back img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), filter 0.45s ease;
-      filter: brightness(0.92) contrast(1.02);
-    }
-    .disintegrate-card:hover .disintegrate-img-wrap img {
-      transform: scale(1.05);
-      filter: brightness(1) contrast(1.05);
-    }
-    .disintegrate-overlay {
-      position: absolute;
-      inset: 0;
       pointer-events: none;
-      background: linear-gradient(to top, rgba(20,20,23,0.95) 0%, rgba(20,20,23,0.3) 35%, transparent 60%);
-      transition: opacity 0.35s ease;
-    }
-    .disintegrate-card:hover .disintegrate-overlay {
-      opacity: 0.4;
     }
 
     /* ---- DriftWall Vanilla JS Component CSS ---- */
@@ -779,391 +804,993 @@
 
   </section>
 
-    <!-- ======================================================== -->
-  <!-- 04. PRODUCTION WORKFLOW — DISINTEGRATING GALLERY CARDS   -->
+      <!-- ======================================================== -->
+  <!-- 04. PRODUCTION WORKFLOW — 3D FLIP CARDS (SINGLE SLOW ROW) -->
   <!-- ======================================================== -->
-  <section id="workflow" class="py-24 px-6 sm:px-12 max-w-[1800px] mx-auto border-t border-[#232328]">
+  <section id="workflow" class="py-24 px-6 sm:px-12 max-w-[1800px] mx-auto border-t border-[#232328] overflow-hidden">
     
-    <!-- Section Header (Left-Aligned, Neat & Clean) -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-14">
-      <div class="space-y-3 text-left">
-        <div class="inline-flex items-center gap-2 font-mono text-xs text-[var(--accent)] tracking-widest uppercase">
-          <span class="w-2 h-2 rounded-full bg-[var(--accent)] animate-pulse"></span>
-          <span>END-TO-END PIPELINE</span>
-        </div>
-        <h2 class="text-3xl sm:text-5xl lg:text-6xl font-display font-extrabold text-[#F2EFE9] tracking-tight leading-none">
-          PRODUCTION WORKFLOW
-        </h2>
-        <p class="text-[#8E8D94] text-sm sm:text-base font-light max-w-2xl leading-relaxed">
-          An 8-stage cyclical framework from ideation and prompt architecture through neural generation, compositing, motion, and final master grading. Click any artifact card to zoom in full resolution.
-        </p>
+    <!-- Section Header (Left-Aligned, Clean, NO right hint text) -->
+    <div class="pb-10 text-left space-y-3">
+      <div class="inline-flex items-center gap-2 font-mono text-xs text-[var(--accent)] tracking-widest uppercase">
+        <span class="w-2 h-2 rounded-full bg-[var(--accent)] animate-pulse"></span>
+        <span>END-TO-END PIPELINE</span>
       </div>
-
-      <!-- Gallery Meta Badges -->
-      <div class="flex flex-wrap items-center gap-2.5 font-mono text-xs">
-        <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] text-[#F2EFE9] flex items-center gap-2">
-          <span class="text-[var(--accent)]">●</span> 8 SEQUENTIAL PHASES
-        </span>
-        <span class="px-3.5 py-1.5 rounded-full bg-[#151518] border border-[#232328] text-[#8E8D94]">
-          CLICK CARD FOR FULLSCREEN MODAL
-        </span>
-      </div>
+      <h2 class="text-3xl sm:text-5xl lg:text-6xl font-display font-extrabold text-[#F2EFE9] tracking-tight leading-none">
+        PRODUCTION WORKFLOW
+      </h2>
+      <p class="text-[#8E8D94] text-sm sm:text-base font-light max-w-2xl leading-relaxed">
+        An 8-stage cyclical framework from ideation and prompt architecture through neural generation, compositing, motion, and final master grading. Hover over any stage card to flip and reveal the visual artwork.
+      </p>
     </div>
 
-    <!-- Disintegrating Staggered Gallery Grid -->
-    <div class="disintegrate-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pb-6">
-      <!-- Workflow Stage 01 -->
-      <div
-        class="disintegrate-card group "
-        onclick="openImageModal('assets/workflow/1.png', 'Production Workflow — Stage 01 · Creative Brief & Vision')"
-        data-cursor="ZOOM"
-      >
-        <div class="card-glow-edge"></div>
+    <!-- Single Row Slow-Moving Track with 3D Flip Cards -->
+    <div class="workflow-track-wrapper">
+      <div class="workflow-track">
+        <!-- Set 1 (Stages 01 - 08) -->
+        <!-- Workflow Card Stage 01 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 01
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  01 / 08
+                </span>
+              </div>
 
-        <!-- Artwork Container (1:1 Square) -->
-        <div class="disintegrate-img-wrap">
-          <img
-            src="assets/workflow/1.png"
-            alt="Production Workflow Stage 01 - Creative Brief & Vision"
-            loading="lazy"
-            decoding="async"
-          >
-          <div class="disintegrate-overlay"></div>
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  01
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    Creative Brief & Vision
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Conceptual Architecture
+                  </p>
+                </div>
+              </div>
 
-          <!-- Stage Kicker Floating Badges -->
-          <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10 pointer-events-none">
-            <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] flex items-center gap-1.5 shadow-lg">
-              <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
-              STAGE 01
-            </span>
-            <span class="font-mono text-[10px] font-medium px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] group-hover:border-[var(--accent)] transition-colors shadow-lg">
-              EXPAND ↗
-            </span>
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="assets/workflow/1.png"
+                alt="Production Workflow Stage 01 - Creative Brief & Vision"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 01
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">Creative Brief & Vision</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 02 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 02
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  02 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  02
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    Prompt & Style Tokens
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Latent Space Direction
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="assets/workflow/2.png"
+                alt="Production Workflow Stage 02 - Prompt & Style Tokens"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 02
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">Prompt & Style Tokens</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 03 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 03
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  03 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  03
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    AI Visual Synthesis
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Multi-Pass Generation
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="assets/workflow/3.png"
+                alt="Production Workflow Stage 03 - AI Visual Synthesis"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 03
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">AI Visual Synthesis</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 04 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 04
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  04 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  04
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    Directional Curation
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Cohesion & Selection
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="assets/workflow/4.png"
+                alt="Production Workflow Stage 04 - Directional Curation"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 04
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">Directional Curation</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 05 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 05
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  05 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  05
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    High-Res Upscaling
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Latent Refinement
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="assets/workflow/5.png"
+                alt="Production Workflow Stage 05 - High-Res Upscaling"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 05
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">High-Res Upscaling</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 06 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 06
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  06 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  06
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    VFX & Compositing
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Photoshop Assembly
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="assets/workflow/6.png"
+                alt="Production Workflow Stage 06 - VFX & Compositing"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 06
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">VFX & Compositing</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 07 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 07
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  07 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  07
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    Motion & Dynamics
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Video Synthesis Pass
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="assets/workflow/7.png"
+                alt="Production Workflow Stage 07 - Motion & Dynamics"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 07
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">Motion & Dynamics</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 08 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 08
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  08 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  08
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    Master Grade & Delivery
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Color & Final Polish
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="assets/workflow/8.png"
+                alt="Production Workflow Stage 08 - Master Grade & Delivery"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 08
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">Master Grade & Delivery</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Card Caption & Metadata Strip -->
-        <div class="p-5 border-t border-[#232328]/60 bg-[#141417] flex items-center justify-between gap-3">
-          <div class="space-y-1">
-            <div class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Phase 01 · Conceptual Architecture</div>
-            <h4 class="font-display font-bold text-base text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors leading-snug">
-              Creative Brief & Vision
-            </h4>
+        <!-- Set 2 (Seamless Infinite Clone 01 - 08) -->
+        <!-- Workflow Card Stage 01 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 01
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  01 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  01
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    Creative Brief & Vision
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Conceptual Architecture
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="assets/workflow/1.png"
+                alt="Production Workflow Stage 01 - Creative Brief & Vision"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 01
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">Creative Brief & Vision</p>
+              </div>
+            </div>
           </div>
-          <span class="w-8 h-8 rounded-full bg-[#1e1e23] border border-[#2a2a30] group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[#0E0E10] text-[#8E8D94] flex items-center justify-center font-mono text-xs transition-all duration-300 flex-shrink-0">
-            ↗
-          </span>
         </div>
+        <!-- Workflow Card Stage 02 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 02
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  02 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  02
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    Prompt & Style Tokens
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Latent Space Direction
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="assets/workflow/2.png"
+                alt="Production Workflow Stage 02 - Prompt & Style Tokens"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 02
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">Prompt & Style Tokens</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 03 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 03
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  03 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  03
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    AI Visual Synthesis
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Multi-Pass Generation
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="assets/workflow/3.png"
+                alt="Production Workflow Stage 03 - AI Visual Synthesis"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 03
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">AI Visual Synthesis</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 04 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 04
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  04 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  04
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    Directional Curation
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Cohesion & Selection
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="assets/workflow/4.png"
+                alt="Production Workflow Stage 04 - Directional Curation"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 04
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">Directional Curation</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 05 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 05
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  05 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  05
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    High-Res Upscaling
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Latent Refinement
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="assets/workflow/5.png"
+                alt="Production Workflow Stage 05 - High-Res Upscaling"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 05
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">High-Res Upscaling</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 06 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 06
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  06 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  06
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    VFX & Compositing
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Photoshop Assembly
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="assets/workflow/6.png"
+                alt="Production Workflow Stage 06 - VFX & Compositing"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 06
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">VFX & Compositing</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 07 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 07
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  07 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  07
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    Motion & Dynamics
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Video Synthesis Pass
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="assets/workflow/7.png"
+                alt="Production Workflow Stage 07 - Motion & Dynamics"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 07
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">Motion & Dynamics</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Workflow Card Stage 08 -->
+        <div class="workflow-flip-card group">
+          <div class="workflow-flip-inner">
+            <!-- FRONT FACE: Centered Stage Number matching card visual style -->
+            <div class="workflow-flip-front">
+              <!-- Top Pill Row -->
+              <div class="flex items-center justify-between w-full">
+                <span class="font-mono text-[10px] font-bold text-[var(--accent)] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#0E0E10] border border-[#232328] flex items-center gap-1.5 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse"></span>
+                  STAGE 08
+                </span>
+                <span class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">
+                  08 / 08
+                </span>
+              </div>
+
+              <!-- Center Stage Number & Title -->
+              <div class="my-auto py-1 space-y-1.5">
+                <div class="font-display font-extrabold text-7xl sm:text-8xl tracking-tight text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors duration-300 drop-shadow-sm leading-none">
+                  08
+                </div>
+                <div class="space-y-0.5">
+                  <h4 class="font-display font-bold text-sm sm:text-base text-[#F2EFE9] leading-snug">
+                    Master Grade & Delivery
+                  </h4>
+                  <p class="font-mono text-[10px] text-[#8E8D94] tracking-wider uppercase">
+                    Color & Final Polish
+                  </p>
+                </div>
+              </div>
+
+              <!-- Bottom Flip Hint -->
+              <div class="w-full flex items-center justify-center gap-1.5 pt-2 border-t border-[#232328]/60 text-[#8E8D94] group-hover:text-[#F2EFE9] font-mono text-[10px] tracking-wider uppercase transition-colors">
+                <span>HOVER TO REVEAL</span>
+                <span class="text-[var(--accent)]">⤾</span>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Reveals Workflow Image on Hover -->
+            <div class="workflow-flip-back">
+              <img
+                src="assets/workflow/8.png"
+                alt="Production Workflow Stage 08 - Master Grade & Delivery"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Top Floating Badge -->
+              <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] shadow-lg flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                  STAGE 08
+                </span>
+              </div>
+              <!-- Bottom Title Overlay -->
+              <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#0E0E10]/95 via-[#0E0E10]/50 to-transparent pointer-events-none">
+                <p class="font-display font-bold text-xs text-[#F2EFE9] truncate text-center">Master Grade & Delivery</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
-
-      <!-- Workflow Stage 02 -->
-      <div
-        class="disintegrate-card group lg:translate-y-6"
-        onclick="openImageModal('assets/workflow/2.png', 'Production Workflow — Stage 02 · Prompt & Style Tokens')"
-        data-cursor="ZOOM"
-      >
-        <div class="card-glow-edge"></div>
-
-        <!-- Artwork Container (1:1 Square) -->
-        <div class="disintegrate-img-wrap">
-          <img
-            src="assets/workflow/2.png"
-            alt="Production Workflow Stage 02 - Prompt & Style Tokens"
-            loading="lazy"
-            decoding="async"
-          >
-          <div class="disintegrate-overlay"></div>
-
-          <!-- Stage Kicker Floating Badges -->
-          <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10 pointer-events-none">
-            <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] flex items-center gap-1.5 shadow-lg">
-              <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
-              STAGE 02
-            </span>
-            <span class="font-mono text-[10px] font-medium px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] group-hover:border-[var(--accent)] transition-colors shadow-lg">
-              EXPAND ↗
-            </span>
-          </div>
-        </div>
-
-        <!-- Card Caption & Metadata Strip -->
-        <div class="p-5 border-t border-[#232328]/60 bg-[#141417] flex items-center justify-between gap-3">
-          <div class="space-y-1">
-            <div class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Phase 02 · Latent Space Direction</div>
-            <h4 class="font-display font-bold text-base text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors leading-snug">
-              Prompt & Style Tokens
-            </h4>
-          </div>
-          <span class="w-8 h-8 rounded-full bg-[#1e1e23] border border-[#2a2a30] group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[#0E0E10] text-[#8E8D94] flex items-center justify-center font-mono text-xs transition-all duration-300 flex-shrink-0">
-            ↗
-          </span>
-        </div>
-      </div>
-
-      <!-- Workflow Stage 03 -->
-      <div
-        class="disintegrate-card group lg:-translate-y-3"
-        onclick="openImageModal('assets/workflow/3.png', 'Production Workflow — Stage 03 · AI Visual Synthesis')"
-        data-cursor="ZOOM"
-      >
-        <div class="card-glow-edge"></div>
-
-        <!-- Artwork Container (1:1 Square) -->
-        <div class="disintegrate-img-wrap">
-          <img
-            src="assets/workflow/3.png"
-            alt="Production Workflow Stage 03 - AI Visual Synthesis"
-            loading="lazy"
-            decoding="async"
-          >
-          <div class="disintegrate-overlay"></div>
-
-          <!-- Stage Kicker Floating Badges -->
-          <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10 pointer-events-none">
-            <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] flex items-center gap-1.5 shadow-lg">
-              <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
-              STAGE 03
-            </span>
-            <span class="font-mono text-[10px] font-medium px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] group-hover:border-[var(--accent)] transition-colors shadow-lg">
-              EXPAND ↗
-            </span>
-          </div>
-        </div>
-
-        <!-- Card Caption & Metadata Strip -->
-        <div class="p-5 border-t border-[#232328]/60 bg-[#141417] flex items-center justify-between gap-3">
-          <div class="space-y-1">
-            <div class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Phase 03 · Multi-Pass Generation</div>
-            <h4 class="font-display font-bold text-base text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors leading-snug">
-              AI Visual Synthesis
-            </h4>
-          </div>
-          <span class="w-8 h-8 rounded-full bg-[#1e1e23] border border-[#2a2a30] group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[#0E0E10] text-[#8E8D94] flex items-center justify-center font-mono text-xs transition-all duration-300 flex-shrink-0">
-            ↗
-          </span>
-        </div>
-      </div>
-
-      <!-- Workflow Stage 04 -->
-      <div
-        class="disintegrate-card group lg:translate-y-8"
-        onclick="openImageModal('assets/workflow/4.png', 'Production Workflow — Stage 04 · Directional Curation')"
-        data-cursor="ZOOM"
-      >
-        <div class="card-glow-edge"></div>
-
-        <!-- Artwork Container (1:1 Square) -->
-        <div class="disintegrate-img-wrap">
-          <img
-            src="assets/workflow/4.png"
-            alt="Production Workflow Stage 04 - Directional Curation"
-            loading="lazy"
-            decoding="async"
-          >
-          <div class="disintegrate-overlay"></div>
-
-          <!-- Stage Kicker Floating Badges -->
-          <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10 pointer-events-none">
-            <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] flex items-center gap-1.5 shadow-lg">
-              <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
-              STAGE 04
-            </span>
-            <span class="font-mono text-[10px] font-medium px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] group-hover:border-[var(--accent)] transition-colors shadow-lg">
-              EXPAND ↗
-            </span>
-          </div>
-        </div>
-
-        <!-- Card Caption & Metadata Strip -->
-        <div class="p-5 border-t border-[#232328]/60 bg-[#141417] flex items-center justify-between gap-3">
-          <div class="space-y-1">
-            <div class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Phase 04 · Cohesion & Selection</div>
-            <h4 class="font-display font-bold text-base text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors leading-snug">
-              Directional Curation
-            </h4>
-          </div>
-          <span class="w-8 h-8 rounded-full bg-[#1e1e23] border border-[#2a2a30] group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[#0E0E10] text-[#8E8D94] flex items-center justify-center font-mono text-xs transition-all duration-300 flex-shrink-0">
-            ↗
-          </span>
-        </div>
-      </div>
-
-      <!-- Workflow Stage 05 -->
-      <div
-        class="disintegrate-card group "
-        onclick="openImageModal('assets/workflow/5.png', 'Production Workflow — Stage 05 · High-Res Upscaling')"
-        data-cursor="ZOOM"
-      >
-        <div class="card-glow-edge"></div>
-
-        <!-- Artwork Container (1:1 Square) -->
-        <div class="disintegrate-img-wrap">
-          <img
-            src="assets/workflow/5.png"
-            alt="Production Workflow Stage 05 - High-Res Upscaling"
-            loading="lazy"
-            decoding="async"
-          >
-          <div class="disintegrate-overlay"></div>
-
-          <!-- Stage Kicker Floating Badges -->
-          <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10 pointer-events-none">
-            <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] flex items-center gap-1.5 shadow-lg">
-              <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
-              STAGE 05
-            </span>
-            <span class="font-mono text-[10px] font-medium px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] group-hover:border-[var(--accent)] transition-colors shadow-lg">
-              EXPAND ↗
-            </span>
-          </div>
-        </div>
-
-        <!-- Card Caption & Metadata Strip -->
-        <div class="p-5 border-t border-[#232328]/60 bg-[#141417] flex items-center justify-between gap-3">
-          <div class="space-y-1">
-            <div class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Phase 05 · Latent Refinement</div>
-            <h4 class="font-display font-bold text-base text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors leading-snug">
-              High-Res Upscaling
-            </h4>
-          </div>
-          <span class="w-8 h-8 rounded-full bg-[#1e1e23] border border-[#2a2a30] group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[#0E0E10] text-[#8E8D94] flex items-center justify-center font-mono text-xs transition-all duration-300 flex-shrink-0">
-            ↗
-          </span>
-        </div>
-      </div>
-
-      <!-- Workflow Stage 06 -->
-      <div
-        class="disintegrate-card group lg:translate-y-6"
-        onclick="openImageModal('assets/workflow/6.png', 'Production Workflow — Stage 06 · VFX & Compositing')"
-        data-cursor="ZOOM"
-      >
-        <div class="card-glow-edge"></div>
-
-        <!-- Artwork Container (1:1 Square) -->
-        <div class="disintegrate-img-wrap">
-          <img
-            src="assets/workflow/6.png"
-            alt="Production Workflow Stage 06 - VFX & Compositing"
-            loading="lazy"
-            decoding="async"
-          >
-          <div class="disintegrate-overlay"></div>
-
-          <!-- Stage Kicker Floating Badges -->
-          <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10 pointer-events-none">
-            <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] flex items-center gap-1.5 shadow-lg">
-              <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
-              STAGE 06
-            </span>
-            <span class="font-mono text-[10px] font-medium px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] group-hover:border-[var(--accent)] transition-colors shadow-lg">
-              EXPAND ↗
-            </span>
-          </div>
-        </div>
-
-        <!-- Card Caption & Metadata Strip -->
-        <div class="p-5 border-t border-[#232328]/60 bg-[#141417] flex items-center justify-between gap-3">
-          <div class="space-y-1">
-            <div class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Phase 06 · Photoshop Assembly</div>
-            <h4 class="font-display font-bold text-base text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors leading-snug">
-              VFX & Compositing
-            </h4>
-          </div>
-          <span class="w-8 h-8 rounded-full bg-[#1e1e23] border border-[#2a2a30] group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[#0E0E10] text-[#8E8D94] flex items-center justify-center font-mono text-xs transition-all duration-300 flex-shrink-0">
-            ↗
-          </span>
-        </div>
-      </div>
-
-      <!-- Workflow Stage 07 -->
-      <div
-        class="disintegrate-card group lg:-translate-y-3"
-        onclick="openImageModal('assets/workflow/7.png', 'Production Workflow — Stage 07 · Motion & Dynamics')"
-        data-cursor="ZOOM"
-      >
-        <div class="card-glow-edge"></div>
-
-        <!-- Artwork Container (1:1 Square) -->
-        <div class="disintegrate-img-wrap">
-          <img
-            src="assets/workflow/7.png"
-            alt="Production Workflow Stage 07 - Motion & Dynamics"
-            loading="lazy"
-            decoding="async"
-          >
-          <div class="disintegrate-overlay"></div>
-
-          <!-- Stage Kicker Floating Badges -->
-          <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10 pointer-events-none">
-            <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] flex items-center gap-1.5 shadow-lg">
-              <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
-              STAGE 07
-            </span>
-            <span class="font-mono text-[10px] font-medium px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] group-hover:border-[var(--accent)] transition-colors shadow-lg">
-              EXPAND ↗
-            </span>
-          </div>
-        </div>
-
-        <!-- Card Caption & Metadata Strip -->
-        <div class="p-5 border-t border-[#232328]/60 bg-[#141417] flex items-center justify-between gap-3">
-          <div class="space-y-1">
-            <div class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Phase 07 · Video Synthesis Pass</div>
-            <h4 class="font-display font-bold text-base text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors leading-snug">
-              Motion & Dynamics
-            </h4>
-          </div>
-          <span class="w-8 h-8 rounded-full bg-[#1e1e23] border border-[#2a2a30] group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[#0E0E10] text-[#8E8D94] flex items-center justify-center font-mono text-xs transition-all duration-300 flex-shrink-0">
-            ↗
-          </span>
-        </div>
-      </div>
-
-      <!-- Workflow Stage 08 -->
-      <div
-        class="disintegrate-card group lg:translate-y-8"
-        onclick="openImageModal('assets/workflow/8.png', 'Production Workflow — Stage 08 · Master Grade & Delivery')"
-        data-cursor="ZOOM"
-      >
-        <div class="card-glow-edge"></div>
-
-        <!-- Artwork Container (1:1 Square) -->
-        <div class="disintegrate-img-wrap">
-          <img
-            src="assets/workflow/8.png"
-            alt="Production Workflow Stage 08 - Master Grade & Delivery"
-            loading="lazy"
-            decoding="async"
-          >
-          <div class="disintegrate-overlay"></div>
-
-          <!-- Stage Kicker Floating Badges -->
-          <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10 pointer-events-none">
-            <span class="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[var(--accent)] flex items-center gap-1.5 shadow-lg">
-              <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
-              STAGE 08
-            </span>
-            <span class="font-mono text-[10px] font-medium px-2.5 py-1 rounded-full bg-[#0E0E10]/90 backdrop-blur-md border border-[#232328] text-[#8E8D94] group-hover:text-[#F2EFE9] group-hover:border-[var(--accent)] transition-colors shadow-lg">
-              EXPAND ↗
-            </span>
-          </div>
-        </div>
-
-        <!-- Card Caption & Metadata Strip -->
-        <div class="p-5 border-t border-[#232328]/60 bg-[#141417] flex items-center justify-between gap-3">
-          <div class="space-y-1">
-            <div class="font-mono text-[10px] text-[#8E8D94] uppercase tracking-wider">Phase 08 · Color & Final Polish</div>
-            <h4 class="font-display font-bold text-base text-[#F2EFE9] group-hover:text-[var(--accent)] transition-colors leading-snug">
-              Master Grade & Delivery
-            </h4>
-          </div>
-          <span class="w-8 h-8 rounded-full bg-[#1e1e23] border border-[#2a2a30] group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[#0E0E10] text-[#8E8D94] flex items-center justify-center font-mono text-xs transition-all duration-300 flex-shrink-0">
-            ↗
-          </span>
-        </div>
-      </div>
-
     </div>
 
   </section>
@@ -2022,17 +2649,7 @@
 
 
     // ========================================================
-    // Interactive Spotlight & Tilt on Disintegrating Cards
-    document.querySelectorAll('.disintegrate-card').forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.setProperty('--mouse-x', x + 'px');
-        card.style.setProperty('--mouse-y', y + 'px');
-      });
-    });
-  </script>
+    </script>
 
 </body>
 </html>
